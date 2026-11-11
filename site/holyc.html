@@ -25,6 +25,7 @@
 <article class="wrap lang-holyc">
   <p class="kicker">struct lang HolyC · 2003–13 · Terry A. Davis · parent: <a href="c/index.html">C</a></p>
   <h1>HolyC</h1>
+  <svg class="lang-struct" viewBox="0 0 496 204" role="group" aria-label="HolyC: 2003–13, by Terry A. Davis; its parent is C"><defs><marker id="lsh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahead"/></marker></defs><g class="node node-holyc"><rect class="box" x="4" y="4" width="300" height="196"/><rect class="band" x="4" y="4" width="300" height="44"/><text class="kw" x="16" y="34">struct lang</text><text class="nm" x="292" y="38" text-anchor="end" font-size="28">HolyC</text><text class="fk" x="16" y="72.0">year</text><text class="fv" x="96" y="72.0">2003–13 · TempleOS</text><line class="rule" x1="4" y1="86.0" x2="304" y2="86.0"/><text class="fk" x="16" y="110.0">by</text><text class="fv" x="96" y="110.0">Terry A. Davis</text><line class="rule" x1="4" y1="124.0" x2="304" y2="124.0"/><text class="fk" x="16" y="148.0">hello</text><text class="fv" x="96" y="148.0">2 lines · not run</text><line class="rule" x1="4" y1="162.0" x2="304" y2="162.0"/><text class="fk" x="16" y="186.0">parent</text><circle class="pdot" cx="104" cy="181.0" r="5"/></g><a href="c/index.html" class="node node-c" aria-label="Parent: C"><rect class="box" x="392" y="60" width="96" height="84"/><rect class="band" x="392" y="60" width="96" height="84"/><text class="nm" x="440" y="118" text-anchor="middle" font-size="52">C</text></a><path class="ptr" d="M104,181.0 L340,181.0 L340,102 L388,102" marker-end="url(#lsh)"/></svg>
   <p class="lede">Terry A. Davis (1969–2018) wrote HolyC for his own operating system, which he developed alone from 2003 and named TempleOS in 2013. HolyC is both the system&#x27;s programming language and its shell: you type HolyC at the prompt and it is compiled just in time and run.</p>
   <aside class="callout"><strong>Not run here.</strong> HolyC is compiled by TempleOS itself, and no HolyC compiler was available in the build environment, so the HolyC programs on this site are shown as source only, with no output. You can run HolyC in your browser at holyc.shadw.app, or inside TempleOS in a virtual machine.</aside>
   <h2>What it adds to C</h2>
@@ -42,7 +43,7 @@
 Greet;            <span class="tc">// a call with no arguments needs no ()</span>
 Greet(<span class="ts">&quot;World&quot;</span>, <span class="tn">1</span>);
 Greet(, <span class="tn">3</span>);       <span class="tc">// skip the first argument, keep its default</span>
-</code></pre><div class="out out-none"><div class="out-h"><span>output</span><span>not run here</span></div><p>Paste it into <a href="https://holyc.shadw.app">holyc.shadw.app</a> or a TempleOS shell.</p></div></div></figure></section><section class="exs"><h3>A switch with null cases</h3><p>From the TempleOS source. A <code>case:</code> with no number takes the previous case's number plus one.</p><figure class="ex lang-holyc"><figcaption><span class="fname">02_null_case.HC</span></figcaption><div class="ex-body"><pre class="code lang-holyc"><code><span class="tc">// Below: TempleOS /Demo/NullCase.HC, verbatim (public domain).</span>
+</code></pre><div class="out out-none"><div class="out-h"><span>output</span><span>not run here</span></div><p>Paste it into <a href="https://holyc.shadw.app">holyc.shadw.app</a> or a TempleOS shell.</p></div></div></figure></section><section class="exs"><h3>A switch with null cases</h3><p>From the TempleOS source. A <code>case:</code> with no number takes the previous case’s number plus one.</p><figure class="ex lang-holyc"><figcaption><span class="fname">02_null_case.HC</span></figcaption><div class="ex-body"><pre class="code lang-holyc"><code><span class="tc">// Below: TempleOS /Demo/NullCase.HC, verbatim (public domain).</span>
 <span class="tc">//This shows a switch stmt with some null cases.</span>
 <span class="tc">//If no number for the case,</span>
 <span class="tc">//it uses one plus prev case number.</span>
@@ -70,7 +71,7 @@ NullCase;
 </article>
 </main>
 <footer class="foot">
-  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run when the site was built. <a href="about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
+  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run by the build on 2026-11-11; HolyC is shown as source. <a href="about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
 </footer>
 </body>
 </html>

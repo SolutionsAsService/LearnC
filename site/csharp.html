@@ -25,12 +25,13 @@
 <article class="wrap lang-csharp">
   <p class="kicker">struct lang C# · 2000 · Anders Hejlsberg · parent: <a href="c/index.html">C</a></p>
   <h1>C#</h1>
+  <svg class="lang-struct" viewBox="0 0 496 204" role="group" aria-label="C#: 2000, by Anders Hejlsberg; its parent is C"><defs><marker id="lsh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahead"/></marker></defs><g class="node node-csharp"><rect class="box" x="4" y="4" width="300" height="196"/><rect class="band" x="4" y="4" width="300" height="44"/><text class="kw" x="16" y="34">struct lang</text><text class="nm" x="292" y="38" text-anchor="end" font-size="28">C#</text><text class="fk" x="16" y="72.0">year</text><text class="fv" x="96" y="72.0">2000 · Microsoft</text><line class="rule" x1="4" y1="86.0" x2="304" y2="86.0"/><text class="fk" x="16" y="110.0">by</text><text class="fv" x="96" y="110.0">Anders Hejlsberg</text><line class="rule" x1="4" y1="124.0" x2="304" y2="124.0"/><text class="fk" x="16" y="148.0">hello</text><text class="fv" x="96" y="148.0">6 lines · ran ✓</text><line class="rule" x1="4" y1="162.0" x2="304" y2="162.0"/><text class="fk" x="16" y="186.0">parent</text><circle class="pdot" cx="104" cy="181.0" r="5"/></g><a href="c/index.html" class="node node-c" aria-label="Parent: C"><rect class="box" x="392" y="60" width="96" height="84"/><rect class="band" x="392" y="60" width="96" height="84"/><text class="nm" x="440" y="118" text-anchor="middle" font-size="52">C</text></a><path class="ptr" d="M104,181.0 L340,181.0 L340,102 L388,102" marker-end="url(#lsh)"/></svg>
   <p class="lede">Anders Hejlsberg&#x27;s team at Microsoft announced C# in 2000, and version 1.0 shipped with .NET in 2002. It has C&#x27;s braces and operators but runs on a managed runtime: a garbage collector frees memory, and indexes are checked.</p>
-  <aside class="callout">These examples were compiled with Mono's <code>mcs</code>, which implements C# up to about version 7, so they avoid newer syntax such as records and top-level statements. Modern .NET runs them unchanged.</aside>
+  <aside class="callout">These examples were compiled with Mono’s <code>mcs</code>, which implements C# up to about version 7, so they avoid newer syntax such as records and top-level statements. They were not tested on Microsoft’s .NET.</aside>
   <h2>What it adds to C</h2>
   <ul class="adds"><li><strong>Garbage collection</strong> Objects are freed when nothing refers to them. There is no <code>free</code> and no <code>delete</code>.</li><li><strong>Value and reference types</strong> <code>struct</code> copies like C; <code>class</code> copies the reference.</li><li><strong>Properties and exceptions</strong> Fields guarded by code, and errors that cannot be silently ignored.</li><li><strong>LINQ</strong> Queries over any collection: <code>Where</code>, <code>OrderBy</code>, <code>Select</code>.</li></ul>
   <h2>Programs</h2>
-  <p class="small">Compiled with <code>Mono JIT compiler version 6.8.0.105 (Debian 6.8.0.105+dfsg-3.6ubuntu2 Sun Mar 31 02:55:28 UTC 2024)</code>.</p>
+  <p class="small">Compiled with <code class="w">Mono JIT compiler version 6.8.0.105 (Debian 6.8.0.105+dfsg-3.6ubuntu2 Sun Mar 31 02:55:28 UTC 2024)</code>.</p>
   <section class="exs"><h3>Classes, properties, exceptions</h3><p><code>Balance</code> can be read anywhere but only set inside <code>Account</code>. The negative deposit throws, and the catch reports it.</p><figure class="ex lang-csharp"><figcaption><span class="fname">01_classes.cs</span></figcaption><div class="ex-body"><pre class="code lang-csharp"><code><span class="tk">using</span> System;
 
 <span class="tk">class</span> Account {
@@ -55,7 +56,7 @@
     }
 }
 </code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>refused: amount must be positive
-Ada has 10.50</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>mcs -warn:4 01_classes.cs -out:01_classes.exe &amp;&amp; mono 01_classes.exe</code></pre></details></figure></section><section class="exs"><h3>LINQ</h3><p>Filter, sort and project in one expression over an array of anonymous objects.</p><figure class="ex lang-csharp"><figcaption><span class="fname">02_linq.cs</span></figcaption><div class="ex-body"><pre class="code lang-csharp"><code><span class="tk">using</span> System;
+Ada has 10.50</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">mcs -warn:4 01_classes.cs -out:01_classes.exe &amp;&amp; mono 01_classes.exe</code></pre></details></figure></section><section class="exs"><h3>LINQ</h3><p>Filter, sort and project in one expression over an array of anonymous objects.</p><figure class="ex lang-csharp"><figcaption><span class="fname">02_linq.cs</span></figcaption><div class="ex-body"><pre class="code lang-csharp"><code><span class="tk">using</span> System;
 <span class="tk">using</span> System.Linq;
 
 <span class="tk">class</span> Program {
@@ -72,7 +73,7 @@ Ada has 10.50</samp></pre></div></div><details class="cmd" open><summary>Compile
         Console.WriteLine(<span class="tk">string</span>.Join(<span class="ts">&quot;, &quot;</span>, after1980));
     }
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>C# (2000), C++ (1985), Objective-C (1984)</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>mcs -warn:4 02_linq.cs -out:02_linq.exe &amp;&amp; mono 02_linq.exe</code></pre></details></figure></section><section class="exs"><h3>Value or reference</h3><p>The same code does two different things: the struct copy leaves <code>s1</code> alone, but the class copy shares one object.</p><figure class="ex lang-csharp"><figcaption><span class="fname">03_value_vs_reference.cs</span></figcaption><div class="ex-body"><pre class="code lang-csharp"><code><span class="tk">using</span> System;
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>C# (2000), C++ (1985), Objective-C (1984)</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">mcs -warn:4 02_linq.cs -out:02_linq.exe &amp;&amp; mono 02_linq.exe</code></pre></details></figure></section><section class="exs"><h3>Value or reference</h3><p>The same code does two different things: the struct copy leaves <code>s1</code> alone, but the class copy shares one object.</p><figure class="ex lang-csharp"><figcaption><span class="fname">03_value_vs_reference.cs</span></figcaption><div class="ex-body"><pre class="code lang-csharp"><code><span class="tk">using</span> System;
 
 <span class="tk">struct</span> PointS { <span class="tk">public</span> <span class="tk">int</span> X; }   <span class="tc">// value type: copied on assignment</span>
 <span class="tk">class</span>  PointC { <span class="tk">public</span> <span class="tk">int</span> X; }   <span class="tc">// reference type: assignment copies the reference</span>
@@ -88,7 +89,7 @@ Ada has 10.50</samp></pre></div></div><details class="cmd" open><summary>Compile
     }
 }
 </code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>struct: s1.X = 1
-class:  c1.X = 99</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>mcs -warn:4 03_value_vs_reference.cs -out:03_value_vs_reference.exe &amp;&amp; mono 03_value_vs_reference.exe</code></pre></details></figure></section>
+class:  c1.X = 99</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">mcs -warn:4 03_value_vs_reference.cs -out:03_value_vs_reference.exe &amp;&amp; mono 03_value_vs_reference.exe</code></pre></details></figure></section>
   <p>See the same five programs in every language on the <a href="rosetta.html">Rosetta page</a>.</p>
   <h2>Timeline</h2>
   <ul class="years"><li><span class='yr'>2000</span><span>announced by Microsoft</span></li><li><span class='yr'>2002</span><span>C# 1.0 with .NET Framework 1.0</span></li><li><span class='yr'>2007</span><span>C# 3.0 adds LINQ and lambdas</span></li><li><span class='yr'>2016</span><span>.NET Core: C# runs on Linux and macOS</span></li><li><span class='yr'>2025</span><span>C# 14 with .NET 10</span></li></ul>
@@ -96,7 +97,7 @@ class:  c1.X = 99</samp></pre></div></div><details class="cmd" open><summary>Com
 </article>
 </main>
 <footer class="foot">
-  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run when the site was built. <a href="about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
+  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run by the build on 2026-11-11; HolyC is shown as source. <a href="about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
 </footer>
 </body>
 </html>

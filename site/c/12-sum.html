@@ -23,7 +23,7 @@
 <main id="main" class="">
 
 <article class="wrap">
-  <p class="kicker"><a href="index.html">C</a> · lesson 12 of 12</p>
+  <p class="kicker"><a href="index.html">C</a> · <span class="idx">lessons[11]</span> · lesson 12 of 12</p>
   <h1>Putting it together</h1>
   <p class="lede">Add up 1 to 10. The same program is written in every language on the Rosetta page.</p>
   <figure class="ex lang-c"><figcaption><span class="fname">12_sum.c</span></figcaption><div class="ex-body"><pre class="code lang-c"><code><span class="tp">#include &lt;stdio.h&gt;</span>
@@ -34,14 +34,15 @@
     printf(<span class="ts">&quot;1 + 2 + ... + 10 = %d\n&quot;</span>, sum);
     <span class="tk">return</span> <span class="tn">0</span>;
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>1 + 2 + ... + 10 = 55</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 12_sum.c -o sum -lm &amp;&amp; ./sum</code></pre></details></figure>
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>1 + 2 + ... + 10 = 55</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 12_sum.c -o sum -lm &amp;&amp; ./sum</code></pre></details></figure>
+  
   <div class="notes"><p>This is the second of the five Rosetta programs. See it in C++, Objective-C, C#
      and HolyC on the <a href="../rosetta.html#sum">Rosetta page</a>.</p></div>
   <nav class="pager" aria-label="Lessons"><a class="prev" href="11-malloc.html"><span>← previous</span>The heap</a><a class="next" href="../rosetta.html"><span>next →</span>Rosetta</a></nav>
 </article>
 </main>
 <footer class="foot">
-  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run when the site was built. <a href="../about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
+  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run by the build on 2026-11-11; HolyC is shown as source. <a href="../about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
 </footer>
 </body>
 </html>

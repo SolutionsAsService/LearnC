@@ -23,7 +23,7 @@
 <main id="main" class="">
 
 <article class="wrap">
-  <p class="kicker"><a href="index.html">C</a> · lesson 02 of 12</p>
+  <p class="kicker"><a href="index.html">C</a> · <span class="idx">lessons[1]</span> · lesson 2 of 12</p>
   <h1>Variables and types</h1>
   <p class="lede">Each variable has a type, and each type has a size in bytes.</p>
   <figure class="ex lang-c"><figcaption><span class="fname">02_variables.c</span></figcaption><div class="ex-body"><pre class="code lang-c"><code><span class="tp">#include &lt;stdio.h&gt;</span>
@@ -43,18 +43,22 @@
 </code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>Age: 25
 Height: 5.90
 Grade: A (code 65)
-sizeof: int 4, double 8, char 1 bytes</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 02_variables.c -o variables -lm &amp;&amp; ./variables</code></pre></details></figure>
-  <div class="notes"><p>A <code>char</code> is one byte holding a character code: <code>'A'</code> is 65.
+sizeof: int 4, double 8, char 1 bytes</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 02_variables.c -o variables -lm &amp;&amp; ./variables</code></pre></details></figure>
+  
+  <div class="notes"><p>A <em>byte</em> is 8 bits, enough for a number from 0 to 255. A <code>char</code> is
+     one byte holding a character code: <code>'A'</code> is 65.
      <code>sizeof</code> tells you how many bytes a type or variable takes on <em>this</em>
      machine. The C standard sets minimums, not exact sizes.</p>
-     <p>The original example stored 5.9 in a <code>float</code>, which actually holds
-     5.900000095&hellip; and was then rounded by <code>%.2f</code>. Use <code>double</code>
+     <p><code>float</code> and <code>double</code> hold numbers with a fractional part;
+     <code>double</code> has twice the precision. An earlier version of this lesson stored 5.9
+     in a <code>float</code>, which actually holds 5.900000095&hellip;, and
+     <code>%.2f</code> (print with two decimals) hid the difference. Use <code>double</code>
      unless you have a reason not to.</p></div>
   <nav class="pager" aria-label="Lessons"><a class="prev" href="01-hello.html"><span>← previous</span>Hello, World</a><a class="next" href="03-conditionals.html"><span>next →</span>Conditionals</a></nav>
 </article>
 </main>
 <footer class="foot">
-  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run when the site was built. <a href="../about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
+  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run by the build on 2026-11-11; HolyC is shown as source. <a href="../about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
 </footer>
 </body>
 </html>

@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>About · LearnC</title>
-<meta name="description" content="How LearnC is built: every example compiled and run by one script.">
+<meta name="description" content="How LearnC is built: every C, C++, Objective-C and C# example is compiled and run by one script.">
 <meta property="og:title" content="About · LearnC">
-<meta property="og:description" content="How LearnC is built: every example compiled and run by one script.">
+<meta property="og:description" content="How LearnC is built: every C, C++, Objective-C and C# example is compiled and run by one script.">
 <meta property="og:image" content="og.png">
 <meta name="theme-color" content="#f4efe3" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#14120f" media="(prefers-color-scheme: dark)">
@@ -27,22 +27,22 @@
   <h1>How this site is built</h1>
   <p class="lede">One Python script, <code>_src/build.py</code>, compiles every program under <code>examples/</code>, runs it, and writes the pages from the results. Change an example, rebuild, and its page changes.</p>
   <h2>Toolchains</h2>
-  <table class="lines tools"><thead><tr><th scope="col">Language</th><th scope="col">Compiler</th><th scope="col">Flags</th></tr></thead><tbody><tr><th scope='row'>C</th><td><code>gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0</code></td><td><code>gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion</code></td></tr><tr><th scope='row'>C++</th><td><code>g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0</code></td><td><code>g++ -std=c++20 -Wall -Wextra -Wpedantic</code></td></tr><tr><th scope='row'>Objective-C</th><td><code>Ubuntu clang version 18.1.3 (1ubuntu1)</code></td><td><code>clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra</code></td></tr><tr><th scope='row'>C#</th><td><code>Mono JIT compiler version 6.8.0.105 (Debian 6.8.0.105+dfsg-3.6ubuntu2 Sun Mar 31 02:55:28 UTC 2024)</code></td><td><code>mcs -warn:4</code></td></tr>
+  <table class="lines tools"><thead><tr><th scope="col">Language</th><th scope="col">Compiler</th><th scope="col">Flags</th></tr></thead><tbody><tr><th scope='row'>C</th><td><code class="w">gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0</code></td><td><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion</code></td></tr><tr><th scope='row'>C++</th><td><code class="w">g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0</code></td><td><code class="w">g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion</code></td></tr><tr><th scope='row'>Objective-C</th><td><code class="w">Ubuntu clang version 18.1.3 (1ubuntu1)</code></td><td><code class="w">clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra -Wpedantic -Wconversion</code></td></tr><tr><th scope='row'>C#</th><td><code class="w">Mono JIT compiler version 6.8.0.105 (Debian 6.8.0.105+dfsg-3.6ubuntu2 Sun Mar 31 02:55:28 UTC 2024)</code></td><td><code>mcs -warn:4</code></td></tr>
   <tr><th scope="row">HolyC</th><td colspan="2">Not run. HolyC is compiled by TempleOS; try <a href="https://holyc.shadw.app">holyc.shadw.app</a>.</td></tr></tbody></table>
-  <p>Last build: 41 programs, 0 warnings.</p>
+  <p>Last compiled on 2026-11-11: 41 programs, 0 warnings. With <code>--no-run</code>, or when a compiler is missing, the build reuses the results stored in <code>_src/runs.json</code>; the date above is when they were produced.</p>
   <h2>What changed from the old repo</h2>
   <ul>
-    <li>The nine original C examples became twelve lessons. Each was compiled with <code>-Wpedantic -Wstrict-prototypes -Wconversion</code> and fixed until it built without warnings.</li>
+    <li>The nine original C examples became twelve lessons. Each was compiled with <code class="w">-Wpedantic -Wstrict-prototypes -Wconversion</code> and fixed until it built without warnings.</li>
     <li><code>read_file.c</code> stored <code>fgetc</code>'s result in a <code>char</code>. That loops forever where <code>char</code> is unsigned and stops early on byte 0xFF where it is signed. <a href="c/09-file-io.html">Lesson 09</a> explains the bug.</li>
     <li>C++, Objective-C, C# and HolyC were added, along with the Rosetta and Family pages.</li>
   </ul>
   <h2>Design</h2>
   <p>The text sits on an 80-column grid, the width of a terminal. The home page draws the site as a C pointer diagram: struct boxes, parent pointers and arrays. The design decisions and the critique rounds are in <code>DESIGN-LOG.md</code> in the repository.</p>
-  <p>Type: Newsreader and JetBrains Mono (SIL Open Font Licence), self-hosted. Code on this site is MIT licensed, except <code>examples/holyc/02_null_case.HC</code>, which is from TempleOS (public domain).</p>
+  <p>Type: Newsreader and JetBrains Mono (SIL Open Font Licence), self-hosted. Code on this site is MIT licensed, except <code class="w">examples/holyc/02_null_case.HC</code>, which is from TempleOS (public domain).</p>
 </article>
 </main>
 <footer class="foot">
-  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run when the site was built. <a href="about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
+  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run by the build on 2026-11-11; HolyC is shown as source. <a href="about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
 </footer>
 </body>
 </html>

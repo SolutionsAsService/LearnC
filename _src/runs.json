@@ -120,112 +120,112 @@
    "warnings": []
   },
   "cpp/01_raii.cpp": {
-   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic 01_raii.cpp -o raii && ./raii",
+   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion 01_raii.cpp -o raii && ./raii",
    "compiled": true,
    "stdout": "acquire a\nacquire b\ninner scope ends\nrelease b\nmain ends\nrelease a\n",
    "exit": 0,
    "warnings": []
   },
   "cpp/02_templates.cpp": {
-   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic 02_templates.cpp -o templates && ./templates",
+   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion 02_templates.cpp -o templates && ./templates",
    "compiled": true,
    "stdout": "7\n2.5\nC++\n",
    "exit": 0,
    "warnings": []
   },
   "cpp/03_containers.cpp": {
-   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic 03_containers.cpp -o containers && ./containers",
+   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion 03_containers.cpp -o containers && ./containers",
    "compiled": true,
    "stdout": "C 1972\nC# 2000\nC++ 1985\nHolyC\nObjective-C\n",
    "exit": 0,
    "warnings": []
   },
   "cpp/04_classes.cpp": {
-   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic 04_classes.cpp -o classes && ./classes",
+   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion 04_classes.cpp -o classes && ./classes",
    "compiled": true,
    "stdout": "4\n3.14159\n",
    "exit": 0,
    "warnings": []
   },
   "cpp/rosetta/hello.cpp": {
-   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic hello.cpp -o hello && ./hello",
+   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion hello.cpp -o hello && ./hello",
    "compiled": true,
    "stdout": "Hello, World!\n",
    "exit": 0,
    "warnings": []
   },
   "cpp/rosetta/point.cpp": {
-   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic point.cpp -o point && ./point",
+   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion point.cpp -o point && ./point",
    "compiled": true,
    "stdout": "5.0\n",
    "exit": 0,
    "warnings": []
   },
   "cpp/rosetta/reverse.cpp": {
-   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic reverse.cpp -o reverse && ./reverse",
+   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion reverse.cpp -o reverse && ./reverse",
    "compiled": true,
    "stdout": "retniop\n",
    "exit": 0,
    "warnings": []
   },
   "cpp/rosetta/sum.cpp": {
-   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic sum.cpp -o sum && ./sum",
+   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion sum.cpp -o sum && ./sum",
    "compiled": true,
    "stdout": "55\n",
    "exit": 0,
    "warnings": []
   },
   "cpp/rosetta/swap.cpp": {
-   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic swap.cpp -o swap && ./swap",
+   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion swap.cpp -o swap && ./swap",
    "compiled": true,
    "stdout": "x=2 y=1\n",
    "exit": 0,
    "warnings": []
   },
   "objc/01_messages.m": {
-   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra 01_messages.m Root.m -o messages -lobjc -lm && ./messages",
+   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra -Wpedantic -Wconversion 01_messages.m Root.m -o messages -lobjc -lm && ./messages",
    "compiled": true,
    "stdout": "lamp is on\nmessage to nil returns 0\n",
    "exit": 0,
    "warnings": []
   },
   "objc/02_categories.m": {
-   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra 02_categories.m Root.m -o categories -lobjc -lm && ./categories",
+   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra -Wpedantic -Wconversion 02_categories.m Root.m -o categories -lobjc -lm && ./categories",
    "compiled": true,
    "stdout": "hello\nHELLO\nresponds to shout: yes\nresponds to fly: no\n",
    "exit": 0,
    "warnings": []
   },
   "objc/rosetta/hello.m": {
-   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra hello.m ../Root.m -o hello -lobjc -lm && ./hello",
+   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra -Wpedantic -Wconversion hello.m ../Root.m -o hello -lobjc -lm && ./hello",
    "compiled": true,
    "stdout": "Hello, World!\n",
    "exit": 0,
    "warnings": []
   },
   "objc/rosetta/point.m": {
-   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra point.m ../Root.m -o point -lobjc -lm && ./point",
+   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra -Wpedantic -Wconversion point.m ../Root.m -o point -lobjc -lm && ./point",
    "compiled": true,
    "stdout": "5.0\n",
    "exit": 0,
    "warnings": []
   },
   "objc/rosetta/reverse.m": {
-   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra reverse.m ../Root.m -o reverse -lobjc -lm && ./reverse",
+   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra -Wpedantic -Wconversion reverse.m ../Root.m -o reverse -lobjc -lm && ./reverse",
    "compiled": true,
    "stdout": "retniop\n",
    "exit": 0,
    "warnings": []
   },
   "objc/rosetta/sum.m": {
-   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra sum.m ../Root.m -o sum -lobjc -lm && ./sum",
+   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra -Wpedantic -Wconversion sum.m ../Root.m -o sum -lobjc -lm && ./sum",
    "compiled": true,
    "stdout": "55\n",
    "exit": 0,
    "warnings": []
   },
   "objc/rosetta/swap.m": {
-   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra swap.m ../Root.m -o swap -lobjc -lm && ./swap",
+   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra -Wpedantic -Wconversion swap.m ../Root.m -o swap -lobjc -lm && ./swap",
    "compiled": true,
    "stdout": "x=2 y=1\n",
    "exit": 0,
@@ -293,5 +293,11 @@
   "cpp": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
   "objc": "Ubuntu clang version 18.1.3 (1ubuntu1)",
   "csharp": "Mono JIT compiler version 6.8.0.105 (Debian 6.8.0.105+dfsg-3.6ubuntu2 Sun Mar 31 02:55:28 UTC 2024)"
+ },
+ "built": {
+  "c": "2026-11-11",
+  "cpp": "2026-11-11",
+  "objc": "2026-11-11",
+  "csharp": "2026-11-11"
  }
 }

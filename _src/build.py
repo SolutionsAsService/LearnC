@@ -17,6 +17,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -27,10 +28,11 @@ sys.path.insert(0, str(SRC))
 import content as K  # noqa: E402
 
 GCC_INC = "/usr/lib/gcc/x86_64-linux-gnu/13"
+BUILT = ""
 FLAGS = {
     "c": "gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion",
-    "cpp": "g++ -std=c++20 -Wall -Wextra -Wpedantic",
-    "objc": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra",
+    "cpp": "g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion",
+    "objc": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra -Wpedantic -Wconversion",
     "csharp": "mcs -warn:4",
 }
 VERSION_CMD = {
@@ -104,6 +106,8 @@ def run_all(do_run):
             continue
         _, so, se = sh(" ".join(VERSION_CMD[lang]), tmp)
         cache["versions"][lang] = (so or se).splitlines()[0].strip()
+        cache["runs"] = {k: v for k, v in cache["runs"].items() if not k.startswith(lang + "/")}
+        cache.setdefault("built", {})[lang] = time.strftime("%Y-%m-%d", time.gmtime())
         for p in sorted((EX / lang).rglob("*")):
             if p.is_file() and p.suffix in (".c", ".cpp", ".m", ".cs"):
                 r = run_one(lang, p, tmp)
@@ -159,6 +163,19 @@ NAV = [("index.html", "Home"), ("c/index.html", "C"), ("cpp.html", "C++"),
        ("rosetta.html", "Rosetta"), ("family.html", "Family"), ("about.html", "About")]
 
 
+PROTECT = re.compile(r"(<pre.*?</pre>|<code.*?</code>|<svg.*?</svg>|<samp.*?</samp>|<[^>]+>)", re.S)
+
+
+def typeset(markup):
+    """Typographer's apostrophes in prose; code, samples and tags are left alone."""
+    # a long inline code span may wrap; a short one never breaks inside its token
+    markup = re.sub(r"<code>([^<]{25,}?)</code>", r'<code class="w">\1</code>', markup)
+    parts = PROTECT.split(markup)
+    for i in range(0, len(parts), 2):
+        parts[i] = re.sub(r"(?<=\w)'(?=\w)", "\u2019", parts[i])
+    return "".join(parts)
+
+
 def page(path, title, body, desc, active=None, wide=False):
     depth = path.count("/")
     up = "../" * depth
@@ -190,10 +207,10 @@ def page(path, title, body, desc, active=None, wide=False):
   <nav aria-label="Site"><ul>{''.join(links)}</ul></nav>
 </header>
 <main id="main" class="{'wide' if wide else ''}">
-{body}
+{typeset(body)}
 </main>
 <footer class="foot">
-  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run when the site was built. <a href="{up}about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
+  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run by the build on {BUILT}; HolyC is shown as source. <a href="{up}about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
 </footer>
 </body>
 </html>
@@ -251,7 +268,8 @@ def struct_box(x, y, w, h, lang, rows, href, title_size=30, band=44, kw=True):
     """A struct drawn the way C textbooks draw one: a name band and field rows.
     Returns the svg and the y centre of each row, so pointers can start at a field."""
     rh = (h - band) / len(rows)
-    parts = [f'<a href="{href}" class="node node-{lang}">']
+    label = f"{LNAME[lang]}: " + ", ".join(f"{k} {re.sub('<[^>]+>', '', v)}" for k, v in rows if v != "●")
+    parts = [f'<a href="{href}" class="node node-{lang}" aria-label="{esc(label)}">']
     parts.append(f'<rect class="box" x="{x}" y="{y}" width="{w}" height="{h}"/>')
     parts.append(f'<rect class="band" x="{x}" y="{y}" width="{w}" height="{band}"/>')
     if kw:
@@ -283,12 +301,12 @@ def arrow(path_d, cls="ptr"):
 
 def hero_desktop(runs):
     W, H = 1200, 548
-    s = [f'<svg class="hero-svg hero-wide" viewBox="0 0 {W} {H}" role="img" aria-labelledby="hero-t hero-d">',
+    s = [f'<svg class="hero-svg hero-wide" viewBox="0 0 {W} {H}" role="group" aria-labelledby="hero-t" aria-describedby="hero-d">',
          '<title id="hero-t">The C family as a pointer diagram</title>',
          '<desc id="hero-d">C is the root struct. C++, Objective-C, C# and HolyC each point to C through a parent pointer; C points to B, B to BCPL, and BCPL to NULL. C also points to an array of twelve lessons; the Rosetta array holds five programs written in all five languages.</desc>',
          '<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahead"/></marker></defs>']
     # ancestors, left column; their parent pointers run up the left margin
-    s.append('<a href="family.html" class="node node-anc">')
+    s.append('<a href="family.html" class="node node-anc" aria-label="Ancestors: BCPL 1967 and B 1969. The family timeline">')
     for i, a in enumerate(K.ANCESTORS):
         y = 34 + i * 116
         s.append(f'<rect class="box" x="20" y="{y}" width="176" height="80"/>')
@@ -316,14 +334,14 @@ def hero_desktop(runs):
     s.append(f'<text class="cap" x="{ax}" y="{ay - 14}">lessons[{len(K.LESSONS)}] → the C course</text>')
     for i, les in enumerate(K.LESSONS):
         x = ax + i * cell
-        s.append(f'<a href="c/{les[0][:2]}-{les[1]}.html" class="cell"><title>{esc(les[2])}</title>'
+        s.append(f'<a href="c/{les[0][:2]}-{les[1]}.html" class="cell" aria-label="C lesson {i + 1}: {esc(les[2])}"><title>{esc(les[2])}</title>'
                  f'<rect class="box" x="{x}" y="{ay}" width="{cell}" height="46"/>'
                  f'<text class="ci" x="{x + cell / 2}" y="{ay + 29}" text-anchor="middle">{i + 1:02d}</text></a>')
     rx, ry, rw = 682, 180, 99.6
     s.append(f'<text class="cap" x="{rx}" y="{ry - 14}">rosetta[{len(K.ROSETTA)}] → one program, five languages</text>')
     for i, (slug, t, _) in enumerate(K.ROSETTA):
         x = rx + i * rw
-        s.append(f'<a href="rosetta.html#{slug}" class="cell"><title>{esc(t)}</title>'
+        s.append(f'<a href="rosetta.html#{slug}" class="cell" aria-label="Rosetta: {esc(t)} in five languages"><title>{esc(t)}</title>'
                  f'<rect class="box" x="{x}" y="{ry}" width="{rw}" height="46"/>'
                  f'<text class="ci" x="{x + rw / 2}" y="{ry + 29}" text-anchor="middle">{slug}</text></a>')
     # children: four structs; each parent pointer leaves through the gap to its right
@@ -347,61 +365,121 @@ def hero_desktop(runs):
 
 
 def hero_narrow(runs):
-    W, H = 360, 640
-    s = [f'<svg class="hero-svg hero-narrow" viewBox="0 0 {W} {H}" role="img" aria-labelledby="hero-tn hero-dn">',
+    """The phone drawing: same notation, re-laid so that no wire crosses text or a cell."""
+    W, H = 360, 602
+    s = [f'<svg class="hero-svg hero-narrow" viewBox="0 0 {W} {H}" role="group" aria-labelledby="hero-tn" aria-describedby="hero-dn">',
          '<title id="hero-tn">The C family as a pointer diagram</title>',
-         '<desc id="hero-dn">C is the root struct. C++, Objective-C, C# and HolyC each point to C; C points to B, B to BCPL, BCPL to NULL. C holds twelve lessons; the Rosetta array holds five programs.</desc>',
-         '<defs><marker id="ahn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahead"/></marker></defs>']
-    # ancestors row
-    s.append('<a href="family.html" class="node node-anc">')
-    s.append('<rect class="box" x="8" y="8" width="104" height="40"/><text class="nm" x="18" y="35" font-size="18">BCPL</text><text class="fk" x="104" y="34" text-anchor="end">1967</text>')
-    s.append('<rect class="box" x="148" y="8" width="84" height="40"/><text class="nm" x="158" y="35" font-size="18">B</text><text class="fk" x="224" y="34" text-anchor="end">1969</text>')
-    s.append("</a>")
-    s.append('<path class="ptr" d="M148,28 L114,28" marker-end="url(#ahn)"/>')
-    s.append('<text class="null" x="256" y="33">→ Family</text>')
-    # C box with lessons inside
-    s.append('<a href="c/index.html" class="node node-c">')
-    s.append('<rect class="box" x="8" y="74" width="344" height="168"/><rect class="band" x="8" y="74" width="344" height="40"/>')
-    s.append('<text class="kw" x="18" y="99">struct lang</text><text class="nm" x="342" y="104" text-anchor="end" font-size="42">C</text>')
-    s.append('<text class="fk" x="18" y="136">year</text><text class="fv" x="84" y="136">1972 · Bell Labs</text>')
-    s.append('<text class="fk" x="18" y="160">by</text><text class="fv" x="84" y="160">Dennis Ritchie</text>')
-    s.append('<text class="fk" x="18" y="184">parent</text><text class="fv" x="84" y="184">●</text>')
+         '<desc id="hero-dn">C is the root struct. C++, Objective-C, C# and HolyC each point to C; C points to B, B to BCPL, and BCPL to NULL. C also points to an array of twelve lessons; the Rosetta array holds five programs.</desc>',
+         '<defs><marker id="ahn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahead"/></marker></defs>']
+    A = lambda d: f'<path class="ptr" d="{d}" marker-end="url(#ahn)"/>'
+    # ancestors: B -> BCPL -> NULL
+    s.append('<a href="family.html" class="node node-anc" aria-label="Ancestors: BCPL 1967 and B 1969. The family timeline">')
+    s.append('<rect class="box" x="70" y="4" width="92" height="38"/><text class="nm" x="80" y="29" font-size="17">BCPL</text><text class="sm" x="154" y="28" text-anchor="end">1967</text>')
+    s.append('<rect class="box" x="196" y="4" width="70" height="38"/><text class="nm" x="206" y="29" font-size="17">B</text><text class="sm" x="258" y="28" text-anchor="end">1969</text>')
     s.append('</a>')
-    s.append('<path class="ptr" d="M90,180 L190,180 L190,50" marker-end="url(#ahn)"/>')
-    s.append(f'<text class="fk" x="18" y="208">lessons[{len(K.LESSONS)}]</text>')
-    cw = 324 / 12
+    s.append('<text class="null" x="16" y="28">NULL</text>')
+    s.append(A("M70,23 L54,23"))
+    s.append(A("M196,23 L166,23"))
+    # C
+    c_rel = rosetta_rel("c", "hello")
+    s.append('<a href="c/index.html" class="node node-c" aria-label="C: year 1972, Bell Labs, by Dennis Ritchie. Overview and lessons">')
+    s.append('<rect class="box" x="16" y="58" width="328" height="138"/><rect class="band" x="16" y="58" width="328" height="40"/>')
+    s.append('<text class="kw" x="26" y="84">struct lang</text><text class="nm" x="336" y="92" text-anchor="end" font-size="40">C</text>')
+    for i, (k, v) in enumerate([("year", "1972 · Bell Labs"), ("by", "Dennis Ritchie"), ("parent", ""), ("lessons", "")]):
+        y = 98 + i * 24.5
+        if i:
+            s.append(f'<line class="rule" x1="16" y1="{y}" x2="344" y2="{y}"/>')
+        s.append(f'<text class="sm" x="26" y="{y + 17}">{k}</text>')
+        if v:
+            s.append(f'<text class="fv sm-v" x="100" y="{y + 17}">{v}</text>')
+        else:
+            s.append(f'<circle class="pdot" cx="108" cy="{y + 12.25}" r="4.5"/>')
+    s.append("</a>")
+    s.append(A("M108,159.25 L300,159.25 L300,23 L270,23"))        # C.parent -> B, clear of the text
+    s.append(A("M108,183.75 L108,220"))                            # C.lessons -> lessons[0]
+    s.append(f'<text class="sm" x="118" y="214">lessons[{len(K.LESSONS)}]</text>')
+    cw = 39
     for i, les in enumerate(K.LESSONS):
-        x = 18 + i * cw
-        s.append(f'<a href="c/{les[0][:2]}-{les[1]}.html" class="cell"><title>{esc(les[2])}</title>'
-                 f'<rect class="box" x="{x:.1f}" y="214" width="{cw:.1f}" height="22"/>'
-                 f'<text class="ci ci-s" x="{x + cw / 2:.1f}" y="229" text-anchor="middle">{i + 1}</text></a>')
-    # children 2x2
+        x, y = 16 + (i % 6) * cw, 222 + (i // 6) * 30
+        s.append(f'<a href="c/{les[0][:2]}-{les[1]}.html" class="cell" aria-label="C lesson {i + 1}: {esc(les[2])}"><title>{esc(les[2])}</title>'
+                 f'<rect class="box" x="{x}" y="{y}" width="{cw}" height="30"/>'
+                 f'<text class="ci ci-s" x="{x + cw / 2}" y="{y + 20}" text-anchor="middle">{i + 1:02d}</text></a>')
+    # children, 2 x 2; each parent wire runs in a gutter to C's border
     kids = K.LANGS[1:]
     for i, L in enumerate(kids):
         col, row = i % 2, i // 2
-        x, y = 8 + col * 178, 290 + row * 142
+        x, y = 16 + col * 168, 302 + row * 124
         rel = rosetta_rel(L["id"], "hello")
         st = "ran ✓" if ran(runs, rel) else "not run"
-        s.append(f'<a href="{L["page"]}" class="node node-{L["id"]}">')
-        s.append(f'<rect class="box" x="{x}" y="{y}" width="166" height="118"/><rect class="band" x="{x}" y="{y}" width="166" height="34"/>')
-        s.append(f'<text class="nm" x="{x + 10}" y="{y + 25}" font-size="19">{esc(L["name"])}</text>')
-        s.append(f'<text class="fv" x="{x + 10}" y="{y + 56}">{esc(L["year"])}</text>')
-        s.append(f'<text class="fk" x="{x + 10}" y="{y + 78}">{esc(L["by"].split(",")[0])}</text>')
-        s.append(f'<text class="fk" x="{x + 10}" y="{y + 100}">hello: {st}</text>')
+        s.append(f'<a href="{L["page"]}" class="node node-{L["id"]}" aria-label="{esc(L["name"])}: year {esc(L["year"])}, by {esc(L["by"])}, hello {st}">')
+        s.append(f'<rect class="box" x="{x}" y="{y}" width="160" height="112"/><rect class="band" x="{x}" y="{y}" width="160" height="32"/>')
+        s.append(f'<text class="nm" x="{x + 10}" y="{y + 23}" font-size="18">{esc(L["name"])}</text>')
+        s.append(f'<text class="fv sm-v" x="{x + 10}" y="{y + 50}">{esc(L["year"])}</text>')
+        s.append(f'<text class="sm" x="{x + 10}" y="{y + 70}">{esc(L["by"].split(",")[0])}</text>')
+        s.append(f'<text class="sm" x="{x + 10}" y="{y + 90}">hello: {st}</text>')
+        s.append(f'<line class="rule" x1="{x}" y1="{y + 94}" x2="{x + 160}" y2="{y + 94}"/>')
+        s.append(f'<text class="sm" x="{x + 10}" y="{y + 108}">parent</text><circle class="pdot" cx="{x + 70}" cy="{y + 104}" r="4.5"/>')
         s.append("</a>")
-        tx = 60 + i * 80
-        s.append(f'<path class="ptr" d="M{x + 140},{y} L{x + 140},{y - 14} L{tx},{y - 14 if row == 0 else 270} L{tx},{246}" marker-end="url(#ahn)"/>' if row == 0 else
-                 f'<path class="ptr" d="M{x + 152},{y} L{x + 152},{y - 10} L{x + 172 if col == 0 else x - 6},{y - 10} L{x + 172 if col == 0 else x - 6},{276} L{tx},{276} L{tx},{246}" marker-end="url(#ahn)"/>')
-    # rosetta
-    s.append(f'<text class="fk" x="8" y="598">rosetta[{len(K.ROSETTA)}]</text>')
-    rw = 344 / 5
+        dy = y + 104
+        if col == 0:   # up the middle gutter, under the array, into C's bottom edge
+            gx, hy, tx = (178, 290, 270) if row == 0 else (182, 296, 288)
+            s.append(A(f"M{x + 70},{dy} L{gx},{dy} L{gx},{hy} L{tx},{hy} L{tx},{199}"))
+        else:          # up the right margin into C's right edge
+            gx, ty = (350, 122) if row == 0 else (356, 140)
+            s.append(A(f"M{x + 70},{dy} L{gx},{dy} L{gx},{ty} L{347},{ty}"))
+    s.append(f'<text class="sm" x="16" y="566">rosetta[{len(K.ROSETTA)}]</text>')
+    rw = 328 / 5
     for i, (slug, t, _) in enumerate(K.ROSETTA):
-        x = 8 + i * rw
-        s.append(f'<a href="rosetta.html#{slug}" class="cell"><title>{esc(t)}</title>'
-                 f'<rect class="box" x="{x:.1f}" y="606" width="{rw:.1f}" height="30"/>'
-                 f'<text class="ci ci-s" x="{x + rw / 2:.1f}" y="626" text-anchor="middle">{slug}</text></a>')
+        x = 16 + i * rw
+        s.append(f'<a href="rosetta.html#{slug}" class="cell" aria-label="Rosetta: {esc(t)} in five languages"><title>{esc(t)}</title>'
+                 f'<rect class="box" x="{x:.1f}" y="572" width="{rw:.1f}" height="30"/>'
+                 f'<text class="ci ci-s" x="{x + rw / 2:.1f}" y="592" text-anchor="middle">{slug}</text></a>')
     s.append("</svg>")
     return "".join(s)
+
+
+# ------------------------------------------------------------- inner diagrams
+def mem_panel(caption, cells, arrows, mid):
+    """cells: (x, y, name, value) boxes; arrows: ((x1,y1),(x2,y2)) pointer wires."""
+    s = [f'<figure class="mem"><svg viewBox="0 0 240 150" role="img" aria-labelledby="{mid}">'
+         f'<title id="{mid}">{esc(caption)}</title>'
+         f'<defs><marker id="{mid}h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahead"/></marker></defs>']
+    for x, y, name, val in cells:
+        s.append(f'<text class="fk" x="{x}" y="{y - 8}">{esc(name)}</text>'
+                 f'<rect class="box" x="{x}" y="{y}" width="70" height="40"/>')
+        if val == "●":
+            s.append(f'<circle class="pdot" cx="{x + 35}" cy="{y + 20}" r="5"/>')
+        else:
+            s.append(f'<text class="fv" x="{x + 35}" y="{y + 26}" text-anchor="middle">{esc(val)}</text>')
+    for (x1, y1), (x2, y2) in arrows:
+        s.append(f'<path class="ptr" d="M{x1},{y1} C{x1},{y1 + 40} {x2},{y2 + 40} {x2},{y2}" marker-end="url(#{mid}h)"/>')
+    s.append(f'</svg><figcaption><code>{esc(caption)}</code></figcaption></figure>')
+    return "".join(s)
+
+
+POINTER_DIAGRAM = ('<div class="mems" aria-label="Memory, drawn in three steps">'
+    + mem_panel("int *ptr = &num;", [(20, 30, "num", "10"), (150, 30, "ptr", "●")], [((185, 50), (55, 72))], "m1")
+    + mem_panel("*ptr = 42;", [(20, 30, "num", "42"), (150, 30, "ptr", "●")], [((185, 50), (55, 72))], "m2")
+    + mem_panel("swap(&x, &y);", [(20, 30, "x", "2"), (150, 30, "y", "1"), (20, 100, "a", "●"), (150, 100, "b", "●")],
+                [], "m3").replace("</svg>", '<path class="ptr" d="M55,120 L55,74" marker-end="url(#m3h)"/><path class="ptr" d="M185,120 L185,74" marker-end="url(#m3h)"/></svg>')
+    + "</div>")
+
+
+def lang_struct(L, runs):
+    """A language page opens with its own struct box, its parent pointer wired to C."""
+    rel = rosetta_rel(L["id"], "hello")
+    status = "ran ✓" if ran(runs, rel) else "not run"
+    rows = [("year", f'{esc(L["year"])} · {esc(L["where"])}'), ("by", esc(L["by"])),
+            ("hello", f"{lines_of(rel)} lines · {status}"), ("parent", "●")]
+    box, cen, _ = struct_box(4, 4, 300, 196, L["id"], rows, L["page"], title_size=28, kw=True)
+    box = re.sub(r'^<a [^>]*>', f'<g class="node node-{L["id"]}">', box).replace("</a>", "</g>")
+    c = ('<a href="c/index.html" class="node node-c" aria-label="Parent: C">'
+         '<rect class="box" x="392" y="60" width="96" height="84"/><rect class="band" x="392" y="60" width="96" height="84"/>'
+         '<text class="nm" x="440" y="118" text-anchor="middle" font-size="52">C</text></a>')
+    wire = f'<path class="ptr" d="M104,{cen[3]} L340,{cen[3]} L340,102 L388,102" marker-end="url(#lsh)"/>'
+    return (f'<svg class="lang-struct" viewBox="0 0 496 204" role="group" aria-label="{esc(L["name"])}: {esc(L["year"])}, by {esc(L["by"])}; its parent is C">'
+            '<defs><marker id="lsh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahead"/></marker></defs>'
+            f'{box}{c}{wire}</svg>')
 
 
 # ------------------------------------------------------------------------ pages
@@ -417,12 +495,20 @@ def build_home(runs):
 </li>""")
     n_ran = sum(1 for k, r in runs["runs"].items() if r.get("compiled") and r["exit"] == 0)
     n_hc = len(list((EX / "holyc").rglob("*.HC")))
+    n_warn = sum(len(r["warnings"]) for r in runs["runs"].values())
+    n_fail = sum(1 for r in runs["runs"].values() if not r.get("compiled") or r["exit"] != 0)
     body = f"""
 <section class="hero" aria-labelledby="h1">
-  <h1 id="h1"><span class="h1-c">C</span> and the languages that grew from it</h1>
+  <div class="hero-head">
+    <h1 id="h1"><span class="h1-c">C</span> and the languages that grew from it</h1>
+    <a class="start" href="c/01-hello.html">Start with lesson 01 →</a>
+  </div>
   {hero_desktop(runs)}
   {hero_narrow(runs)}
-  <p class="hero-key"><span class="mono">●──▶</span> is a pointer: each language points to the one it came from. Every box and cell is a link.</p>
+  <div class="hero-foot">
+    <p class="hero-key"><span class="mono">●──▶</span> a pointer: each language points to the one it came from. A box is a <em>struct</em>, one record with named fields; <span class="mono">[12]</span> is an array of 12; NULL means nothing before it. Every box and cell is a link.</p>
+    <a class="start start-m" href="c/01-hello.html">Start with lesson 01 →</a>
+  </div>
 </section>
 <section class="wrap">
   <h2>Start here</h2>
@@ -433,12 +519,12 @@ def build_home(runs):
   </ol>
   <h2>The family</h2>
   <ul class="lcards">{''.join(langs)}</ul>
-  <h2>Nothing here is typed by hand</h2>
-  <p>The build compiled and ran {n_ran} programs in C, C++, Objective-C and C#, with every warning switched on, and printed what each one actually wrote. The {n_hc} HolyC programs are shown as source and marked <em>not run here</em>, because HolyC compiles inside TempleOS. <a href="about.html">How the site is built</a>.</p>
+  <h2>No output here is typed by hand</h2>
+  <p>The build compiled {n_ran} programs in C, C++, Objective-C and C# with strict warnings (<code>-Wall -Wextra -Wpedantic -Wconversion</code> for C, C++ and Objective-C; <code>-warn:4</code> for C#), ran each one, and printed what it actually wrote: {n_warn} warnings, {n_fail} failures. The {n_hc} HolyC programs are shown as source and marked <em>not run here</em>, because HolyC compiles inside TempleOS. <a href="about.html">How the site is built</a>.</p>
 </section>
 """
     page("index.html", None, body,
-         "C and its family, C++, Objective-C, C# and HolyC, with every example compiled and run.",
+         "C and its family: C++, Objective-C, C# and HolyC. Every C, C++, Objective-C and C# example is compiled and run, with its real output.",
          active="index.html", wide=True)
 
 
@@ -455,6 +541,8 @@ def build_c(runs):
         items.append(f'<li><a href="{stem[:2]}-{slug}.html"><span class="num">{i + 1:02d}</span>'
                      f'<span class="lt">{esc(title)}</span><span class="ll">{esc(line)}</span>'
                      f'<span class="lo">{lines_of(rel)} lines</span></a></li>')
+    c_warn = sum(len(runs["runs"][f"c/{L[0]}.c"]["warnings"]) for L in K.LESSONS)
+    n_les = len(K.LESSONS)
     std = "".join(f"<li><span class='yr'>{y}</span><span>{t}</span></li>" for y, t in [
         ("1972", "C at Bell Labs, to rewrite Unix"), ("1978", "<cite>The C Programming Language</cite> (K&amp;R)"),
         ("1989", "ANSI C, C89 (ISO C90 in 1990)"), ("1999", "C99"), ("2011", "C11"), ("2018", "C17"),
@@ -469,7 +557,7 @@ def build_c(runs):
     <div><h2>What C leaves to you</h2><ul class="ticks warn"><li>Freeing every byte you allocate</li><li>Staying inside array bounds</li><li>Strings, error handling, and almost everything else</li></ul></div>
   </div>
   <h2 id="lessons">Twelve lessons</h2>
-  <p>Each lesson is one program, compiled with <code>gcc -std=c17</code> and every warning switched on (0 warnings), and shown with what it printed.</p>
+  <p>Each lesson is one program, compiled with <code>gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion</code> ({c_warn} warnings across all {n_les}) and shown with what it printed.</p>
   <ol class="lessons">{''.join(items)}</ol>
   <h2>The standards</h2>
   <ul class="years">{std}</ul>
@@ -482,10 +570,11 @@ def build_c(runs):
         nxt = (f"{K.LESSONS[i + 1][0][:2]}-{K.LESSONS[i + 1][1]}.html", K.LESSONS[i + 1][2]) if i + 1 < len(K.LESSONS) else ("../rosetta.html", "Rosetta")
         body = f"""
 <article class="wrap">
-  <p class="kicker"><a href="index.html">C</a> · lesson {i + 1:02d} of {len(K.LESSONS)}</p>
+  <p class="kicker"><a href="index.html">C</a> · <span class="idx">lessons[{i}]</span> · lesson {i + 1} of {len(K.LESSONS)}</p>
   <h1>{esc(title)}</h1>
   <p class="lede">{esc(line)}</p>
   {code_block("c", f"c/{stem}.c", runs)}
+  {POINTER_DIAGRAM if slug == "pointers" else ""}
   <div class="notes">{notes}</div>
   {pager(prev, nxt)}
 </article>"""
@@ -509,6 +598,7 @@ def build_lang(lang, runs):
 <article class="wrap lang-{lang}">
   <p class="kicker">struct lang {esc(L['name'])} · {esc(L['year'])} · {esc(L['by'])} · parent: <a href="c/index.html">C</a></p>
   <h1>{esc(P['title'])}</h1>
+  {lang_struct(L, runs)}
   <p class="lede">{esc(P['lede'])}</p>
   {note}
   <h2>What it adds to C</h2>
@@ -528,9 +618,10 @@ def build_rosetta(runs):
     # the table of line counts is the figure of this page
     head = "".join(f"<th scope='col'>{esc(L['name'])}</th>" for L in K.LANGS)
     rows = []
-    for slug, t, _ in K.ROSETTA:
+    for i, (slug, t, _) in enumerate(K.ROSETTA):
         cells = "".join(f"<td>{lines_of(rosetta_rel(L['id'], slug))}</td>" for L in K.LANGS)
-        rows.append(f"<tr><th scope='row'><a href='#{slug}'>{esc(t)}</a></th>{cells}</tr>")
+        rows.append(f"<tr><th scope='row'><span class='idx'>rosetta[{i}]</span> <a href='#{slug}'>{esc(t)}</a></th>{cells}</tr>")
+    root_lines = lines_of("objc/Root.h") + lines_of("objc/Root.m")
     tot = "".join(f"<td>{sum(lines_of(rosetta_rel(L['id'], s)) for s, _, _ in K.ROSETTA)}</td>" for L in K.LANGS)
     secs = []
     for slug, t, d in K.ROSETTA:
@@ -542,7 +633,7 @@ def build_rosetta(runs):
   <h1>One program, five languages</h1>
   <p class="lede">Five small programs, each written in C, C++, Objective-C, C# and HolyC. Where the outputs match, the languages agree; where the code differs, you can see what each one adds to C.</p>
   <table class="lines">
-    <caption>Non-blank lines of source per program</caption>
+    <caption>Non-blank lines of source per program, comments included. The Objective-C programs that define a class also use <code>Root.h</code> and <code>Root.m</code> ({root_lines} lines, not counted).</caption>
     <thead><tr><th scope="col">Program</th>{head}</tr></thead>
     <tbody>{''.join(rows)}</tbody>
     <tfoot><tr><th scope="row">Total</th>{tot}</tr></tfoot>
@@ -611,7 +702,7 @@ def build_about(runs):
   <h2>Toolchains</h2>
   <table class="lines tools"><thead><tr><th scope="col">Language</th><th scope="col">Compiler</th><th scope="col">Flags</th></tr></thead><tbody>{vers}
   <tr><th scope="row">HolyC</th><td colspan="2">Not run. HolyC is compiled by TempleOS; try <a href="https://holyc.shadw.app">holyc.shadw.app</a>.</td></tr></tbody></table>
-  <p>Last build: {n} programs, {nw} warnings.</p>
+  <p>Last compiled on {BUILT}: {n} programs, {nw} warnings. With <code>--no-run</code>, or when a compiler is missing, the build reuses the results stored in <code>_src/runs.json</code>; the date above is when they were produced.</p>
   <h2>What changed from the old repo</h2>
   <ul>
     <li>The nine original C examples became twelve lessons. Each was compiled with <code>-Wpedantic -Wstrict-prototypes -Wconversion</code> and fixed until it built without warnings.</li>
@@ -622,7 +713,7 @@ def build_about(runs):
   <p>The text sits on an 80-column grid, the width of a terminal. The home page draws the site as a C pointer diagram: struct boxes, parent pointers and arrays. The design decisions and the critique rounds are in <code>DESIGN-LOG.md</code> in the repository.</p>
   <p>Type: Newsreader and JetBrains Mono (SIL Open Font Licence), self-hosted. Code on this site is MIT licensed, except <code>examples/holyc/02_null_case.HC</code>, which is from TempleOS (public domain).</p>
 </article>"""
-    page("about.html", "About", body, "How LearnC is built: every example compiled and run by one script.", active="about.html")
+    page("about.html", "About", body, "How LearnC is built: every C, C++, Objective-C and C# example is compiled and run by one script.", active="about.html")
 
 
 def build_404():
@@ -644,8 +735,10 @@ def check_links():
 
 
 def main():
+    global BUILT
     do_run = "--no-run" not in sys.argv
     runs = run_all(do_run)
+    BUILT = min(runs.get("built", {"x": "an unknown date"}).values())
     for f in OUT.rglob("*.html"):
         f.unlink()
     build_home(runs)

@@ -140,3 +140,71 @@ Anchors: Rule Designing Programmes (Karl Gerstner)
 Intent: home, C overview plus 12 lessons, one page each for C++, Objective-C, C# and HolyC, Rosetta, Family and About, all under shared navigation.
 Alternatives rejected: one long page, which fails the trunk test (Krug, R0 F5); a page per example for every language, which spreads thin content across too many pages.
 Mode field: Advanced pole: a programme yields the pages. Acceptable pole: ordinary site navigation.
+
+### Panel, WHOLE, round R1 (artifact examined: site at commit 1c7057f, served locally; screenshots in panel/shots; evidence in panel/R1/EVIDENCE.md)
+| Critic | Anchor used | Observed in the work | Verdict PASS/OBJECT | Requested change |
+|---|---|---|---|---|
+| Critic: Evidence (Cairo) | How Charts Lie (Alberto Cairo) | every hero and Rosetta figure reproduced; "every warning switched on" false for C++/ObjC; Root.h/.m not counted; phone arrows end on lesson cells; "1984 · Stepstone"; ARM failure was simulated | OBJECT | name the flags; caption the table; fix the narrow arrows; PPI; say "simulated" |
+| Critic: Usability (Krug) | Don't Make Me Think (Steve Krug) | five-second test and legibility probe pass at 1280; at 375 four nav items hidden; child arrows land on lesson cells; no visible first action | OBJECT | wrap the nav; route the arrows to C's border; add a "start" link |
+| Critic: Provocateur (Debord) | The Society of the Spectacle (Guy Debord) | hero figures are computed (a claim, not a brochure); "Nothing here is typed by hand"; a hard-coded "(0 warnings)"; meta descriptions include HolyC; footer hides the cache; ".NET runs them unchanged" untested | OBJECT | narrow each claim to what the build backs |
+| Critic: Inclusion (Mace) | The Universal Design principles (Ronald Mace) | lesson cells 25.7×21 px at 375; forced-colours band rule loses on specificity; current page invisible in forced colours; nav hidden | OBJECT | ≥24 px cells; fix specificity; underline current page; wrap the nav; Highlight focus |
+| Critic: Inclusion (Holmes) | Mismatch (Kat Holmes) | run-on accessible names on hero nodes; links inside role=img; hero premise in C syntax only; jargon in lessons 01–03 | OBJECT | aria-labels; role=group; a plain-language key; gloss terms |
+| Critic: Provocateur (Shklovsky) | Art as Technique (Viktor Shklovsky) | hero defeats automatic perception (F1), but the notation stops at the door: inner pages are a habitual docs column, the Pointers lesson draws nothing, and the phone drops C's lessons wire | OBJECT | carry the notation inward: lessons[i] kickers, a struct header per language, a memory diagram on lesson 07, restore the wire |
+| Critic: Craft (Bringhurst) | The Elements of Typographic Style (Robert Bringhurst) | prose at ~80 characters; h3 smaller than body; "(void" / "*)" break; straight apostrophes; chip padding before punctuation | OBJECT | prose at ~66 characters; larger h2/h3; nowrap code; curly apostrophes; .15em padding |
+| Critic: Aestheticist (Pater) | The Renaissance, Conclusion (Walter Pater) | the 1280 landing "burns"; dark-mode bands go pastel; the phone wire cuts text; dull band under the hero; the HolyC page is grey prose | OBJECT | saturated bands; route the wire clear of text; give the foot weight; one strong moment on HolyC |
+
+Statements of meaning: the family drawn as memory. The landing is a claim the build computes. The inner pages had not yet learned the notation.
+Andon pulled: no. Dotted pair present: Krug and Debord.
+
+| Finding | Resolution |
+|---|---|
+| Krug + Cairo + Mace + Holmes + Pater: "phone hero: arrows land on lesson cells / cells under 24 px / a wire cuts the text" | ADAPT (M5): the narrow drawing is rebuilt. `lessons[12]` is its own array outside C (2×6 cells, 39×30 viewBox units, 37×29 px at 375), restored as a wire from C.lessons. Children enter C's bottom and right borders through gutters, and C.parent leaves at x=300, clear of the text |
+| Krug + Holmes + Mace: "nav hidden at 375" | ADAPT (M5): at ≤760 px the nav wraps onto two rows and the header is not sticky |
+| Krug: "no visible first action" | ADAPT (M5): "Start with lesson 01 →" beside the headline at 1280, and under the hero on phones |
+| Debord + Cairo: "every warning switched on" | ADAPT (M6): C++ and Objective-C are now also built with `-Wpedantic -Wconversion` (0 warnings measured), and the home page names the flags |
+| Debord: "Nothing here is typed by hand" | ADAPT (M6): now "No output here is typed by hand" |
+| Debord: "hard-coded (0 warnings)" | ADAPT (M6): computed from runs.json |
+| Debord: "meta descriptions include HolyC" | ADAPT (M6): they now say "every C, C++, Objective-C and C# example" |
+| Debord: "footer hides the cache" | ADAPT (M6): the footer and About print the date of the last compile; About explains `--no-run` and the cache; stale entries are pruned when a language is re-run |
+| Debord: ".NET runs them unchanged" | ADAPT (M6): replaced with "They were not tested on Microsoft's .NET" |
+| Debord + Cairo: "ARM failure measured / -Wconversion unproven" | ADAPT (M6): "reproduced with gcc 13 on x86 … simulated with -funsigned-char". `-Wconversion` re-measured: the warning is quoted on the page |
+| Cairo: "Root.h/.m not counted; comments included" | ADAPT (M6): the table caption says both and gives the computed Root line count |
+| Cairo: "1984 · Stepstone" | ADAPT (M6): "1984 · PPI", and the history says "later renamed Stepstone" |
+| Cairo: "375x667 leaves rosetta below the fold" | DEFERRED: the rule's sizes are 1280x800 and 375x812. At 812 the hero now ends at 768. At 667 the C box, the lessons array and the first row of children are visible, and the rest is one swipe away |
+| Mace: "forced-colours band rule loses on specificity" | ADAPT (M5): `svg .node .band, svg a.node .band { fill: CanvasText }`, plus Canvas/CanvasText for boxes and text and Highlight for focus |
+| Mace: "current page invisible in forced colours" | ADAPT (M5): a 3px underline, and a border in forced colours |
+| Mace: "lesson-top C link 8×17 px" | ADAPT (M5): padded to a 24 px minimum |
+| Holmes: "run-on accessible names" | ADAPT (M5): each node has an aria-label ("C++: year 1985 · Bell Labs, by Bjarne Stroustrup, hello 4 lines · ran ✓"); cells are "C lesson 7: Pointers" and "Rosetta: Swap in five languages" |
+| Holmes: "links inside role=img" | ADAPT (M5): the hero and language struct SVGs are role=group |
+| Holmes: "premise stated only in C syntax" | ADAPT (M5): the key under the hero glosses struct, pointer, [12] and NULL in plain words |
+| Holmes: "jargon in lessons 01–03" | ADAPT (M6): declaration, shell, C23, the output box, byte, float/double and %.2f are glossed; const char * points forward to lesson 10; "original example" is gone |
+| Shklovsky: "notation stops at the door" | ADAPT (M7): lesson kickers read `lessons[6]`; Rosetta rows read `rosetta[i]`; each language page opens with its own struct box wired to C |
+| Shklovsky: "Pointers lesson draws nothing" | ADAPT (M7): lesson 07 draws num/ptr, then *ptr = 42, then swap's a and b, as boxes and wires |
+| Shklovsky: "Rosetta table is a stat-tile habit" | OVERRULE (Adaptive criterion: the table is the page's only computed figure, and Cairo reproduced every cell; the acceptable pole needs a summary). The rows now carry `rosetta[i]` |
+| Bringhurst: "prose ~80 characters" | ADAPT (M8): prose is capped at 29em (about 66 characters); code keeps 80 columns |
+| Bringhurst: "h3 smaller than body" | ADAPT (M8): h2 1.6rem, h3 1.25rem |
+| Bringhurst: "(void / *) break" | ADAPT (M8): inline code under 25 characters never breaks; longer spans (commands) may wrap |
+| Bringhurst: "straight apostrophes" | ADAPT (M8): apostrophes are curly in prose, typeset at build time, and code is untouched |
+| Bringhurst: "chip padding" | ADAPT (M8): .15em |
+| Bringhurst: "family caption 107 characters" | ADAPT (M8): `.small` is at body size and inside the cap |
+| Pater: "dark bands pastel" | ADAPT (M5): bands use the saturated light-scheme colours in both schemes, with paper-coloured text |
+| Pater: "dull band under the hero" | ADAPT (M5): the plain-language key plus the start action |
+| Pater: "HolyC page is grey prose" | ADAPT (M7): its struct box in HolyC green, wired to C, sits above the prose |
+
+## Move M5: The phone hero, access and the nav (KEEP-THE-RULE)
+Depends on: M3. Anchors: Rule WCAG 2.2 Contrast and Perceivability (W3C) | Breaker Making and Breaking the Grid (Timothy Samara).
+Intent: the narrow drawing obeys its own notation. Arrows end on borders, never on other links, and nothing crosses text.
+Alternatives rejected: (1) shrinking the desktop drawing: 9 px text; (2) dropping the lessons array on phones: Shklovsky F4.
+Mode field: Advanced pole: the same notation at both sizes. Acceptable pole: ≥24 px targets and a visible nav.
+
+## Move M6: Claims narrowed to the build (KEEP-THE-RULE)
+Depends on: M1. Anchors: Rule Designing Programmes (Karl Gerstner). Every figure in prose is computed, or it is removed.
+
+## Move M7: The notation goes inward (BREAK, an escalation of M3)
+Depends on: M3. Anchors: Breaker Making and Breaking the Grid (Timothy Samara) | Counterpoint Typography: My Way to Typography (Wolfgang Weingart).
+Intent: inner pages speak the hero's language. There are struct headers, `lessons[i]` indices and a three-step memory drawing on the Pointers lesson.
+Alternatives rejected: a diagram on every lesson (noise); none (Shklovsky F2).
+Mode field: Advanced pole: the notation is the site's grammar. Acceptable pole: each diagram has a code caption and a plain-language aria label.
+
+## Move M8: Reading measure and typesetting (KEEP-THE-RULE)
+Depends on: M2. Anchors: Rule Grid Systems in Graphic Design (Josef Müller-Brockmann). The 80-column module now governs code, and prose takes a 66-character subdivision of it.

@@ -27,9 +27,9 @@
   <h1>One program, five languages</h1>
   <p class="lede">Five small programs, each written in C, C++, Objective-C, C# and HolyC. Where the outputs match, the languages agree; where the code differs, you can see what each one adds to C.</p>
   <table class="lines">
-    <caption>Non-blank lines of source per program</caption>
+    <caption>Non-blank lines of source per program, comments included. The Objective-C programs that define a class also use <code>Root.h</code> and <code>Root.m</code> (24 lines, not counted).</caption>
     <thead><tr><th scope="col">Program</th><th scope='col'>C</th><th scope='col'>C++</th><th scope='col'>Objective-C</th><th scope='col'>C#</th><th scope='col'>HolyC</th></tr></thead>
-    <tbody><tr><th scope='row'><a href='#hello'>Hello, World</a></th><td>5</td><td>4</td><td>5</td><td>6</td><td>2</td></tr><tr><th scope='row'><a href='#sum'>Sum 1 to 10</a></th><td>7</td><td>8</td><td>16</td><td>7</td><td>4</td></tr><tr><th scope='row'><a href='#point'>A point</a></th><td>9</td><td>10</td><td>19</td><td>12</td><td>11</td></tr><tr><th scope='row'><a href='#swap'>Swap</a></th><td>8</td><td>7</td><td>9</td><td>9</td><td>7</td></tr><tr><th scope='row'><a href='#reverse'>Reverse a string</a></th><td>10</td><td>8</td><td>19</td><td>8</td><td>9</td></tr></tbody>
+    <tbody><tr><th scope='row'><span class='idx'>rosetta[0]</span> <a href='#hello'>Hello, World</a></th><td>5</td><td>4</td><td>5</td><td>6</td><td>2</td></tr><tr><th scope='row'><span class='idx'>rosetta[1]</span> <a href='#sum'>Sum 1 to 10</a></th><td>7</td><td>8</td><td>16</td><td>7</td><td>4</td></tr><tr><th scope='row'><span class='idx'>rosetta[2]</span> <a href='#point'>A point</a></th><td>9</td><td>10</td><td>19</td><td>12</td><td>11</td></tr><tr><th scope='row'><span class='idx'>rosetta[3]</span> <a href='#swap'>Swap</a></th><td>8</td><td>7</td><td>9</td><td>9</td><td>7</td></tr><tr><th scope='row'><span class='idx'>rosetta[4]</span> <a href='#reverse'>Reverse a string</a></th><td>10</td><td>8</td><td>19</td><td>8</td><td>9</td></tr></tbody>
     <tfoot><tr><th scope="row">Total</th><td>39</td><td>37</td><td>68</td><td>42</td><td>33</td></tr></tfoot>
   </table>
 </article>
@@ -39,25 +39,25 @@
     printf(<span class="ts">&quot;Hello, World!\n&quot;</span>);
     <span class="tk">return</span> <span class="tn">0</span>;
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>Hello, World!</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion hello.c -o hello -lm &amp;&amp; ./hello</code></pre></details></figure><figure class="ex lang-cpp"><figcaption><span class="fname">hello.cpp</span> <span class="ftitle">C++</span></figcaption><div class="ex-body"><pre class="code lang-cpp"><code><span class="tp">#include &lt;iostream&gt;</span>
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>Hello, World!</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion hello.c -o hello -lm &amp;&amp; ./hello</code></pre></details></figure><figure class="ex lang-cpp"><figcaption><span class="fname">hello.cpp</span> <span class="ftitle">C++</span></figcaption><div class="ex-body"><pre class="code lang-cpp"><code><span class="tp">#include &lt;iostream&gt;</span>
 
 <span class="tk">int</span> main() {
     <span class="tk">std</span>::cout &lt;&lt; <span class="ts">&quot;Hello, World!\n&quot;</span>;
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>Hello, World!</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>g++ -std=c++20 -Wall -Wextra -Wpedantic hello.cpp -o hello &amp;&amp; ./hello</code></pre></details></figure><figure class="ex lang-objc"><figcaption><span class="fname">hello.m</span> <span class="ftitle">Objective-C</span></figcaption><div class="ex-body"><pre class="code lang-objc"><code><span class="tp">#include &lt;stdio.h&gt;</span>
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>Hello, World!</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion hello.cpp -o hello &amp;&amp; ./hello</code></pre></details></figure><figure class="ex lang-objc"><figcaption><span class="fname">hello.m</span> <span class="ftitle">Objective-C</span></figcaption><div class="ex-body"><pre class="code lang-objc"><code><span class="tp">#include &lt;stdio.h&gt;</span>
 
 <span class="tk">int</span> main(<span class="tk">void</span>) {
     printf(<span class="ts">&quot;Hello, World!\n&quot;</span>);   <span class="tc">/* Objective-C is a strict superset of C */</span>
     <span class="tk">return</span> <span class="tn">0</span>;
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>Hello, World!</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra hello.m ../Root.m -o hello -lobjc -lm &amp;&amp; ./hello</code></pre></details></figure><figure class="ex lang-csharp"><figcaption><span class="fname">hello.cs</span> <span class="ftitle">C#</span></figcaption><div class="ex-body"><pre class="code lang-csharp"><code><span class="tk">using</span> System;
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>Hello, World!</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra -Wpedantic -Wconversion hello.m ../Root.m -o hello -lobjc -lm &amp;&amp; ./hello</code></pre></details></figure><figure class="ex lang-csharp"><figcaption><span class="fname">hello.cs</span> <span class="ftitle">C#</span></figcaption><div class="ex-body"><pre class="code lang-csharp"><code><span class="tk">using</span> System;
 
 <span class="tk">class</span> Program {
     <span class="tk">static</span> <span class="tk">void</span> Main() {
         Console.WriteLine(<span class="ts">&quot;Hello, World!&quot;</span>);
     }
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>Hello, World!</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>mcs -warn:4 hello.cs -out:hello.exe &amp;&amp; mono hello.exe</code></pre></details></figure><figure class="ex lang-holyc"><figcaption><span class="fname">hello.HC</span> <span class="ftitle">HolyC</span></figcaption><div class="ex-body"><pre class="code lang-holyc"><code><span class="tc">// A string literal on its own is printed. No main, no #include.</span>
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>Hello, World!</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">mcs -warn:4 hello.cs -out:hello.exe &amp;&amp; mono hello.exe</code></pre></details></figure><figure class="ex lang-holyc"><figcaption><span class="fname">hello.HC</span> <span class="ftitle">HolyC</span></figcaption><div class="ex-body"><pre class="code lang-holyc"><code><span class="tc">// A string literal on its own is printed. No main, no #include.</span>
 <span class="ts">&quot;Hello, World!\n&quot;</span>;
 </code></pre><div class="out out-none"><div class="out-h"><span>output</span><span>not run here</span></div><p>Paste it into <a href="https://holyc.shadw.app">holyc.shadw.app</a> or a TempleOS shell.</p></div></div></figure></div></section><section id="sum" class="ros"><h2>Sum 1 to 10</h2><p>A loop, or the library&#x27;s way of avoiding one. Prints 55.</p><div class="ros-grid"><figure class="ex lang-c"><figcaption><span class="fname">sum.c</span> <span class="ftitle">C</span></figcaption><div class="ex-body"><pre class="code lang-c"><code><span class="tp">#include &lt;stdio.h&gt;</span>
 
@@ -67,7 +67,7 @@
     printf(<span class="ts">&quot;%d\n&quot;</span>, sum);
     <span class="tk">return</span> <span class="tn">0</span>;
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>55</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion sum.c -o sum -lm &amp;&amp; ./sum</code></pre></details></figure><figure class="ex lang-cpp"><figcaption><span class="fname">sum.cpp</span> <span class="ftitle">C++</span></figcaption><div class="ex-body"><pre class="code lang-cpp"><code><span class="tp">#include &lt;iostream&gt;</span>
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>55</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion sum.c -o sum -lm &amp;&amp; ./sum</code></pre></details></figure><figure class="ex lang-cpp"><figcaption><span class="fname">sum.cpp</span> <span class="ftitle">C++</span></figcaption><div class="ex-body"><pre class="code lang-cpp"><code><span class="tp">#include &lt;iostream&gt;</span>
 <span class="tp">#include &lt;numeric&gt;</span>
 <span class="tp">#include &lt;vector&gt;</span>
 
@@ -76,7 +76,7 @@
     <span class="tk">std</span>::iota(v.begin(), v.end(), <span class="tn">1</span>);                 <span class="tc">// 1, 2, ... 10</span>
     <span class="tk">std</span>::cout &lt;&lt; <span class="tk">std</span>::accumulate(v.begin(), v.end(), <span class="tn">0</span>) &lt;&lt; <span class="ts">&#x27;\n&#x27;</span>;
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>55</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>g++ -std=c++20 -Wall -Wextra -Wpedantic sum.cpp -o sum &amp;&amp; ./sum</code></pre></details></figure><figure class="ex lang-objc"><figcaption><span class="fname">sum.m</span> <span class="ftitle">Objective-C</span></figcaption><div class="ex-body"><pre class="code lang-objc"><code><span class="tp">#include &quot;../Root.h&quot;</span>
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>55</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion sum.cpp -o sum &amp;&amp; ./sum</code></pre></details></figure><figure class="ex lang-objc"><figcaption><span class="fname">sum.m</span> <span class="ftitle">Objective-C</span></figcaption><div class="ex-body"><pre class="code lang-objc"><code><span class="tp">#include &quot;../Root.h&quot;</span>
 <span class="tp">#include &lt;stdio.h&gt;</span>
 
 <span class="tk">@interface</span> Counter : Root
@@ -95,7 +95,7 @@
     printf(<span class="ts">&quot;%d\n&quot;</span>, [Counter sumTo:<span class="tn">10</span>]);
     <span class="tk">return</span> <span class="tn">0</span>;
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>55</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra sum.m ../Root.m -o sum -lobjc -lm &amp;&amp; ./sum</code></pre></details></figure><figure class="ex lang-csharp"><figcaption><span class="fname">sum.cs</span> <span class="ftitle">C#</span></figcaption><div class="ex-body"><pre class="code lang-csharp"><code><span class="tk">using</span> System;
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>55</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra -Wpedantic -Wconversion sum.m ../Root.m -o sum -lobjc -lm &amp;&amp; ./sum</code></pre></details></figure><figure class="ex lang-csharp"><figcaption><span class="fname">sum.cs</span> <span class="ftitle">C#</span></figcaption><div class="ex-body"><pre class="code lang-csharp"><code><span class="tk">using</span> System;
 <span class="tk">using</span> System.Linq;
 
 <span class="tk">class</span> Program {
@@ -103,7 +103,7 @@
         Console.WriteLine(Enumerable.Range(<span class="tn">1</span>, <span class="tn">10</span>).Sum());
     }
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>55</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>mcs -warn:4 sum.cs -out:sum.exe &amp;&amp; mono sum.exe</code></pre></details></figure><figure class="ex lang-holyc"><figcaption><span class="fname">sum.HC</span> <span class="ftitle">HolyC</span></figcaption><div class="ex-body"><pre class="code lang-holyc"><code><span class="tk">I64</span> i, sum = <span class="tn">0</span>;      <span class="tc">// I64: a signed 64-bit integer, the default type</span>
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>55</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">mcs -warn:4 sum.cs -out:sum.exe &amp;&amp; mono sum.exe</code></pre></details></figure><figure class="ex lang-holyc"><figcaption><span class="fname">sum.HC</span> <span class="ftitle">HolyC</span></figcaption><div class="ex-body"><pre class="code lang-holyc"><code><span class="tk">I64</span> i, sum = <span class="tn">0</span>;      <span class="tc">// I64: a signed 64-bit integer, the default type</span>
 <span class="tk">for</span> (i = <span class="tn">1</span>; i &lt;= <span class="tn">10</span>; i++)
   sum += i;
 <span class="ts">&quot;%d\n&quot;</span>, sum;         <span class="tc">// a format string followed by arguments is a Print call</span>
@@ -119,7 +119,7 @@
     printf(<span class="ts">&quot;%.1f\n&quot;</span>, length(p));
     <span class="tk">return</span> <span class="tn">0</span>;
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>5.0</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion point.c -o point -lm &amp;&amp; ./point</code></pre></details></figure><figure class="ex lang-cpp"><figcaption><span class="fname">point.cpp</span> <span class="ftitle">C++</span></figcaption><div class="ex-body"><pre class="code lang-cpp"><code><span class="tp">#include &lt;cmath&gt;</span>
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>5.0</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion point.c -o point -lm &amp;&amp; ./point</code></pre></details></figure><figure class="ex lang-cpp"><figcaption><span class="fname">point.cpp</span> <span class="ftitle">C++</span></figcaption><div class="ex-body"><pre class="code lang-cpp"><code><span class="tp">#include &lt;cmath&gt;</span>
 <span class="tp">#include &lt;cstdio&gt;</span>
 
 <span class="tk">struct</span> Point {
@@ -131,7 +131,7 @@
     Point p{<span class="tn">3</span>, <span class="tn">4</span>};
     <span class="tk">std</span>::printf(<span class="ts">&quot;%.1f\n&quot;</span>, p.length());
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>5.0</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>g++ -std=c++20 -Wall -Wextra -Wpedantic point.cpp -o point &amp;&amp; ./point</code></pre></details></figure><figure class="ex lang-objc"><figcaption><span class="fname">point.m</span> <span class="ftitle">Objective-C</span></figcaption><div class="ex-body"><pre class="code lang-objc"><code><span class="tp">#include &lt;math.h&gt;</span>
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>5.0</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion point.cpp -o point &amp;&amp; ./point</code></pre></details></figure><figure class="ex lang-objc"><figcaption><span class="fname">point.m</span> <span class="ftitle">Objective-C</span></figcaption><div class="ex-body"><pre class="code lang-objc"><code><span class="tp">#include &lt;math.h&gt;</span>
 <span class="tp">#include &quot;../Root.h&quot;</span>
 <span class="tp">#include &lt;stdio.h&gt;</span>
 
@@ -153,7 +153,7 @@
     [p free];
     <span class="tk">return</span> <span class="tn">0</span>;
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>5.0</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra point.m ../Root.m -o point -lobjc -lm &amp;&amp; ./point</code></pre></details></figure><figure class="ex lang-csharp"><figcaption><span class="fname">point.cs</span> <span class="ftitle">C#</span></figcaption><div class="ex-body"><pre class="code lang-csharp"><code><span class="tk">using</span> System;
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>5.0</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra -Wpedantic -Wconversion point.m ../Root.m -o point -lobjc -lm &amp;&amp; ./point</code></pre></details></figure><figure class="ex lang-csharp"><figcaption><span class="fname">point.cs</span> <span class="ftitle">C#</span></figcaption><div class="ex-body"><pre class="code lang-csharp"><code><span class="tk">using</span> System;
 
 <span class="tk">struct</span> Point {                         <span class="tc">// a value type, like a C struct</span>
     <span class="tk">public</span> <span class="tk">double</span> X, Y;
@@ -167,7 +167,7 @@
         Console.WriteLine(p.Length().ToString(<span class="ts">&quot;F1&quot;</span>));
     }
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>5.0</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>mcs -warn:4 point.cs -out:point.exe &amp;&amp; mono point.exe</code></pre></details></figure><figure class="ex lang-holyc"><figcaption><span class="fname">point.HC</span> <span class="ftitle">HolyC</span></figcaption><div class="ex-body"><pre class="code lang-holyc"><code><span class="tk">class</span> CPoint         <span class="tc">// class is a struct; there are no methods</span>
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>5.0</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">mcs -warn:4 point.cs -out:point.exe &amp;&amp; mono point.exe</code></pre></details></figure><figure class="ex lang-holyc"><figcaption><span class="fname">point.HC</span> <span class="ftitle">HolyC</span></figcaption><div class="ex-body"><pre class="code lang-holyc"><code><span class="tk">class</span> CPoint         <span class="tc">// class is a struct; there are no methods</span>
 {
   <span class="tk">F64</span> x, y;
 };
@@ -190,7 +190,7 @@ pt.x = <span class="tn">3</span>; pt.y = <span class="tn">4</span>;
     printf(<span class="ts">&quot;x=%d y=%d\n&quot;</span>, x, y);
     <span class="tk">return</span> <span class="tn">0</span>;
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>x=2 y=1</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion swap.c -o swap -lm &amp;&amp; ./swap</code></pre></details></figure><figure class="ex lang-cpp"><figcaption><span class="fname">swap.cpp</span> <span class="ftitle">C++</span></figcaption><div class="ex-body"><pre class="code lang-cpp"><code><span class="tp">#include &lt;iostream&gt;</span>
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>x=2 y=1</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion swap.c -o swap -lm &amp;&amp; ./swap</code></pre></details></figure><figure class="ex lang-cpp"><figcaption><span class="fname">swap.cpp</span> <span class="ftitle">C++</span></figcaption><div class="ex-body"><pre class="code lang-cpp"><code><span class="tp">#include &lt;iostream&gt;</span>
 
 <span class="tk">void</span> swap(<span class="tk">int</span> &amp;a, <span class="tk">int</span> &amp;b) { <span class="tk">int</span> t = a; a = b; b = t; }  <span class="tc">// references: no &amp; at the call</span>
 
@@ -199,7 +199,7 @@ pt.x = <span class="tn">3</span>; pt.y = <span class="tn">4</span>;
     swap(x, y);
     <span class="tk">std</span>::cout &lt;&lt; <span class="ts">&quot;x=&quot;</span> &lt;&lt; x &lt;&lt; <span class="ts">&quot; y=&quot;</span> &lt;&lt; y &lt;&lt; <span class="ts">&#x27;\n&#x27;</span>;
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>x=2 y=1</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>g++ -std=c++20 -Wall -Wextra -Wpedantic swap.cpp -o swap &amp;&amp; ./swap</code></pre></details></figure><figure class="ex lang-objc"><figcaption><span class="fname">swap.m</span> <span class="ftitle">Objective-C</span></figcaption><div class="ex-body"><pre class="code lang-objc"><code><span class="tp">#include &lt;stdio.h&gt;</span>
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>x=2 y=1</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion swap.cpp -o swap &amp;&amp; ./swap</code></pre></details></figure><figure class="ex lang-objc"><figcaption><span class="fname">swap.m</span> <span class="ftitle">Objective-C</span></figcaption><div class="ex-body"><pre class="code lang-objc"><code><span class="tp">#include &lt;stdio.h&gt;</span>
 
 <span class="tc">/* No references in Objective-C: swap is plain C pointers. */</span>
 <span class="tk">void</span> swap(<span class="tk">int</span> *a, <span class="tk">int</span> *b) { <span class="tk">int</span> t = *a; *a = *b; *b = t; }
@@ -210,7 +210,7 @@ pt.x = <span class="tn">3</span>; pt.y = <span class="tn">4</span>;
     printf(<span class="ts">&quot;x=%d y=%d\n&quot;</span>, x, y);
     <span class="tk">return</span> <span class="tn">0</span>;
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>x=2 y=1</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra swap.m ../Root.m -o swap -lobjc -lm &amp;&amp; ./swap</code></pre></details></figure><figure class="ex lang-csharp"><figcaption><span class="fname">swap.cs</span> <span class="ftitle">C#</span></figcaption><div class="ex-body"><pre class="code lang-csharp"><code><span class="tk">using</span> System;
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>x=2 y=1</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra -Wpedantic -Wconversion swap.m ../Root.m -o swap -lobjc -lm &amp;&amp; ./swap</code></pre></details></figure><figure class="ex lang-csharp"><figcaption><span class="fname">swap.cs</span> <span class="ftitle">C#</span></figcaption><div class="ex-body"><pre class="code lang-csharp"><code><span class="tk">using</span> System;
 
 <span class="tk">class</span> Program {
     <span class="tk">static</span> <span class="tk">void</span> Swap(<span class="tk">ref</span> <span class="tk">int</span> a, <span class="tk">ref</span> <span class="tk">int</span> b) { <span class="tk">int</span> t = a; a = b; b = t; }
@@ -221,7 +221,7 @@ pt.x = <span class="tn">3</span>; pt.y = <span class="tn">4</span>;
         Console.WriteLine(<span class="ts">&quot;x=&quot;</span> + x + <span class="ts">&quot; y=&quot;</span> + y);
     }
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>x=2 y=1</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>mcs -warn:4 swap.cs -out:swap.exe &amp;&amp; mono swap.exe</code></pre></details></figure><figure class="ex lang-holyc"><figcaption><span class="fname">swap.HC</span> <span class="ftitle">HolyC</span></figcaption><div class="ex-body"><pre class="code lang-holyc"><code><span class="tk">U0</span> Swap(<span class="tk">I64</span> *a, <span class="tk">I64</span> *b)   <span class="tc">// U0: returns nothing (void)</span>
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>x=2 y=1</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">mcs -warn:4 swap.cs -out:swap.exe &amp;&amp; mono swap.exe</code></pre></details></figure><figure class="ex lang-holyc"><figcaption><span class="fname">swap.HC</span> <span class="ftitle">HolyC</span></figcaption><div class="ex-body"><pre class="code lang-holyc"><code><span class="tk">U0</span> Swap(<span class="tk">I64</span> *a, <span class="tk">I64</span> *b)   <span class="tc">// U0: returns nothing (void)</span>
 {
   <span class="tk">I64</span> t = *a; *a = *b; *b = t;
 }
@@ -240,7 +240,7 @@ Swap(&amp;x, &amp;y);
     printf(<span class="ts">&quot;%s\n&quot;</span>, s);
     <span class="tk">return</span> <span class="tn">0</span>;
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>retniop</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion reverse.c -o reverse -lm &amp;&amp; ./reverse</code></pre></details></figure><figure class="ex lang-cpp"><figcaption><span class="fname">reverse.cpp</span> <span class="ftitle">C++</span></figcaption><div class="ex-body"><pre class="code lang-cpp"><code><span class="tp">#include &lt;algorithm&gt;</span>
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>retniop</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion reverse.c -o reverse -lm &amp;&amp; ./reverse</code></pre></details></figure><figure class="ex lang-cpp"><figcaption><span class="fname">reverse.cpp</span> <span class="ftitle">C++</span></figcaption><div class="ex-body"><pre class="code lang-cpp"><code><span class="tp">#include &lt;algorithm&gt;</span>
 <span class="tp">#include &lt;iostream&gt;</span>
 <span class="tp">#include &lt;string&gt;</span>
 
@@ -249,7 +249,7 @@ Swap(&amp;x, &amp;y);
     <span class="tk">std</span>::reverse(s.begin(), s.end());
     <span class="tk">std</span>::cout &lt;&lt; s &lt;&lt; <span class="ts">&#x27;\n&#x27;</span>;
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>retniop</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>g++ -std=c++20 -Wall -Wextra -Wpedantic reverse.cpp -o reverse &amp;&amp; ./reverse</code></pre></details></figure><figure class="ex lang-objc"><figcaption><span class="fname">reverse.m</span> <span class="ftitle">Objective-C</span></figcaption><div class="ex-body"><pre class="code lang-objc"><code><span class="tp">#include &quot;../Root.h&quot;</span>
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>retniop</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion reverse.cpp -o reverse &amp;&amp; ./reverse</code></pre></details></figure><figure class="ex lang-objc"><figcaption><span class="fname">reverse.m</span> <span class="ftitle">Objective-C</span></figcaption><div class="ex-body"><pre class="code lang-objc"><code><span class="tp">#include &quot;../Root.h&quot;</span>
 <span class="tp">#include &lt;stdio.h&gt;</span>
 <span class="tp">#include &lt;string.h&gt;</span>
 
@@ -271,7 +271,7 @@ Swap(&amp;x, &amp;y);
     printf(<span class="ts">&quot;%s\n&quot;</span>, s);
     <span class="tk">return</span> <span class="tn">0</span>;
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>retniop</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra reverse.m ../Root.m -o reverse -lobjc -lm &amp;&amp; ./reverse</code></pre></details></figure><figure class="ex lang-csharp"><figcaption><span class="fname">reverse.cs</span> <span class="ftitle">C#</span></figcaption><div class="ex-body"><pre class="code lang-csharp"><code><span class="tk">using</span> System;
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>retniop</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra -Wpedantic -Wconversion reverse.m ../Root.m -o reverse -lobjc -lm &amp;&amp; ./reverse</code></pre></details></figure><figure class="ex lang-csharp"><figcaption><span class="fname">reverse.cs</span> <span class="ftitle">C#</span></figcaption><div class="ex-body"><pre class="code lang-csharp"><code><span class="tk">using</span> System;
 
 <span class="tk">class</span> Program {
     <span class="tk">static</span> <span class="tk">void</span> Main() {
@@ -280,7 +280,7 @@ Swap(&amp;x, &amp;y);
         Console.WriteLine(<span class="tk">new</span> <span class="tk">string</span>(s));
     }
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>retniop</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>mcs -warn:4 reverse.cs -out:reverse.exe &amp;&amp; mono reverse.exe</code></pre></details></figure><figure class="ex lang-holyc"><figcaption><span class="fname">reverse.HC</span> <span class="ftitle">HolyC</span></figcaption><div class="ex-body"><pre class="code lang-holyc"><code><span class="tk">U8</span> s[<span class="tn">16</span>];                 <span class="tc">// U8: an unsigned byte</span>
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>retniop</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">mcs -warn:4 reverse.cs -out:reverse.exe &amp;&amp; mono reverse.exe</code></pre></details></figure><figure class="ex lang-holyc"><figcaption><span class="fname">reverse.HC</span> <span class="ftitle">HolyC</span></figcaption><div class="ex-body"><pre class="code lang-holyc"><code><span class="tk">U8</span> s[<span class="tn">16</span>];                 <span class="tc">// U8: an unsigned byte</span>
 StrCpy(s, <span class="ts">&quot;pointer&quot;</span>);
 <span class="tk">I64</span> i = <span class="tn">0</span>, j = StrLen(s) - <span class="tn">1</span>;
 <span class="tk">U8</span> t;
@@ -292,7 +292,7 @@ StrCpy(s, <span class="ts">&quot;pointer&quot;</span>);
 </code></pre><div class="out out-none"><div class="out-h"><span>output</span><span>not run here</span></div><p>Paste it into <a href="https://holyc.shadw.app">holyc.shadw.app</a> or a TempleOS shell.</p></div></div></figure></div></section></div>
 </main>
 <footer class="foot">
-  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run when the site was built. <a href="about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
+  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run by the build on 2026-11-11; HolyC is shown as source. <a href="about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
 </footer>
 </body>
 </html>

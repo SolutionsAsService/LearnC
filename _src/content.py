@@ -15,7 +15,7 @@ LANGS = [
     },
     {
         "id": "objc", "name": "Objective-C", "year": "1984", "by": "Brad Cox, Tom Love",
-        "where": "Stepstone", "ext": "m", "page": "objc.html",
+        "where": "PPI", "ext": "m", "page": "objc.html",
         "tag": "C plus Smalltalk-style messages.",
         "parent": "C",
     },
@@ -42,25 +42,34 @@ ANCESTORS = [
 LESSONS = [
     ("01_hello", "hello", "Hello, World",
      "The smallest whole program: one include, one function, one call.",
-     """<p><code>#include &lt;stdio.h&gt;</code> pastes in the declarations for the standard
-     input/output library, which is where <code>printf</code> lives. Every C program starts
-     running at <code>main</code>. Its <code>int</code> return value goes back to the shell:
-     0 means success.</p>
-     <p>Write <code>main(void)</code>, not <code>main()</code>. Before C23, empty parentheses
-     declared a function whose parameters were <em>unspecified</em>, not absent.</p>"""),
+     """<p><code>#include &lt;stdio.h&gt;</code> pastes in the <em>declarations</em> (the names
+     and argument types) of the standard input/output library, which is where
+     <code>printf</code> lives. Every C program starts running at <code>main</code>. Its
+     <code>int</code> return value goes back to the <em>shell</em>, the program you typed the
+     command into: 0 means success.</p>
+     <p>Under every program on this site, the dark box shows what it printed. Its header
+     gives the exit code (<code>exit 0</code> is success) and the number of compiler
+     warnings.</p>
+     <p>Write <code>main(void)</code>, not <code>main()</code>. Before C23 (the 2024 C
+     standard), empty parentheses declared a function whose parameters were
+     <em>unspecified</em>, not absent.</p>"""),
     ("02_variables", "variables", "Variables and types",
      "Each variable has a type, and each type has a size in bytes.",
-     """<p>A <code>char</code> is one byte holding a character code: <code>'A'</code> is 65.
+     """<p>A <em>byte</em> is 8 bits, enough for a number from 0 to 255. A <code>char</code> is
+     one byte holding a character code: <code>'A'</code> is 65.
      <code>sizeof</code> tells you how many bytes a type or variable takes on <em>this</em>
      machine. The C standard sets minimums, not exact sizes.</p>
-     <p>The original example stored 5.9 in a <code>float</code>, which actually holds
-     5.900000095&hellip; and was then rounded by <code>%.2f</code>. Use <code>double</code>
+     <p><code>float</code> and <code>double</code> hold numbers with a fractional part;
+     <code>double</code> has twice the precision. An earlier version of this lesson stored 5.9
+     in a <code>float</code>, which actually holds 5.900000095&hellip;, and
+     <code>%.2f</code> (print with two decimals) hid the difference. Use <code>double</code>
      unless you have a reason not to.</p>"""),
     ("03_conditionals", "conditionals", "Conditionals",
      "if, else if and else, run on three inputs instead of one.",
      """<p>Conditions in C are integers: 0 is false and anything else is true. The function
-     returns a <code>const char *</code>, a pointer to a string literal the program never
-     changes.</p>"""),
+     returns a <code>const char *</code>: a piece of text that the program never changes.
+     <a href="10-strings.html">Lesson 10</a> explains why text is written with a
+     <code>*</code>.</p>"""),
     ("04_loops", "loops", "Loops",
      "A counted for loop, then a while loop that runs until its condition fails.",
      """<p><code>for (init; test; step)</code> is shorthand for a <code>while</code> loop. The
@@ -85,7 +94,7 @@ LESSONS = [
      the value stored there. Writing through <code>*ptr</code> changes <code>num</code>
      itself. C passes every argument by value, so <code>swap</code> can only reach the
      caller's variables when it is given their addresses.</p>
-     <p>The original example printed raw addresses with <code>%p</code>. Those change on
+     <p>An earlier version of this lesson printed raw addresses with <code>%p</code>. Those change on
      every run (address space layout randomisation), and passing an <code>int *</code> to
      <code>%p</code> without a <code>(void *)</code> cast is a warning under
      <code>-Wpedantic</code>. This version compares the pointers instead.</p>"""),
@@ -99,17 +108,19 @@ LESSONS = [
      """<p>The original <code>read_file.c</code> declared <code>char ch</code> and compared
      it with <code>EOF</code>. <code>fgetc</code> returns an <code>int</code>, either a byte
      from 0 to 255 or <code>EOF</code> (-1), and a <code>char</code> cannot hold all 257
-     values. We measured both ways it fails:</p>
+     values. We reproduced both failures with gcc 13 on x86:</p>
      <ul>
-       <li><strong>Where <code>char</code> is unsigned</strong> (ARM: Raspberry Pi, Android),
-       EOF becomes 255, which never equals -1. The loop never ends and prints
+       <li><strong>Where <code>char</code> is unsigned</strong> (the default on ARM: Raspberry
+       Pi, Android; simulated here with <code>-funsigned-char</code>), EOF becomes 255, which never equals -1. The loop never ends and prints
        <code>\\377</code> forever.</li>
        <li><strong>Where <code>char</code> is signed</strong> (x86), a file containing the
        byte 0xFF stops early. The input <code>a\\xffb</code> printed only
        <code>a</code>.</li>
      </ul>
-     <p><code>gcc -Wall -Wextra</code> does not warn about it; <code>-Wconversion</code>
-     does. The repo also lacked <code>example.txt</code>, so the old program only ever
+     <p><code>gcc -Wall -Wextra</code> does not warn about it; adding
+     <code>-Wconversion</code> does (&ldquo;conversion from &lsquo;int&rsquo; to
+     &lsquo;char&rsquo; may change value&rdquo;), which is why every C program here is built
+     with it. The repo also lacked <code>example.txt</code>, so the old program only ever
      printed &ldquo;Could not open the file.&rdquo; This version writes its own file
      first.</p>"""),
     ("10_strings", "strings", "Strings",
@@ -173,7 +184,7 @@ PAGES = {
             ("02_categories.m", "Categories and introspection", "<code>shout</code> is added by a category in a separate <code>@interface</code>/<code>@implementation</code> pair. <code>@selector(fly)</code> names a method that does not exist, and the runtime says so."),
             ("Root.h", "The root class", "On Apple platforms, classes inherit from <code>NSObject</code> in Foundation. Foundation is not part of this toolchain (clang with the GNU runtime, <code>libobjc</code>), so this small root class stands in. It allocates with <code>class_createInstance</code> and answers <code>respondsTo:</code>."),
         ],
-        "history": [("1984", "first appears at Productivity Products International (later Stepstone)"), ("1986", "Cox's book <cite>Object-Oriented Programming: An Evolutionary Approach</cite>"), ("1988", "licensed by NeXT"), ("2007", "Objective-C 2.0 with Mac OS X Leopard"), ("2014", "Apple introduces Swift as its successor")],
+        "history": [("1984", "first appears at Productivity Products International (PPI), later renamed Stepstone"), ("1986", "Cox's book <cite>Object-Oriented Programming: An Evolutionary Approach</cite>"), ("1988", "licensed by NeXT"), ("2007", "Objective-C 2.0 with Mac OS X Leopard"), ("2014", "Apple introduces Swift as its successor")],
         "docs": [("Apple: Programming with Objective-C (archive)", "https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/Introduction/Introduction.html"), ("GCC: GNU Objective-C runtime", "https://gcc.gnu.org/onlinedocs/gcc/Objective-C.html")],
     },
     "csharp": {
@@ -192,7 +203,7 @@ PAGES = {
         ],
         "history": [("2000", "announced by Microsoft"), ("2002", "C# 1.0 with .NET Framework 1.0"), ("2007", "C# 3.0 adds LINQ and lambdas"), ("2016", ".NET Core: C# runs on Linux and macOS"), ("2025", "C# 14 with .NET 10")],
         "docs": [("Microsoft Learn: C#", "https://learn.microsoft.com/en-us/dotnet/csharp/"), ("ECMA-334, the C# standard", "https://ecma-international.org/publications-and-standards/standards/ecma-334/")],
-        "note": "These examples were compiled with Mono's <code>mcs</code>, which implements C# up to about version 7, so they avoid newer syntax such as records and top-level statements. Modern .NET runs them unchanged.",
+        "note": "These examples were compiled with Mono's <code>mcs</code>, which implements C# up to about version 7, so they avoid newer syntax such as records and top-level statements. They were not tested on Microsoft's .NET.",
     },
     "holyc": {
         "title": "HolyC",

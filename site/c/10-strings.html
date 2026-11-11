@@ -23,7 +23,7 @@
 <main id="main" class="">
 
 <article class="wrap">
-  <p class="kicker"><a href="index.html">C</a> · lesson 10 of 12</p>
+  <p class="kicker"><a href="index.html">C</a> · <span class="idx">lessons[9]</span> · lesson 10 of 12</p>
   <h1>Strings</h1>
   <p class="lede">A string is a char array with a zero byte at the end.</p>
   <figure class="ex lang-c"><figcaption><span class="fname">10_strings.c</span></figcaption><div class="ex-body"><pre class="code lang-c"><code><span class="tp">#include &lt;stdio.h&gt;</span>
@@ -40,7 +40,8 @@
     printf(<span class="ts">&quot;%s (%zu chars, %zu bytes)\n&quot;</span>, word, n, <span class="tk">sizeof</span> word);
     <span class="tk">return</span> <span class="tn">0</span>;
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>retniop (7 chars, 8 bytes)</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 10_strings.c -o strings -lm &amp;&amp; ./strings</code></pre></details></figure>
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>retniop (7 chars, 8 bytes)</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 10_strings.c -o strings -lm &amp;&amp; ./strings</code></pre></details></figure>
+  
   <div class="notes"><p><code>"pointer"</code> is 7 characters but 8 bytes, because of the terminating
      <code>'\0'</code>. <code>strlen</code> counts up to the zero byte, while
      <code>sizeof</code> measures the whole array.</p></div>
@@ -48,7 +49,7 @@
 </article>
 </main>
 <footer class="foot">
-  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run when the site was built. <a href="../about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
+  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run by the build on 2026-11-11; HolyC is shown as source. <a href="../about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
 </footer>
 </body>
 </html>

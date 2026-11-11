@@ -23,7 +23,7 @@
 <main id="main" class="">
 
 <article class="wrap">
-  <p class="kicker"><a href="index.html">C</a> · lesson 03 of 12</p>
+  <p class="kicker"><a href="index.html">C</a> · <span class="idx">lessons[2]</span> · lesson 3 of 12</p>
   <h1>Conditionals</h1>
   <p class="lede">if, else if and else, run on three inputs instead of one.</p>
   <figure class="ex lang-c"><figcaption><span class="fname">03_conditionals.c</span></figcaption><div class="ex-body"><pre class="code lang-c"><code><span class="tp">#include &lt;stdio.h&gt;</span>
@@ -42,15 +42,17 @@
 }
 </code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>10 is positive.
 -3 is negative.
-0 is zero.</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 03_conditionals.c -o conditionals -lm &amp;&amp; ./conditionals</code></pre></details></figure>
+0 is zero.</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 03_conditionals.c -o conditionals -lm &amp;&amp; ./conditionals</code></pre></details></figure>
+  
   <div class="notes"><p>Conditions in C are integers: 0 is false and anything else is true. The function
-     returns a <code>const char *</code>, a pointer to a string literal the program never
-     changes.</p></div>
+     returns a <code>const char *</code>: a piece of text that the program never changes.
+     <a href="10-strings.html">Lesson 10</a> explains why text is written with a
+     <code>*</code>.</p></div>
   <nav class="pager" aria-label="Lessons"><a class="prev" href="02-variables.html"><span>← previous</span>Variables and types</a><a class="next" href="04-loops.html"><span>next →</span>Loops</a></nav>
 </article>
 </main>
 <footer class="foot">
-  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run when the site was built. <a href="../about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
+  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run by the build on 2026-11-11; HolyC is shown as source. <a href="../about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
 </footer>
 </body>
 </html>
