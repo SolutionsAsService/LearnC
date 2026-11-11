@@ -316,3 +316,118 @@ Depends on: M11. Anchors: Rule Designing Programmes (Karl Gerstner) | Rule WCAG 
 Depends on: M3. Anchors: Stance Make It Bigger (Paula Scher) | Counterpoint Typography: My Way to Typography (Wolfgang Weingart).
 Intent: the root glyph, the hero's boldest element, made bigger once more.
 Measured: the C glyph's rendered box went from 98 to 129 px tall (+32%) and 45 to 59 px wide; the band from 67 to 87 px; the hero's bottom stayed at 707 px (1280x800). First attempt: size 104 broke out above the box's top edge (glyph top above the box at y 172) and read as clipping, so it settled at 94, inside the band.
+
+### Panel, WHOLE, round R5 (artifact examined: site after M12, M13; evidence in panel/R5/EVIDENCE.md), plus R5b
+| Critic | Anchor used | Observed in the work | Verdict PASS/OBJECT | Requested change |
+|---|---|---|---|---|
+| Critic: Evidence (Cairo) | How Charts Lie (Alberto Cairo) | ObjC downloads (objc.html, rosetta.html) fetched into empty folders and run verbatim reproduce; rebuild identical; 22×2×2 measured | PASS | label 129 px as "text box at 1280x800" |
+| Critic: Provocateur (Debord) | The Society of the Spectacle (Guy Debord) | all 22 pages' claims reproduce; R4 findings resolved | PASS | optional: soften "cannot be silently ignored"; "Root.m allocates…" |
+| Critic: Inclusion (Holmes) | Mismatch (Kat Holmes) | downloads complete; WSL glossed | PASS | optional: "save all three in the same folder"; gloss PowerShell, sudo |
+| Critic: Provocateur (Shklovsky) | Art as Technique (Viktor Shklovsky) | the struct hero still estranges; the bigger C echoes the logo (size is not estrangement); 50 px at 375 | PASS | optional: make the C strange, not big |
+| Critic: Inclusion (Mace), R5 | The Universal Design principles (Ronald Mace) | R4 fixes hold; in dark mode the focus ring touches the enlarged C (1.08:1); the current-page inset ring is 2.09–2.73:1 | OBJECT | frame outside the box; paper ring on current page |
+| Critic: Inclusion (Mace), R5b | The Universal Design principles (Ronald Mace) | frames sit outside the boxes with a 2–4 px paper gap; ring 15.3–15.6:1; current-page ring 15.3–15.6:1; no clipping | PASS | none |
+
+Andon pulled: no.
+
+| Finding | Resolution |
+|---|---|
+| Mace: "focus ring touches the enlarged C" | ADAPT (M14): `outset_frames()` draws every focus frame 6 units outside its box (4-unit stroke; svg overflow visible). Re-judged in R5b: PASS |
+| Mace: "current-page ring under 3:1" | ADAPT (M14): `outline-color: var(--paper)` on the current page's focus. Re-judged in R5b: PASS |
+| Cairo: "label 129 px as a text box at 1280" | ADAPT: below and in M13 the figure is "text box at 1280x800" (124 px getBBox; 50 px at 375) |
+| Shklovsky: "size is not estrangement" | DEFERRED, with reason: the push was S4's required escalation. Making the C a char literal `'C'` is logged as the first candidate for a later Full run |
+| Debord F15/F16, Holmes F1/F3, Shklovsky R3 F3/F4, Bringhurst R4 F3, Pater R2 F7, Krug R2 F3/F4 | DEFERRED (each marked optional by its seat) |
+
+## Move M14: R5 corrections (KEEP-THE-RULE)
+Depends on: M13. Anchors: Rule WCAG 2.2 Contrast and Perceivability (W3C).
+
+## Frontier (final)
+| Candidate | Reached via | From anchor | Status |
+|---|---|---|---|
+| R0–R5 objections | Andon / panel | n/a | TAKEN (M1–M14) or DEFERRED as listed |
+| Programme from data | programme method of | Designing Programmes (Karl Gerstner) | TAKEN (M1, M6) |
+| 80-column grid | codifies | Grid Systems in Graphic Design (Josef Müller-Brockmann) | TAKEN (M2, M8) |
+| Notation as hero, wires across the grid | loosens (dotted) | Making and Breaking the Grid (Timothy Samara) | TAKEN (M3, M7, M10) |
+| Giant glyph | breaks open (dotted) | Typography: My Way to Typography (Wolfgang Weingart) | TAKEN (M3, M13) |
+| Contrast floor | accessibility floor under (dotted) | WCAG 2.2 Contrast and Perceivability (W3C) | TAKEN (M5, M9, M11, M14) |
+| `'C'` as a char literal instead of a bigger C | Shklovsky R5 | Typography: My Way to Typography (Wolfgang Weingart) | DEFERRED (next Full run) |
+| Rosetta first card above the table | Shklovsky R3 | Making and Breaking the Grid (Timothy Samara) | DEFERRED (optional; Cairo relies on the table) |
+| Phone start link above the fold | Krug R2 | n/a | DEFERRED (adding it pushes the hero bottom to 811 px at 812) |
+| 375x667 fold | Cairo R1 | n/a | DEFERRED (outside the rule's sizes) |
+| A HolyC compiler to run the HolyC samples | brief | n/a | DEFERRED: building one from external code was refused in this session |
+
+## 2f. Deletion review and residual diff
+Inherited before this run: README (truncated), CONTRIBUTING (made claims about tests and data that did not exist), and nine `.c` files in five folders.
+- The nine `.c` files: SCRAPPED as files and kept as content. Each became a lesson in `examples/c/` with its bug fixed. The retained-value ledger records what the deletion had to keep: every original program's behaviour (hello, variables, conditionals, loops, the add function, the array, the pointer, the struct, the file read), and the read_file bug as a lesson.
+- Residual diff: variables float→double (intended: 5.90 printed either way); pointers no longer print raw addresses (intended: they varied per run); structs now print 31, not 30, because birthday() was added (intended); read_file writes its own file (intended: it used to exit 1). No regressions: 41/41 exit 0.
+- README and CONTRIBUTING: rewritten, with no unbacked claims.
+
+## 2g. Every figure the site displays, re-measured at the final state (after M14, the last edit)
+| Printed figure | Procedure | Final value | Status |
+|---|---|---|---|
+| hello lines 5/4/5/6/2 (hero, language pages) | non-blank lines of examples/<lang>/rosetta/hello.* | 5/4/5/6/2 | reproducible |
+| Rosetta totals 39/37/68/42/33 and every cell | same, per program | 39/37/68/42/33 | reproducible |
+| Root.h + Root.m "24 lines" | same | 24 | reproducible |
+| "41 programs, 0 warnings, 0 failures" (home, About) | `python3 _src/build.py` | 41 / 0 / 0 | reproducible |
+| "7 HolyC programs" | count of examples/holyc/**/*.HC | 7 | reproducible |
+| lesson line counts on c/index | non-blank lines | match | reproducible |
+| "56 bytes", "Age: 31", "111 Collatz steps", "7 chars, 8 bytes", "C# 2000", "C++", "Prints 55/5.0/retniop" | the build's whole-line output checks | pass | reproducible (the build fails otherwise) |
+| "compiled on 2026-11-11" | runs.json `built` | 2026-11-11 | reproducible |
+| hero bottom 707 / 768 px | `node _src/measure.cjs` | 707 / 768 | reproducible |
+| root C glyph | text box at 1280x800 | 129 px (getBBox 124); 50 px at 375 | measured, not printed on the site |
+
+## Stop test
+- **S1** met: every Frontier item is TAKEN or DEFERRED, with a reason (Frontier, above).
+- **S2** met, with a caveat: every required critic (Cairo, Debord, Holmes, Mace, Shklovsky) PASSED on the final state. Four passed in R5; Mace passed in R5b after an ADAPT that touched only focus styling. The non-required seats passed earlier: Krug and Pater in R2, Bringhurst in R4.
+- **S3 NOT met.** Every round from R0 to R5 produced at least one ADAPT. No two consecutive WHOLE rounds were quiet. The run stopped here on the conductor's judgement of cost; that was not saturation.
+- **S4** met: M13 pushed the boldest element. Measured: glyph 98→129 px (text box at 1280x800), band 67→87 px, hero bottom unchanged at 707. The push survived R5 after M14 moved the focus frames.
+- **S5** met: `samBreak -.loosens-> mb` applied (M3); `weingart -.breaks open-> itstyle` applied (M3, M13); `wcag -.accessibility floor under-> carson` declined, because Carson was never seeded and WCAG is applied as the floor itself; `scher -.contrasts with-> vignelliCanon` and `scher -.identity as environment answers-> wheeler` declined, because the site carries no brand system beyond the C mark.
+
+## Anchor Ledger
+| Anchor | Role | Status | Evidence | Note |
+|---|---|---|---|---|
+| Make It Bigger (Paula Scher) | Stance | KEEP | M3, M13; survived Shklovsky R5 "size is not estrangement" | |
+| Grid Systems in Graphic Design (Josef Müller-Brockmann) | Rule | ADAPT | M2: 80 columns for code; M8: 29em prose subdivision after Bringhurst R1 | |
+| International Typographic Style (Swiss Style) | Rule | KEEP | the mono/serif system; survived Pater R1 "grey prose" | |
+| Designing Programmes (Karl Gerstner) | Rule | KEEP | M1, M6: every page and figure generated; survived Debord R1–R4 | |
+| Making and Breaking the Grid (Timothy Samara) | Breaker | KEEP | M3, M7, M10; survived Krug and Mace R1 (phone wires), fixed in M5 | |
+| Typography: My Way to Typography (Wolfgang Weingart) | Counterpoint | KEEP | M3, M13; survived Mace R5 (focus), fixed in M14 | |
+| WCAG 2.2 Contrast and Perceivability (W3C) | Floor | KEEP | M5, M9, M11, M14 | |
+
+```mermaid
+graph LR
+  scher["Make It Bigger (Paula Scher)"]:::kept
+  mb["Grid Systems in Graphic Design (Josef Müller-Brockmann)"]:::adapted
+  itstyle["International Typographic Style (Swiss Style)"]:::kept
+  gerstner["Designing Programmes (Karl Gerstner)"]:::kept
+  samBreak["Making and Breaking the Grid (Timothy Samara)"]:::kept
+  weingart["Typography: My Way to Typography (Wolfgang Weingart)"]:::kept
+  wcag["WCAG 2.2 Contrast and Perceivability (W3C)"]:::kept
+  mb -->|codifies| itstyle
+  gerstner -->|programme method of| itstyle
+  samBreak -.->|loosens| mb
+  weingart -.->|breaks open| itstyle
+```
+
+## Double loop
+The criterion held: MAYA kept the Rosetta table and the "lesson 7 of 12" gloss against Shklovsky. The panel was the weak part. Measurement seats (Cairo, Mace) found real defects in every round, and the cause was the conductor's evidence files, which twice measured fewer pages than the site has (lessons 08 and 11; then 15 of 22). Each fix also opened a new surface for Mace (focus on bands, then nav clipping, then the enlarged glyph). **Graph amendment:** add an edge `crit_evid_cairo -->|measures every page, not a sample, of| wcag`, and make "the measuring script enumerates the artifact, never a list typed by the conductor" a rule in measurement-checklist.md.
+
+## Carry-Forward Ledger
+See `CARRY-FORWARD.md`.
+
+## Compliance Check
+- [x] Tooling inventory done (Traversal Plan › Step 0)
+- [x] Mode stated with reason (Adaptive, Traversal Plan)
+- [x] Panel seated from `pick_panel.py`; seats briefed from `seats/` files; no bound was given
+- [x] Seed with exact labels, a dotted counterpoint, a living Frontier
+- [x] Run type stated (Full); no freezes apply
+- [x] Landing leads with one bold graphic that summarizes every topic (5 languages, lessons[12], rosetta[5], ancestors → Family), complete at 1280x800 (bottom 707) and 375x812 (bottom 768)
+- [x] BREAK moves taken (M3, M7, M10, M13); no quota used
+- [x] A Decision Record before each move (M1–M14)
+- [x] A Panel Report per round (R0–R5b), with each critic citing something observable
+- [x] Every OBJECT resolved (ADAPT, OVERRULE or DEFERRED with reason)
+- [ ] S3 not met (see Stop test)
+- [x] Every displayed figure re-measured at the final state (2g)
+- [x] Anchor Ledger and graph updated
+- [x] Double-loop paragraph written
+- [ ] Run recorded in the dada ledger: see the final reply
+- [x] The final reply states the mode, tools, stop conditions and skips
