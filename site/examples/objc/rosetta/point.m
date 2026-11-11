@@ -1,5 +1,5 @@
 #include <math.h>
-#include "../Root.h"
+#include "Root.h"
 #include <stdio.h>
 
 @interface Point : Root {

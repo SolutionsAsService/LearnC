@@ -287,3 +287,32 @@ Andon pulled: no.
 
 ## Move M11: R3 corrections (KEEP-THE-RULE)
 Depends on: M9, M10. Anchors: Rule WCAG 2.2 Contrast and Perceivability (W3C) | Rule Designing Programmes (Karl Gerstner).
+
+### Panel, WHOLE, round R4 (artifact examined: site after M11; evidence in panel/R4/EVIDENCE.md)
+| Critic | Anchor used | Observed in the work | Verdict PASS/OBJECT | Requested change |
+|---|---|---|---|---|
+| Critic: Craft (Bringhurst) | The Elements of Typographic Style (Robert Bringhurst) | no straight quotes in prose; labels 15–16 px at 1280; the 12 px floor holds | PASS | optional: reflow 08/11 drawings at phone width |
+| Critic: Evidence (Cairo) | How Charts Lie (Alberto Cairo) | rebuild byte-identical; 08 downloaded and run verbatim; Rosetta sum.m fails without ../Root.m and Root.h; 01_messages.m needs Root.h; 15 of 22 pages measured | OBJECT | link Root.h and Root.m and say where; measure all pages |
+| Critic: Provocateur (Debord) | The Society of the Spectacle (Guy Debord) | setup claims fixed; ObjC sentence names a file it does not give; "../Root.m, from the same folder" contradicts itself; About's "any program" includes HolyC | OBJECT | links; fix the sentence; except HolyC |
+| Critic: Inclusion (Holmes) | Mismatch (Kat Holmes) | R3 findings resolved; Root.m and Root.h not reachable; WSL unglossed | OBJECT | links; gloss WSL |
+| Critic: Inclusion (Mace) | The Universal Design principles (Ronald Mace) | Ancestors frame fixed in 6 modes; desktop nav clips focus rings (overflow-x); download line has 0 px leading under "How to get one" | OBJECT | inset outline; line-height on .setup |
+
+Andon pulled: no.
+
+| Finding | Resolution |
+|---|---|
+| Cairo + Debord + Holmes: "Objective-C downloads incomplete" | ADAPT (M12): `Root.h` and `Root.m` are copied into `examples/objc/rosetta/`, so every Objective-C program compiles with `Root.m` in its own folder. Every Objective-C download line links Root.h and Root.m "beside it". Verified: sum.m, Root.h and Root.m fetched over HTTP into an empty folder, then the printed command pasted verbatim, prints 55; 01_messages.m the same, prints its recorded output |
+| Debord: "About's 'any program' includes HolyC" | ADAPT (M12): "any C, C++, Objective-C or C# program" |
+| Holmes: "WSL unglossed" | ADAPT (M12): "WSL (a Linux shell inside Windows)" |
+| Mace: "desktop nav clips focus" | ADAPT (M12): `outline-offset: -3px` on nav links |
+| Mace: "download line leading" | ADAPT (M12): `.setup { line-height: 1.55 }` |
+| Cairo: "15 of 22 pages measured" | ADAPT (M12): `measure.cjs` now enumerates every page in site/: 22 pages × 2 sizes × 2 schemes, 0 overflow, min 12 px |
+| Bringhurst: "08/11 drawings at phone width" | DEFERRED (optional; 12.3 px is above the floor) |
+
+## Move M12: R4 corrections (KEEP-THE-RULE)
+Depends on: M11. Anchors: Rule Designing Programmes (Karl Gerstner) | Rule WCAG 2.2 Contrast and Perceivability (W3C).
+
+## Move M13: S4 ambition push (BREAK escalated)
+Depends on: M3. Anchors: Stance Make It Bigger (Paula Scher) | Counterpoint Typography: My Way to Typography (Wolfgang Weingart).
+Intent: the root glyph, the hero's boldest element, made bigger once more.
+Measured: the C glyph's rendered box went from 98 to 129 px tall (+32%) and 45 to 59 px wide; the band from 67 to 87 px; the hero's bottom stayed at 707 px (1280x800). First attempt: size 104 broke out above the box's top edge (glyph top above the box at y 172) and read as clipping, so it settled at 94, inside the band.

@@ -2,7 +2,9 @@
 // Screenshots key pages and measures the rules the design log asserts.
 const { chromium } = require('playwright');
 const [base, outdir] = process.argv.slice(2);
-const pages = ['index.html', 'c/index.html', 'c/01-hello.html', 'c/07-pointers.html', 'c/08-structs.html', 'c/09-file-io.html', 'c/11-malloc.html', 'cpp.html', 'objc.html', 'csharp.html', 'holyc.html', 'rosetta.html', 'family.html', 'about.html', '404.html'];
+const fs = require('fs'), path = require('path');
+const root = path.join(__dirname, '..', 'site');
+const pages = ['index.html', ...fs.readdirSync(root).filter(f => f.endsWith('.html') && f !== 'index.html'), ...fs.readdirSync(path.join(root, 'c')).filter(f => f.endsWith('.html')).map(f => 'c/' + f)];
 const sizes = [[1280, 800], [375, 812]];
 (async () => {
   const b = await chromium.launch();

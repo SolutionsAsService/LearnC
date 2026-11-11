@@ -197,35 +197,35 @@
    "warnings": []
   },
   "objc/rosetta/hello.m": {
-   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra -Wpedantic -Wconversion -I\"$(gcc -print-file-name=include)\" hello.m ../Root.m -L\"$(gcc -print-file-name=)\" -o hello -lobjc -lm && ./hello",
+   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra -Wpedantic -Wconversion -I\"$(gcc -print-file-name=include)\" hello.m Root.m -L\"$(gcc -print-file-name=)\" -o hello -lobjc -lm && ./hello",
    "compiled": true,
    "stdout": "Hello, World!\n",
    "exit": 0,
    "warnings": []
   },
   "objc/rosetta/point.m": {
-   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra -Wpedantic -Wconversion -I\"$(gcc -print-file-name=include)\" point.m ../Root.m -L\"$(gcc -print-file-name=)\" -o point -lobjc -lm && ./point",
+   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra -Wpedantic -Wconversion -I\"$(gcc -print-file-name=include)\" point.m Root.m -L\"$(gcc -print-file-name=)\" -o point -lobjc -lm && ./point",
    "compiled": true,
    "stdout": "5.0\n",
    "exit": 0,
    "warnings": []
   },
   "objc/rosetta/reverse.m": {
-   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra -Wpedantic -Wconversion -I\"$(gcc -print-file-name=include)\" reverse.m ../Root.m -L\"$(gcc -print-file-name=)\" -o reverse -lobjc -lm && ./reverse",
+   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra -Wpedantic -Wconversion -I\"$(gcc -print-file-name=include)\" reverse.m Root.m -L\"$(gcc -print-file-name=)\" -o reverse -lobjc -lm && ./reverse",
    "compiled": true,
    "stdout": "retniop\n",
    "exit": 0,
    "warnings": []
   },
   "objc/rosetta/sum.m": {
-   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra -Wpedantic -Wconversion -I\"$(gcc -print-file-name=include)\" sum.m ../Root.m -L\"$(gcc -print-file-name=)\" -o sum -lobjc -lm && ./sum",
+   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra -Wpedantic -Wconversion -I\"$(gcc -print-file-name=include)\" sum.m Root.m -L\"$(gcc -print-file-name=)\" -o sum -lobjc -lm && ./sum",
    "compiled": true,
    "stdout": "55\n",
    "exit": 0,
    "warnings": []
   },
   "objc/rosetta/swap.m": {
-   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra -Wpedantic -Wconversion -I\"$(gcc -print-file-name=include)\" swap.m ../Root.m -L\"$(gcc -print-file-name=)\" -o swap -lobjc -lm && ./swap",
+   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra -Wpedantic -Wconversion -I\"$(gcc -print-file-name=include)\" swap.m Root.m -L\"$(gcc -print-file-name=)\" -o swap -lobjc -lm && ./swap",
    "compiled": true,
    "stdout": "x=2 y=1\n",
    "exit": 0,

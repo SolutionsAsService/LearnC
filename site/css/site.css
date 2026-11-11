@@ -246,3 +246,5 @@ svg a.cell:focus-visible .box { stroke: var(--ptr); stroke-width: 4; }
 .struct-key { font-size: 1rem; color: var(--ink-2); margin-top: -.6rem; }
 .mems-1, .mems-2 { grid-template-columns: minmax(0, 1fr); }
 svg .freed { fill: var(--paper-2); stroke-dasharray: 6 4; }
+.top li a:focus-visible { outline-offset: -3px; }
+.setup { line-height: 1.55; }

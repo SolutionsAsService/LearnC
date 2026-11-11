@@ -56,7 +56,7 @@ def shown_command(lang, rel):
     if lang == "cpp":
         return f"{FLAGS['cpp']} {name} -o {stem} && ./{stem}"
     if lang == "objc":
-        root = "../Root.m" if "/rosetta/" in rel else "Root.m"
+        root = "Root.m"
         return (f'{FLAGS["objc"]} -I"$(gcc -print-file-name=include)" {name} {root} '
                 f'-L"$(gcc -print-file-name=)" -o {stem} -lobjc -lm && ./{stem}')
     if lang == "csharp":
@@ -74,7 +74,7 @@ def run_one(lang, path, tmp):
     elif lang == "cpp":
         cc = f"{FLAGS['cpp']} {path} -o {exe}"
     elif lang == "objc":
-        cc = (f'{FLAGS["objc"]} -I"$(gcc -print-file-name=include)" {path} {EX / "objc" / "Root.m"} '
+        cc = (f'{FLAGS["objc"]} -I"$(gcc -print-file-name=include)" {path} {path.parent / "Root.m"} '
               f'-L"$(gcc -print-file-name=)" -o {exe} -lobjc -lm')
     else:
         cc = f"{FLAGS['csharp']} {path} -out:{exe}"
@@ -243,7 +243,7 @@ def code_block(lang, rel, runs, title=None, up="", same=None):
         status = "exit 0" if r["exit"] == 0 else f"exit {r['exit']}"
         outb = (f'<div class="out"><div class="out-h"><span>output</span><span>{status} · '
                 f'{len(r["warnings"])} warnings</span></div><pre><samp>{out}</samp></pre></div>')
-        cmd = f'<details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>{html.escape(r["command"])}</code></pre><p class="setup"><a download href="{up}examples/{rel}">Download {html.escape(name)}</a>{" (it also needs " + ("../" if "/rosetta/" in rel else "") + "Root.m, from the same folder)" if lang == "objc" else ""}, open a terminal in the folder you saved it to, and paste the command. No compiler yet? <a href="{up}about.html#setup">How to get one</a>.</p></details>'
+        cmd = f'<details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>{html.escape(r["command"])}</code></pre><p class="setup"><a download href="{up}examples/{rel}">Download {html.escape(name)}</a>{(" with <a download href=\"" + up + "examples/" + str(Path(rel).parent) + "/Root.h\">Root.h</a> and <a download href=\"" + up + "examples/" + str(Path(rel).parent) + "/Root.m\">Root.m</a> beside it") if lang == "objc" else ""}, open a terminal in the folder you saved it to, and paste the command. No compiler yet? <a href="{up}about.html#setup">How to get one</a>.</p></details>'
     elif lang == "holyc":
         outb = (f'<div class="out out-none"><div class="out-h"><span>output</span><span>not run here</span></div>'
                 f'<p>Paste it into <a href="https://holyc.shadw.app">holyc.shadw.app</a> or a TempleOS shell.</p></div>')
@@ -333,7 +333,7 @@ def hero_desktop(runs):
     rows = [("year", "1972 · Bell Labs"), ("by", "Dennis Ritchie"),
             ("hello", f"{lines_of(c_rel)} lines · ran ✓" if ran(runs, c_rel) else f"{lines_of(c_rel)} lines"),
             ("parent", "●"), ("lessons", "●")]
-    svg, cen, rh = struct_box(cx, cy, cw, ch, "c", rows, "c/index.html", title_size=72, band=64)
+    svg, cen, rh = struct_box(cx, cy, cw, ch, "c", rows, "c/index.html", title_size=94, band=84)  # S4 push: the root glyph
     s.append(svg)
     py, ly = cen[3], cen[4]
     # C.parent -> B: leave along the rule under the row, out of the left edge
@@ -762,10 +762,10 @@ def build_about(runs):
   <p>A <em>compiler</em> turns the program text into something your computer can run. You type its command into a <em>terminal</em> (Terminal on macOS, a Linux shell, or Windows Terminal).</p>
   <ul>
     <li><strong>Debian or Ubuntu Linux:</strong> <code>sudo apt install gcc g++ clang mono-mcs</code> installs everything the commands on this site use: <code>clang</code> brings the GNU Objective-C runtime (<code>libobjc</code>) the Objective-C commands link against, and <code>mono-mcs</code> brings C#.</li>
-    <li><strong>Windows:</strong> two steps: <code>wsl --install</code> in PowerShell, restart, then the Linux line inside WSL.</li>
+    <li><strong>Windows:</strong> two steps: <code>wsl --install</code> in PowerShell, which installs WSL (a Linux shell inside Windows), restart, then the Linux line inside WSL.</li>
     <li><strong>macOS:</strong> <code>xcode-select --install</code> gives you <code>clang</code>, which also answers to <code>gcc</code>, so the C and C++ commands run as printed. The Objective-C commands here use the GNU runtime and were verified on Linux only (on a Mac you would use Apple's runtime and <code>NSObject</code> instead), and C# needs Mono or .NET installed separately.</li>
   </ul>
-  <p>Then download any program from its page (the link is under the program), open a terminal in that folder (<code>cd</code> into it), paste the command printed under the program, and compare what it prints with the dark output box.</p>
+  <p>Then download any C, C++, Objective-C or C# program from its page (the link is under the program), open a terminal in that folder (<code>cd</code> into it), paste the command printed under the program, and compare what it prints with the dark output box.</p>
   <h2>What changed from the old repo</h2>
   <ul>
     <li>The nine original C examples became twelve lessons. Each was compiled with <code>-Wpedantic -Wstrict-prototypes -Wconversion</code> and fixed until it built without warnings.</li>

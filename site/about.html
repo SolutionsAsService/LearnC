@@ -34,10 +34,10 @@
   <p>A <em>compiler</em> turns the program text into something your computer can run. You type its command into a <em>terminal</em> (Terminal on macOS, a Linux shell, or Windows Terminal).</p>
   <ul>
     <li><strong>Debian or Ubuntu Linux:</strong> <code class="w">sudo apt install gcc g++ clang mono-mcs</code> installs everything the commands on this site use: <code>clang</code> brings the GNU Objective-C runtime (<code>libobjc</code>) the Objective-C commands link against, and <code>mono-mcs</code> brings C#.</li>
-    <li><strong>Windows:</strong> two steps: <code>wsl --install</code> in PowerShell, restart, then the Linux line inside WSL.</li>
+    <li><strong>Windows:</strong> two steps: <code>wsl --install</code> in PowerShell, which installs WSL (a Linux shell inside Windows), restart, then the Linux line inside WSL.</li>
     <li><strong>macOS:</strong> <code>xcode-select --install</code> gives you <code>clang</code>, which also answers to <code>gcc</code>, so the C and C++ commands run as printed. The Objective-C commands here use the GNU runtime and were verified on Linux only (on a Mac you would use Apple’s runtime and <code>NSObject</code> instead), and C# needs Mono or .NET installed separately.</li>
   </ul>
-  <p>Then download any program from its page (the link is under the program), open a terminal in that folder (<code>cd</code> into it), paste the command printed under the program, and compare what it prints with the dark output box.</p>
+  <p>Then download any C, C++, Objective-C or C# program from its page (the link is under the program), open a terminal in that folder (<code>cd</code> into it), paste the command printed under the program, and compare what it prints with the dark output box.</p>
   <h2>What changed from the old repo</h2>
   <ul>
     <li>The nine original C examples became twelve lessons. Each was compiled with <code class="w">-Wpedantic -Wstrict-prototypes -Wconversion</code> and fixed until it built without warnings.</li>
