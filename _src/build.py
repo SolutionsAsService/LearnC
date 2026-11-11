@@ -174,6 +174,8 @@ def typeset(markup):
     parts = PROTECT.split(markup)
     for i in range(0, len(parts), 2):
         parts[i] = re.sub(r"(?<=\w)(?:'|&#x27;)(?=\w)", "\u2019", parts[i])
+        if i and parts[i - 1].startswith("<code") or i and parts[i - 1] == "</code>":
+            parts[i] = re.sub(r"^(?:'|&#x27;)(?=\w)", "\u2019", parts[i])
     return "".join(parts)
 
 
@@ -241,7 +243,7 @@ def code_block(lang, rel, runs, title=None, up="", same=None):
         status = "exit 0" if r["exit"] == 0 else f"exit {r['exit']}"
         outb = (f'<div class="out"><div class="out-h"><span>output</span><span>{status} · '
                 f'{len(r["warnings"])} warnings</span></div><pre><samp>{out}</samp></pre></div>')
-        cmd = f'<details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>{html.escape(r["command"])}</code></pre><p class="setup">No compiler yet? <a href="{up}about.html#setup">Getting one takes one command</a>.</p></details>'
+        cmd = f'<details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>{html.escape(r["command"])}</code></pre><p class="setup"><a download href="{up}examples/{rel}">Download {html.escape(name)}</a>{" (it also needs " + ("../" if "/rosetta/" in rel else "") + "Root.m, from the same folder)" if lang == "objc" else ""}, open a terminal in the folder you saved it to, and paste the command. No compiler yet? <a href="{up}about.html#setup">How to get one</a>.</p></details>'
     elif lang == "holyc":
         outb = (f'<div class="out out-none"><div class="out-h"><span>output</span><span>not run here</span></div>'
                 f'<p>Paste it into <a href="https://holyc.shadw.app">holyc.shadw.app</a> or a TempleOS shell.</p></div>')
@@ -321,6 +323,7 @@ def hero_desktop(runs):
         s.append(f'<text class="fv" x="182" y="{y + 32}" text-anchor="end">{a["year"]}</text>')
         s.append(f'<text class="fk" x="34" y="{y + 62}">{esc(a["by"])}</text>')
     s.append('<text class="cap" x="20" y="270">ancestors → Family</text>')
+    s.append('<rect class="frame" x="14" y="28" width="188" height="248"/>')
     s.append("</a>")
     s.append('<path class="ptr" d="M108,34 L108,14 L150,14"/><text class="null" x="158" y="19">NULL</text>')
     s.append(arrow("M108,150 L108,118"))
@@ -383,7 +386,7 @@ def hero_narrow(runs):
     s.append('<a href="family.html" class="node node-anc" aria-label="Ancestors: BCPL 1967 and B 1969. The family timeline">')
     s.append('<rect class="box" x="70" y="4" width="92" height="38"/><text class="nm" x="80" y="29" font-size="17">BCPL</text><text class="sm" x="154" y="28" text-anchor="end">1967</text>')
     s.append('<rect class="box" x="196" y="4" width="70" height="38"/><text class="nm" x="206" y="29" font-size="17">B</text><text class="sm" x="258" y="28" text-anchor="end">1969</text>')
-    s.append('</a>')
+    s.append('<rect class="frame" x="70" y="4" width="196" height="38"/></a>')
     s.append('<text class="null" x="16" y="28">NULL</text>')
     s.append(A("M70,23 L54,23"))
     s.append(A("M196,23 L166,23"))
@@ -446,10 +449,10 @@ def hero_narrow(runs):
 
 
 # ------------------------------------------------------------- inner diagrams
-def mem_panel(caption, cells, arrows, mid):
+def mem_panel(caption, cells, arrows, mid, said=None):
     """cells: (x, y, name, value) boxes; arrows: ((x1,y1),(x2,y2)) pointer wires."""
-    s = [f'<figure class="mem"><svg viewBox="0 0 240 150" role="img" aria-labelledby="{mid}">'
-         f'<title id="{mid}">{esc(caption)}</title>'
+    s = [f'<figure class="mem"><svg viewBox="0 0 240 150" width="240" role="img" aria-labelledby="{mid}">'
+         f'<title id="{mid}">{esc(said or caption)}</title>'
          f'<defs><marker id="{mid}h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahead"/></marker></defs>']
     for x, y, name, val in cells:
         s.append(f'<text class="fk" x="{x}" y="{y - 8}">{esc(name)}</text>'
@@ -465,16 +468,16 @@ def mem_panel(caption, cells, arrows, mid):
 
 
 POINTER_DIAGRAM = ('<div class="mems" aria-label="Memory, drawn in three steps">'
-    + mem_panel("int *ptr = &num;", [(20, 30, "num", "10"), (150, 30, "ptr", "●")], [((185, 50), (55, 72))], "m1")
-    + mem_panel("*ptr = 42;", [(20, 30, "num", "42"), (150, 30, "ptr", "●")], [((185, 50), (55, 72))], "m2")
+    + mem_panel("int *ptr = &num;", [(20, 30, "num", "10"), (150, 30, "ptr", "●")], [((185, 50), (55, 72))], "m1", "ptr holds the address of num; num is 10")
+    + mem_panel("*ptr = 42;", [(20, 30, "num", "42"), (150, 30, "ptr", "●")], [((185, 50), (55, 72))], "m2", "writing through ptr changes num to 42")
     + mem_panel("swap(&x, &y);", [(20, 30, "x", "2"), (150, 30, "y", "1"), (20, 100, "a", "●"), (150, 100, "b", "●")],
-                [], "m3").replace("</svg>", '<path class="ptr" d="M55,120 L55,74" marker-end="url(#m3h)"/><path class="ptr" d="M185,120 L185,74" marker-end="url(#m3h)"/></svg>')
+                [], "m3", "inside swap, a points to x and b points to y; after the swap x is 2 and y is 1").replace("</svg>", '<path class="ptr" d="M55,120 L55,74" marker-end="url(#m3h)"/><path class="ptr" d="M185,120 L185,74" marker-end="url(#m3h)"/></svg>')
     + "</div>")
 
 
 def struct_mem():
     """Lesson 08: the struct as one block of memory, changed through a pointer."""
-    return ('<div class="mems mems-1"><figure class="mem"><svg viewBox="0 0 420 150" role="img" aria-labelledby="ms1">'
+    return ('<div class="mems mems-1"><figure class="mem"><svg viewBox="0 0 420 150" width="420" role="img" aria-labelledby="ms1">'
             '<title id="ms1">person1 is one struct with two fields, name and age; birthday(&amp;person1) changes age through the pointer p</title>'
             '<defs><marker id="ms1h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahead"/></marker></defs>'
             '<text class="fk" x="20" y="22">person1 (struct Person, 56 bytes)</text>'
@@ -490,18 +493,18 @@ def heap_mem():
     """Lesson 11: a pointer to the heap, then NULL after free."""
     cells = "".join(f'<rect class="box" x="{20 + i * 38}" y="96" width="38" height="34"/>'
                     f'<text class="fv" x="{39 + i * 38}" y="119" text-anchor="middle">{i * i}</text>' for i in range(10))
-    a = ('<figure class="mem"><svg viewBox="0 0 420 150" role="img" aria-labelledby="mh1">'
+    a = ('<figure class="mem"><svg viewBox="0 0 420 150" width="420" role="img" aria-labelledby="mh1">'
          '<title id="mh1">squares points to ten ints on the heap: 0, 1, 4 … 81</title>'
          '<defs><marker id="mh1h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahead"/></marker></defs>'
          '<text class="fk" x="20" y="22">squares</text><rect class="box" x="20" y="30" width="70" height="40"/><circle class="pdot" cx="55" cy="50" r="5"/>'
          '<text class="fk" x="130" y="58">on the heap, from malloc</text>'
          f'{cells}<path class="ptr" d="M55,50 L55,92" marker-end="url(#mh1h)"/>'
          '</svg><figcaption><code>squares = malloc(…);</code></figcaption></figure>')
-    b = ('<figure class="mem"><svg viewBox="0 0 420 150" role="img" aria-labelledby="mh2">'
+    b = ('<figure class="mem"><svg viewBox="0 0 420 150" width="420" role="img" aria-labelledby="mh2">'
          '<title id="mh2">after free, the heap block is returned and squares is set to NULL</title>'
          '<defs><marker id="mh2h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahead"/></marker></defs>'
          '<text class="fk" x="20" y="22">squares</text><rect class="box" x="20" y="30" width="70" height="40"/><circle class="pdot" cx="55" cy="50" r="5"/>'
-         '<path class="ptr" d="M55,50 L130,50" marker-end="url(#mh2h)"/><text class="null" x="138" y="56">NULL</text>'
+         '<path class="ptr" d="M55,50 L130,50" marker-end="url(#mh2h)"/><text class="null" x="138" y="56" style="font-size:16px">NULL</text>'
          '<rect class="box freed" x="20" y="96" width="380" height="34"/><text class="fk" x="210" y="119" text-anchor="middle">returned to the heap</text>'
          '</svg><figcaption><code>free(squares); squares = NULL;</code></figcaption></figure>')
     return f'<div class="mems mems-2">{a}{b}</div>'
@@ -758,11 +761,11 @@ def build_about(runs):
   <h2 id="setup">Getting a compiler</h2>
   <p>A <em>compiler</em> turns the program text into something your computer can run. You type its command into a <em>terminal</em> (Terminal on macOS, a Linux shell, or Windows Terminal).</p>
   <ul>
-    <li><strong>macOS:</strong> <code>xcode-select --install</code> installs <code>clang</code>, which also answers to <code>gcc</code>.</li>
-    <li><strong>Debian or Ubuntu Linux:</strong> <code>sudo apt install gcc g++ mono-mcs</code> covers C, C++, Objective-C (the GNU runtime ships with gcc) and C#.</li>
-    <li><strong>Windows:</strong> install WSL (<code>wsl --install</code>), then follow the Linux line inside it.</li>
+    <li><strong>Debian or Ubuntu Linux:</strong> <code>sudo apt install gcc g++ clang mono-mcs</code> installs everything the commands on this site use: <code>clang</code> brings the GNU Objective-C runtime (<code>libobjc</code>) the Objective-C commands link against, and <code>mono-mcs</code> brings C#.</li>
+    <li><strong>Windows:</strong> two steps: <code>wsl --install</code> in PowerShell, restart, then the Linux line inside WSL.</li>
+    <li><strong>macOS:</strong> <code>xcode-select --install</code> gives you <code>clang</code>, which also answers to <code>gcc</code>, so the C and C++ commands run as printed. The Objective-C commands here use the GNU runtime and were verified on Linux only (on a Mac you would use Apple's runtime and <code>NSObject</code> instead), and C# needs Mono or .NET installed separately.</li>
   </ul>
-  <p>Then copy the command printed under any program on this site, run it in the folder that holds the file, and compare what it prints with the dark output box.</p>
+  <p>Then download any program from its page (the link is under the program), open a terminal in that folder (<code>cd</code> into it), paste the command printed under the program, and compare what it prints with the dark output box.</p>
   <h2>What changed from the old repo</h2>
   <ul>
     <li>The nine original C examples became twelve lessons. Each was compiled with <code>-Wpedantic -Wstrict-prototypes -Wconversion</code> and fixed until it built without warnings.</li>
@@ -801,6 +804,8 @@ def main():
     BUILT = min(runs.get("built", {"x": "an unknown date"}).values())
     for f in OUT.rglob("*.html"):
         f.unlink()
+    shutil.rmtree(OUT / "examples", ignore_errors=True)
+    shutil.copytree(EX, OUT / "examples")
     build_home(runs)
     build_c(runs)
     for lang in ("cpp", "objc", "csharp", "holyc"):
@@ -811,14 +816,14 @@ def main():
     build_404()
     problems = check_links()
     for slug, _, d in K.ROSETTA:
-        m = re.search(r"Prints (\S+?)\.", d)
+        m = re.search(r"Prints (\S+)\.$", d)
         if m:
             for L in K.LANGS[:4]:
                 out = runs["runs"][rosetta_rel(L["id"], slug)]["stdout"]
-                if m.group(1) not in out:
+                if m.group(1) not in out.splitlines():
                     problems.append(f"rosetta {slug}: prose says {m.group(1)}, {L['id']} printed {out!r}")
     for rel, expect in K.QUOTED_OUTPUTS:
-        if expect not in runs["runs"][rel]["stdout"]:
+        if expect not in runs["runs"][rel]["stdout"].splitlines():
             problems.append(f"{rel}: prose quotes {expect!r}, not in its output")
     warned = [k for k, r in runs["runs"].items() if r["warnings"] or not r.get("compiled") or r["exit"] != 0]
     pages = len(list(OUT.rglob("*.html")))

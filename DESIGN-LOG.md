@@ -256,3 +256,34 @@ Depends on: M7. Anchors: Breaker Making and Breaking the Grid (Timothy Samara) |
 Intent: every lesson whose subject is memory draws it before showing the code. The Rosetta page shows difference, not sameness.
 Alternatives rejected: a drawing on all twelve lessons (noise on hello and loops); diffs as +/- markers (they read as version control, not as language difference).
 Mode field: Advanced pole: the notation as the teaching device. Acceptable pole: every drawing has a code caption and an aria title in plain words.
+
+### Panel, WHOLE, round R3 (artifact examined: site after M9, M10; evidence in panel/R3/EVIDENCE.md)
+| Critic | Anchor used | Observed in the work | Verdict PASS/OBJECT | Requested change |
+|---|---|---|---|---|
+| Critic: Provocateur (Shklovsky) | Art as Technique (Viktor Shklovsky) | memory drawn before it is coded; Rosetta dimming shows difference; table still precedes the cards | PASS | optional: first card above the table; `lessons[i]` numbering on c/index |
+| Critic: Evidence (Cairo) | How Charts Lie (Alberto Cairo) | 41 runs, 7 ObjC commands verbatim all reproduce; the apt line does not install clang or libobjc | OBJECT | `apt install gcc g++ clang mono-mcs`; say ObjC was verified on Linux only; correct the evidence |
+| Critic: Provocateur (Debord) | The Society of the Spectacle (Guy Debord) | output checks exist but match substrings; setup lines oversell (macOS, "one command") | OBJECT | the clang line; macOS covers C and C++; "How to get one"; whole-line matching |
+| Critic: Inclusion (Holmes) | Mismatch (Kat Holmes) | R2 fixes landed; lesson 07 drawings named by code; no path from page to file on disk; "one command" false on Windows; `static`, `%s` unglossed | OBJECT | plain titles; download links; fix the claim; gloss |
+| Critic: Inclusion (Mace) | The Universal Design principles (Ronald Mace) | every node's focus frame measures 15.6:1 except Ancestors (no frame; byte-identical focus in forced colours) | OBJECT | add a frame to Ancestors at both sizes |
+| Critic: Craft (Bringhurst) | The Elements of Typographic Style (Robert Bringhurst) | scale and measure fixed; one apostrophe after `</code>`; straight quotes in prose; drawing labels 10.8–25.3 px | OBJECT | typeset across elements; code or curly quotes; fixed-scale drawings |
+
+Andon pulled: no.
+
+| Finding | Resolution |
+|---|---|
+| Cairo + Debord: "apt line lacks clang/libobjc" | ADAPT (M11): `sudo apt install gcc g++ clang mono-mcs`; `dpkg -S` confirms `objc/runtime.h` is in libobjc-13-dev, pulled in by clang |
+| Cairo + Debord: "macOS line oversells" | ADAPT (M11): macOS is said to cover C and C++; Objective-C verified on Linux only; C# needs Mono or .NET |
+| Debord + Holmes: "'one command' false on Windows" | ADAPT (M11): the link reads "How to get one"; Windows is "two steps" |
+| Debord: "substring checks" | ADAPT (M11): whole-line matches; QUOTED_OUTPUTS now hold full output lines (Age: 31, sizeof … = 56 bytes, C# 2000) |
+| Cairo: "evidence says y 885" | ADAPT: R4 evidence carries the re-measured value |
+| Holmes: "drawings named by code" | ADAPT (M11): titles in words ("ptr holds the address of num; num is 10") |
+| Holmes: "no path to a file on disk" | ADAPT (M11): every program has a Download link (examples/ copied into site/), with "open a terminal in the folder… paste the command", and the Objective-C ones name Root.m |
+| Holmes: "static, %s" | ADAPT (M11): glossed on lesson 03 |
+| Mace: "Ancestors has no focus frame" | ADAPT (M11): `.frame` around both ancestor boxes at 1280 and 375 |
+| Bringhurst: "apostrophe after an element" | ADAPT (M11): the typesetter handles text that starts right after `<code>…</code>`; `fgetc`’s now curly |
+| Bringhurst: "straight quotes in prose" | ADAPT (M11): string values set as code; "pointer" in curly quotes |
+| Bringhurst: "drawing label sizes" | ADAPT (M11): drawings render at 1:1 (width = viewBox width, max-width 100%); memory panels stack. Measured min 12 px across 15 pages × 2 sizes × 2 schemes. An inert attempt is logged: `font-size="16"` on NULL had no effect because the `.null` CSS rule beats a presentation attribute; an inline style moved it |
+| Shklovsky: "first card above the table" | DEFERRED (optional; Cairo relies on the table as the page's figure) |
+
+## Move M11: R3 corrections (KEEP-THE-RULE)
+Depends on: M9, M10. Anchors: Rule WCAG 2.2 Contrast and Perceivability (W3C) | Rule Designing Programmes (Karl Gerstner).

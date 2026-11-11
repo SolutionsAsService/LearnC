@@ -41,7 +41,7 @@
     printf(<span class="ts">&quot;%s (%zu chars, %zu bytes)\n&quot;</span>, word, n, <span class="tk">sizeof</span> word);
     <span class="tk">return</span> <span class="tn">0</span>;
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>retniop (7 chars, 8 bytes)</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 10_strings.c -o strings -lm &amp;&amp; ./strings</code></pre><p class="setup">No compiler yet? <a href="../about.html#setup">Getting one takes one command</a>.</p></details></figure>
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>retniop (7 chars, 8 bytes)</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 10_strings.c -o strings -lm &amp;&amp; ./strings</code></pre><p class="setup"><a download href="../examples/c/10_strings.c">Download 10_strings.c</a>, open a terminal in the folder you saved it to, and paste the command. No compiler yet? <a href="../about.html#setup">How to get one</a>.</p></details></figure>
   <div class="notes"><p><code>"pointer"</code> is 7 characters but 8 bytes, because of the terminating
      <code>'\0'</code>. <code>strlen</code> counts up to the zero byte, while
      <code>sizeof</code> measures the whole array.</p></div>

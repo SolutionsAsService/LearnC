@@ -46,7 +46,7 @@
     fclose(in);
     <span class="tk">return</span> <span class="tn">0</span>;
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>Hello from a file.</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 09_file_io.c -o file_io -lm &amp;&amp; ./file_io</code></pre><p class="setup">No compiler yet? <a href="../about.html#setup">Getting one takes one command</a>.</p></details></figure>
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>Hello from a file.</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 09_file_io.c -o file_io -lm &amp;&amp; ./file_io</code></pre><p class="setup"><a download href="../examples/c/09_file_io.c">Download 09_file_io.c</a>, open a terminal in the folder you saved it to, and paste the command. No compiler yet? <a href="../about.html#setup">How to get one</a>.</p></details></figure>
   <div class="notes"><p>The original <code>read_file.c</code> declared <code>char ch</code> and compared
      it with <code>EOF</code>. <code>fgetc</code> returns an <code>int</code>, either a byte
      from 0 to 255 or <code>EOF</code> (-1), and a <code>char</code> cannot hold all 257

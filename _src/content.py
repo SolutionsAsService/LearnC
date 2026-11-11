@@ -73,7 +73,8 @@ LESSONS = [
      """<p>Two things here are taught later: the <code>for</code> loop (lesson 04), which runs
      <code>sign</code> once for each of the three numbers in the array
      <code>samples</code> (lesson 06). Read it as &ldquo;for each number, print its
-     sign&rdquo;.</p>
+     sign&rdquo;. <code>static</code> keeps the function private to this file (lesson 05),
+     and <code>%s</code> in <code>printf</code> prints a piece of text.</p>
      <p>Conditions in C are integers: 0 is false and anything else is true. The function
      returns a <code>const char *</code>: a piece of text that the program never changes.
      <a href="10-strings.html">Lesson 10</a> explains why text is written with a
@@ -154,7 +155,7 @@ ROSETTA = [
     ("sum", "Sum 1 to 10", "A loop, or the library's way of avoiding one. Prints 55."),
     ("point", "A point", "A record type with x and y, and its distance from the origin. Prints 5.0."),
     ("swap", "Swap", "Exchange two variables through a function: pointers, references or ref."),
-    ("reverse", "Reverse a string", "Reverse \"pointer\" in place. Prints retniop."),
+    ("reverse", "Reverse a string", "Reverse “pointer” in place. Prints retniop."),
 ]
 
 # Per-language page copy. examples: (path under examples/<id>/, title, html note)
@@ -171,8 +172,8 @@ PAGES = {
         ],
         "examples": [
             ("01_raii.cpp", "RAII: release in reverse order", "Read the output from the bottom up: <code>b</code> is released when its block closes, and <code>a</code> when <code>main</code> returns. Nothing calls a release function."),
-            ("02_templates.cpp", "Templates", "<code>largest</code> is compiled three times: for <code>int</code>, <code>double</code> and <code>std::string</code>. With strings, <code>&gt;</code> compares alphabetically, so \"C++\" beats \"C\"."),
-            ("03_containers.cpp", "Containers and algorithms", "<code>std::sort</code> orders by character code, so \"C#\" (0x23) sorts before \"C++\" (0x2B)."),
+            ("02_templates.cpp", "Templates", "<code>largest</code> is compiled three times: for <code>int</code>, <code>double</code> and <code>std::string</code>. With strings, <code>&gt;</code> compares alphabetically, so <code>\"C++\"</code> beats <code>\"C\"</code>."),
+            ("03_containers.cpp", "Containers and algorithms", "<code>std::sort</code> orders by character code, so <code>\"C#\"</code> (0x23) sorts before <code>\"C++\"</code> (0x2B)."),
             ("04_classes.cpp", "Classes and dynamic dispatch", "Each <code>s-&gt;area()</code> call is resolved at run time through the object's virtual table."),
         ],
         "history": [("1979", "C with Classes begins at Bell Labs"), ("1983", "renamed C++"), ("1985", "first commercial release and the first edition of <cite>The C++ Programming Language</cite>"), ("1998", "first ISO standard, C++98"), ("2011", "C++11: move semantics, lambdas, <code>auto</code>"), ("2024", "C++23 published as ISO/IEC 14882:2024")],
@@ -257,7 +258,9 @@ FAMILY = [
 # Sentences in the prose above that quote a program's output; the build checks each one.
 QUOTED_OUTPUTS = [
     ("cpp/02_templates.cpp", "C++"),
-    ("c/04_loops.c", "111 Collatz steps"),
-    ("c/08_structs.c", "56 bytes"),
-    ("c/10_strings.c", "7 chars, 8 bytes"),
+    ("c/04_loops.c", "27 reaches 1 in 111 Collatz steps"),
+    ("c/08_structs.c", "sizeof(struct Person) = 56 bytes"),
+    ("c/08_structs.c", "Age: 31"),
+    ("c/10_strings.c", "retniop (7 chars, 8 bytes)"),
+    ("cpp/03_containers.cpp", "C# 2000"),
 ]

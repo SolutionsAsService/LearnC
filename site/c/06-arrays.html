@@ -47,7 +47,7 @@ numbers[1] = 2
 numbers[2] = 3
 numbers[3] = 4
 numbers[4] = 5
-5 elements, sum 15</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 06_arrays.c -o arrays -lm &amp;&amp; ./arrays</code></pre><p class="setup">No compiler yet? <a href="../about.html#setup">Getting one takes one command</a>.</p></details></figure>
+5 elements, sum 15</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 06_arrays.c -o arrays -lm &amp;&amp; ./arrays</code></pre><p class="setup"><a download href="../examples/c/06_arrays.c">Download 06_arrays.c</a>, open a terminal in the folder you saved it to, and paste the command. No compiler yet? <a href="../about.html#setup">How to get one</a>.</p></details></figure>
   <div class="notes"><p><code class="w">sizeof numbers / sizeof numbers[0]</code> computes the element count at
      compile time, but only where the array is still an array. Once it is passed to a
      function it decays to a pointer and the trick fails.</p>

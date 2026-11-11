@@ -35,7 +35,7 @@
     printf(<span class="ts">&quot;Hello, World!\n&quot;</span>);
     <span class="tk">return</span> <span class="tn">0</span>;  <span class="tc">/* 0 tells the shell the program succeeded */</span>
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>Hello, World!</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 01_hello.c -o hello -lm &amp;&amp; ./hello</code></pre><p class="setup">No compiler yet? <a href="../about.html#setup">Getting one takes one command</a>.</p></details></figure>
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>Hello, World!</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 01_hello.c -o hello -lm &amp;&amp; ./hello</code></pre><p class="setup"><a download href="../examples/c/01_hello.c">Download 01_hello.c</a>, open a terminal in the folder you saved it to, and paste the command. No compiler yet? <a href="../about.html#setup">How to get one</a>.</p></details></figure>
   <div class="notes"><p><code>#include &lt;stdio.h&gt;</code> pastes in the <em>declarations</em> (the names
      and argument types) of the standard input/output library, which is where
      <code>printf</code> lives. Every C program starts running at <code>main</code>. Its

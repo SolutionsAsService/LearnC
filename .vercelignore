@@ -1,4 +1,4 @@
-panel/
-_src/
-examples/
+/panel/
+/_src/
+/examples/
 DESIGN-LOG.md

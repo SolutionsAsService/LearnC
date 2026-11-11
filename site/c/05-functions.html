@@ -45,7 +45,7 @@
     <span class="tk">return</span> a + b;
 }
 </code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>The sum is: 30
-5! = 120</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 05_functions.c -o functions -lm &amp;&amp; ./functions</code></pre><p class="setup">No compiler yet? <a href="../about.html#setup">Getting one takes one command</a>.</p></details></figure>
+5! = 120</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 05_functions.c -o functions -lm &amp;&amp; ./functions</code></pre><p class="setup"><a download href="../examples/c/05_functions.c">Download 05_functions.c</a>, open a terminal in the folder you saved it to, and paste the command. No compiler yet? <a href="../about.html#setup">How to get one</a>.</p></details></figure>
   <div class="notes"><p>The declaration (the prototype) lets <code>main</code> call <code>add</code> before
      its body appears. <code>static</code> on a function means it is visible only inside this
      file. <code>factorial</code> calls itself, so each call gets its own copy of

@@ -181,9 +181,9 @@ svg a.cell:focus-visible .box { stroke: var(--ptr); stroke-width: 4; }
 .pager .next { text-align: right; }
 
 /* ---------- inner diagrams ---------- */
-.mems { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: 1rem; margin: 1.6rem 0; }
+.mems { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 1rem; margin: 1.6rem 0; }
 .mem { margin: 0; }
-.mem svg { display: block; width: 100%; height: auto; font-family: var(--mono); }
+.mem svg { display: block; max-width: 100%; height: auto; font-family: var(--mono); }
 .mem figcaption { font: .85rem var(--mono); margin-top: .3rem; }
 .lang-struct { display: block; width: 100%; max-width: 31rem; height: auto; margin: .4rem 0 1.4rem; font-family: var(--mono); }
 
@@ -244,5 +244,5 @@ svg a.cell:focus-visible .box { stroke: var(--ptr); stroke-width: 4; }
 .same { opacity: .45; }
 .setup { font-family: var(--serif); font-size: .95rem; margin: .4rem 0 0; }
 .struct-key { font-size: 1rem; color: var(--ink-2); margin-top: -.6rem; }
-.mems-1, .mems-2 { grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+.mems-1, .mems-2 { grid-template-columns: minmax(0, 1fr); }
 svg .freed { fill: var(--paper-2); stroke-dasharray: 6 4; }
