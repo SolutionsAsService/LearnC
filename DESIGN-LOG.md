@@ -79,6 +79,8 @@ Seats: Cairo, Krug and Debord. Evidence is in `panel/R0/EVIDENCE.md`, and the re
 Statements of meaning: a promise of a C course that delivers nine toy programs and an unfinished README.
 Andon pulled: no.
 
+#### Resolutions, round R0
+
 | Finding | Resolution |
 |---|---|
 | Krug + Cairo + Debord: "README cut off, no compile command" | ADAPT (M1): every lesson page and the README give the exact command and flags |
@@ -156,6 +158,8 @@ Mode field: Advanced pole: a programme yields the pages. Acceptable pole: ordina
 Statements of meaning: the family drawn as memory. The landing is a claim the build computes. The inner pages had not yet learned the notation.
 Andon pulled: no. Dotted pair present: Krug and Debord.
 
+#### Resolutions, round R1
+
 | Finding | Resolution |
 |---|---|
 | Krug + Cairo + Mace + Holmes + Pater: "phone hero: arrows land on lesson cells / cells under 24 px / a wire cuts the text" | ADAPT (M5): the narrow drawing is rebuilt. `lessons[12]` is its own array outside C (2×6 cells, 39×30 viewBox units, 37×29 px at 375), restored as a wire from C.lessons. Children enter C's bottom and right borders through gutters, and C.parent leaves at x=300, clear of the text |
@@ -223,6 +227,8 @@ Depends on: M2. Anchors: Rule Grid Systems in Graphic Design (Josef Müller-Broc
 
 Andon pulled: no.
 
+#### Resolutions, round R2
+
 | Finding | Resolution |
 |---|---|
 | Cairo: "printed Objective-C command fails" | ADAPT (M9): the build now runs, and prints, `-I"$(gcc -print-file-name=include)" … -L"$(gcc -print-file-name=)"`; the printed command was run verbatim in a copy of examples/objc (two programs: outputs match) |
@@ -269,6 +275,8 @@ Mode field: Advanced pole: the notation as the teaching device. Acceptable pole:
 
 Andon pulled: no.
 
+#### Resolutions, round R3
+
 | Finding | Resolution |
 |---|---|
 | Cairo + Debord: "apt line lacks clang/libobjc" | ADAPT (M11): `sudo apt install gcc g++ clang mono-mcs`; `dpkg -S` confirms `objc/runtime.h` is in libobjc-13-dev, pulled in by clang |
@@ -299,6 +307,8 @@ Depends on: M9, M10. Anchors: Rule WCAG 2.2 Contrast and Perceivability (W3C) | 
 
 Andon pulled: no.
 
+#### Resolutions, round R4
+
 | Finding | Resolution |
 |---|---|
 | Cairo + Debord + Holmes: "Objective-C downloads incomplete" | ADAPT (M12): `Root.h` and `Root.m` are copied into `examples/objc/rosetta/`, so every Objective-C program compiles with `Root.m` in its own folder. Every Objective-C download line links Root.h and Root.m "beside it". Verified: sum.m, Root.h and Root.m fetched over HTTP into an empty folder, then the printed command pasted verbatim, prints 55; 01_messages.m the same, prints its recorded output |
@@ -328,6 +338,8 @@ Measured: the C glyph's rendered box went from 98 to 129 px tall (+32%) and 45 t
 | Critic: Inclusion (Mace), R5b | The Universal Design principles (Ronald Mace) | frames sit outside the boxes with a 2–4 px paper gap; ring 15.3–15.6:1; current-page ring 15.3–15.6:1; no clipping | PASS | none |
 
 Andon pulled: no.
+
+#### Resolutions, round R5
 
 | Finding | Resolution |
 |---|---|
