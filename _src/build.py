@@ -806,6 +806,24 @@ def check_links():
     return bad
 
 
+def check_deploy():
+    """Shadw and Vercel both serve site/: the three config files must exist and agree."""
+    bad = []
+    try:
+        root = json.loads((ROOT / "vercel.json").read_text())
+        inner = json.loads((OUT / "vercel.json").read_text())
+        fluid = json.loads((ROOT / "fluid.json").read_text())
+    except (OSError, ValueError) as e:
+        return [f"deploy config: {e}"]
+    if root.get("outputDirectory") != "site" or inner.get("outputDirectory") != ".":
+        bad.append("deploy config: vercel.json must serve site/ (root) and . (site/vercel.json)")
+    if fluid.get("static_dir") != "site" or not root.get("fluid"):
+        bad.append("deploy config: fluid.json static_dir must be site and vercel.json must set fluid: true")
+    if not SITE_URL.endswith(".shadw.app"):
+        bad.append("deploy config: SITE_URL must be the project's shadw.app address")
+    return bad
+
+
 def main():
     global BUILT
     do_run = "--no-run" not in sys.argv
@@ -823,7 +841,7 @@ def main():
     build_family()
     build_about(runs)
     build_404()
-    problems = check_links()
+    problems = check_links() + check_deploy()
     for slug, _, d in K.ROSETTA:
         m = re.search(r"Prints (\S+)\.$", d)
         if m:
@@ -838,7 +856,7 @@ def main():
     pages = len(list(OUT.rglob("*.html")))
     print(f"built {pages} pages from {len(runs['runs'])} compiled programs")
     if problems or warned:
-        print("dead links:", problems)
+        print("problems:", problems)
         print("failed or warned:", warned)
         sys.exit(1)
 

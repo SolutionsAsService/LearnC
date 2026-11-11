@@ -41,7 +41,14 @@ The build needs `gcc`, `g++`, `clang` with GNU `libobjc` (installed with gcc), a
 
 ## Deploy
 
-A plain static site with no build step on the host. `vercel.json` serves `site/` whether the project root is the repo or `site/`, and the root `index.html` redirects to `site/` for other static hosts.
+Shadw and Vercel, with no build step on the host. The site lives at **https://learnc.shadw.app**.
+
+- `vercel.json` serves `site/` when the project's Root Directory is the repo; `site/vercel.json` serves `.` when it is `site`. Both set `cleanUrls` and `fluid`.
+- `fluid.json` gives Shadw the project name and its static directory, `site`.
+- The root `index.html` redirects to `site/` for any other static host.
+- `.vercelignore` keeps the sources (`/_src/`, `/examples/`, `/panel/`) out of the upload. The examples the site offers for download are copied into `site/examples/` by the build.
+
+`python3 _src/build.py` fails if these files are missing or disagree.
 
 ## Design
 
