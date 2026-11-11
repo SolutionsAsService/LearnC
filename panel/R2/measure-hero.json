@@ -1,0 +1,63 @@
+{
+ "1280x800": {
+  "heroBottom": 707,
+  "minCell": [
+   "43.2",
+   "47.8"
+  ],
+  "navItemsOffscreen": 0,
+  "startLink": [
+   [
+    83,
+    127
+   ]
+  ],
+  "names": [
+   "Ancestors: BCPL 1967 and B 1969. The family timeline",
+   "C: year 1972 · Bell Labs, by Dennis Ritchie, hello 5 lines · ran ✓",
+   "C lesson 1: Hello, World"
+  ]
+ },
+ "375x812": {
+  "heroBottom": 768,
+  "minCell": [
+   "37.2",
+   "28.6"
+  ],
+  "navItemsOffscreen": 0,
+  "startLink": [
+   [
+    885,
+    928
+   ]
+  ],
+  "names": [
+   "Ancestors: BCPL 1967 and B 1969. The family timeline",
+   "C: year 1972, Bell Labs, by Dennis Ritchie. Overview and lessons",
+   "C lesson 1: Hello, World"
+  ]
+ },
+ "375x667": {
+  "heroBottom": 768,
+  "minCell": [
+   "37.2",
+   "28.6"
+  ],
+  "navItemsOffscreen": 0,
+  "startLink": [
+   [
+    885,
+    928
+   ]
+  ],
+  "names": [
+   "Ancestors: BCPL 1967 and B 1969. The family timeline",
+   "C: year 1972, Bell Labs, by Dennis Ritchie. Overview and lessons",
+   "C lesson 1: Hello, World"
+  ]
+ },
+ "prose": {
+  "width": 551,
+  "font": "19px"
+ }
+}
