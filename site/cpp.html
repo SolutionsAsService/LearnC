@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C++ · LearnC</title>
+<meta name="description" content="C++: C with classes, templates and destructors.">
+<meta property="og:title" content="C++ · LearnC">
+<meta property="og:description" content="C++: C with classes, templates and destructors.">
+<meta property="og:image" content="og.png">
+<meta name="theme-color" content="#f4efe3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14120f" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="mark" href="index.html" aria-label="LearnC home"><span class="mark-box">C</span><span>LearnC</span></a>
+  <nav aria-label="Site"><ul><li><a href="index.html">Home</a></li><li><a href="c/index.html">C</a></li><li><a href="cpp.html" aria-current="page">C++</a></li><li><a href="objc.html">Objective-C</a></li><li><a href="csharp.html">C#</a></li><li><a href="holyc.html">HolyC</a></li><li><a href="rosetta.html">Rosetta</a></li><li><a href="family.html">Family</a></li><li><a href="about.html">About</a></li></ul></nav>
+</header>
+<main id="main" class="">
+
+<article class="wrap lang-cpp">
+  <p class="kicker">struct lang C++ · 1985 · Bjarne Stroustrup · parent: <a href="c/index.html">C</a></p>
+  <h1>C++</h1>
+  <p class="lede">Bjarne Stroustrup began “C with Classes” at Bell Labs in 1979. It was renamed C++ in 1983 and released commercially in 1985. It keeps almost all of C and adds what C leaves to you: types that clean up after themselves, generic code, and a large standard library.</p>
+  
+  <h2>What it adds to C</h2>
+  <ul class="adds"><li><strong>Destructors and RAII</strong> A resource is released when the object that owns it goes out of scope. There is no <code>free</code> to forget.</li><li><strong>References</strong> <code>int &amp;a</code> is another name for an existing variable. It is never null and never reseated.</li><li><strong>Templates</strong> One definition, compiled separately for every type it is used with.</li><li><strong>Classes and virtual functions</strong> Inheritance, and calls dispatched at run time through a table of pointers.</li><li><strong>The standard library</strong> <code>vector</code>, <code>string</code>, <code>map</code> and the algorithms that work on them.</li></ul>
+  <h2>Programs</h2>
+  <p class="small">Compiled with <code>g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0</code>.</p>
+  <section class="exs"><h3>RAII: release in reverse order</h3><p>Read the output from the bottom up: <code>b</code> is released when its block closes, and <code>a</code> when <code>main</code> returns. Nothing calls a release function.</p><figure class="ex lang-cpp"><figcaption><span class="fname">01_raii.cpp</span></figcaption><div class="ex-body"><pre class="code lang-cpp"><code><span class="tp">#include &lt;iostream&gt;</span>
+<span class="tp">#include &lt;memory&gt;</span>
+
+<span class="tc">// RAII: a resource is tied to an object&#x27;s lifetime.</span>
+<span class="tk">struct</span> Noisy {
+    <span class="tk">const</span> <span class="tk">char</span> *name;
+    <span class="tk">explicit</span> Noisy(<span class="tk">const</span> <span class="tk">char</span> *n) : name(n) { <span class="tk">std</span>::cout &lt;&lt; <span class="ts">&quot;acquire &quot;</span> &lt;&lt; name &lt;&lt; <span class="ts">&#x27;\n&#x27;</span>; }
+    ~Noisy() { <span class="tk">std</span>::cout &lt;&lt; <span class="ts">&quot;release &quot;</span> &lt;&lt; name &lt;&lt; <span class="ts">&#x27;\n&#x27;</span>; }  <span class="tc">// runs automatically</span>
+};
+
+<span class="tk">int</span> main() {
+    Noisy a(<span class="ts">&quot;a&quot;</span>);
+    {
+        <span class="tk">auto</span> b = <span class="tk">std</span>::make_unique&lt;Noisy&gt;(<span class="ts">&quot;b&quot;</span>);  <span class="tc">// heap, but owned</span>
+        <span class="tk">std</span>::cout &lt;&lt; <span class="ts">&quot;inner scope ends\n&quot;</span>;
+    }                                            <span class="tc">// b released here, no free()</span>
+    <span class="tk">std</span>::cout &lt;&lt; <span class="ts">&quot;main ends\n&quot;</span>;
+}                                                <span class="tc">// a released here</span>
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>acquire a
+acquire b
+inner scope ends
+release b
+main ends
+release a</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>g++ -std=c++20 -Wall -Wextra -Wpedantic 01_raii.cpp -o raii &amp;&amp; ./raii</code></pre></details></figure></section><section class="exs"><h3>Templates</h3><p><code>largest</code> is compiled three times: for <code>int</code>, <code>double</code> and <code>std::string</code>. With strings, <code>&gt;</code> compares alphabetically, so "C++" beats "C".</p><figure class="ex lang-cpp"><figcaption><span class="fname">02_templates.cpp</span></figcaption><div class="ex-body"><pre class="code lang-cpp"><code><span class="tp">#include &lt;iostream&gt;</span>
+<span class="tp">#include &lt;string&gt;</span>
+
+<span class="tc">// One definition, many types: the compiler writes each version.</span>
+<span class="tk">template</span> &lt;<span class="tk">typename</span> T&gt;
+T largest(T a, T b) { <span class="tk">return</span> a &gt; b ? a : b; }
+
+<span class="tk">int</span> main() {
+    <span class="tk">std</span>::cout &lt;&lt; largest(<span class="tn">3</span>, <span class="tn">7</span>) &lt;&lt; <span class="ts">&#x27;\n&#x27;</span>;
+    <span class="tk">std</span>::cout &lt;&lt; largest(<span class="tn">2.5</span>, <span class="tn">1.5</span>) &lt;&lt; <span class="ts">&#x27;\n&#x27;</span>;
+    <span class="tk">std</span>::cout &lt;&lt; largest(<span class="tk">std</span>::string(<span class="ts">&quot;C&quot;</span>), <span class="tk">std</span>::string(<span class="ts">&quot;C++&quot;</span>)) &lt;&lt; <span class="ts">&#x27;\n&#x27;</span>;
+}
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>7
+2.5
+C++</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>g++ -std=c++20 -Wall -Wextra -Wpedantic 02_templates.cpp -o templates &amp;&amp; ./templates</code></pre></details></figure></section><section class="exs"><h3>Containers and algorithms</h3><p><code>std::sort</code> orders by character code, so "C#" (0x23) sorts before "C++" (0x2B).</p><figure class="ex lang-cpp"><figcaption><span class="fname">03_containers.cpp</span></figcaption><div class="ex-body"><pre class="code lang-cpp"><code><span class="tp">#include &lt;algorithm&gt;</span>
+<span class="tp">#include &lt;iostream&gt;</span>
+<span class="tp">#include &lt;map&gt;</span>
+<span class="tp">#include &lt;string&gt;</span>
+<span class="tp">#include &lt;vector&gt;</span>
+
+<span class="tk">int</span> main() {
+    <span class="tk">std</span>::vector&lt;<span class="tk">std</span>::string&gt; langs{<span class="ts">&quot;C&quot;</span>, <span class="ts">&quot;C++&quot;</span>, <span class="ts">&quot;Objective-C&quot;</span>, <span class="ts">&quot;C#&quot;</span>, <span class="ts">&quot;HolyC&quot;</span>};
+    <span class="tk">std</span>::sort(langs.begin(), langs.end());
+
+    <span class="tk">std</span>::map&lt;<span class="tk">std</span>::string, <span class="tk">int</span>&gt; born{{<span class="ts">&quot;C&quot;</span>, <span class="tn">1972</span>}, {<span class="ts">&quot;C++&quot;</span>, <span class="tn">1985</span>}, {<span class="ts">&quot;C#&quot;</span>, <span class="tn">2000</span>}};
+    <span class="tk">for</span> (<span class="tk">const</span> <span class="tk">auto</span> &amp;name : langs) {
+        <span class="tk">auto</span> it = born.find(name);
+        <span class="tk">std</span>::cout &lt;&lt; name;
+        <span class="tk">if</span> (it != born.end()) <span class="tk">std</span>::cout &lt;&lt; <span class="ts">&quot; &quot;</span> &lt;&lt; it-&gt;second;
+        <span class="tk">std</span>::cout &lt;&lt; <span class="ts">&#x27;\n&#x27;</span>;
+    }
+}
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>C 1972
+C# 2000
+C++ 1985
+HolyC
+Objective-C</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>g++ -std=c++20 -Wall -Wextra -Wpedantic 03_containers.cpp -o containers &amp;&amp; ./containers</code></pre></details></figure></section><section class="exs"><h3>Classes and dynamic dispatch</h3><p>Each <code>s-&gt;area()</code> call is resolved at run time through the object's virtual table.</p><figure class="ex lang-cpp"><figcaption><span class="fname">04_classes.cpp</span></figcaption><div class="ex-body"><pre class="code lang-cpp"><code><span class="tp">#include &lt;iostream&gt;</span>
+<span class="tp">#include &lt;memory&gt;</span>
+<span class="tp">#include &lt;vector&gt;</span>
+
+<span class="tk">class</span> Shape {
+<span class="tk">public</span>:
+    <span class="tk">virtual</span> ~Shape() = <span class="tk">default</span>;
+    <span class="tk">virtual</span> <span class="tk">double</span> area() <span class="tk">const</span> = <span class="tn">0</span>;        <span class="tc">// pure virtual: subclasses must define it</span>
+};
+
+<span class="tk">class</span> Square : <span class="tk">public</span> Shape {
+    <span class="tk">double</span> s;
+<span class="tk">public</span>:
+    <span class="tk">explicit</span> Square(<span class="tk">double</span> side) : s(side) {}
+    <span class="tk">double</span> area() <span class="tk">const</span> <span class="tk">override</span> { <span class="tk">return</span> s * s; }
+};
+
+<span class="tk">class</span> Circle : <span class="tk">public</span> Shape {
+    <span class="tk">double</span> r;
+<span class="tk">public</span>:
+    <span class="tk">explicit</span> Circle(<span class="tk">double</span> radius) : r(radius) {}
+    <span class="tk">double</span> area() <span class="tk">const</span> <span class="tk">override</span> { <span class="tk">return</span> <span class="tn">3.14159</span> * r * r; }
+};
+
+<span class="tk">int</span> main() {
+    <span class="tk">std</span>::vector&lt;<span class="tk">std</span>::unique_ptr&lt;Shape&gt;&gt; shapes;
+    shapes.push_back(<span class="tk">std</span>::make_unique&lt;Square&gt;(<span class="tn">2</span>));
+    shapes.push_back(<span class="tk">std</span>::make_unique&lt;Circle&gt;(<span class="tn">1</span>));
+    <span class="tk">for</span> (<span class="tk">const</span> <span class="tk">auto</span> &amp;s : shapes) <span class="tk">std</span>::cout &lt;&lt; s-&gt;area() &lt;&lt; <span class="ts">&#x27;\n&#x27;</span>;  <span class="tc">// dynamic dispatch</span>
+}
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>4
+3.14159</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>g++ -std=c++20 -Wall -Wextra -Wpedantic 04_classes.cpp -o classes &amp;&amp; ./classes</code></pre></details></figure></section>
+  <p>See the same five programs in every language on the <a href="rosetta.html">Rosetta page</a>.</p>
+  <h2>Timeline</h2>
+  <ul class="years"><li><span class='yr'>1979</span><span>C with Classes begins at Bell Labs</span></li><li><span class='yr'>1983</span><span>renamed C++</span></li><li><span class='yr'>1985</span><span>first commercial release and the first edition of <cite>The C++ Programming Language</cite></span></li><li><span class='yr'>1998</span><span>first ISO standard, C++98</span></li><li><span class='yr'>2011</span><span>C++11: move semantics, lambdas, <code>auto</code></span></li><li><span class='yr'>2024</span><span>C++23 published as ISO/IEC 14882:2024</span></li></ul>
+  <p class="docs">Further: <a href="https://isocpp.org/">isocpp.org</a> · <a href="https://en.cppreference.com/w/cpp">cppreference: C++</a></p>
+</article>
+</main>
+<footer class="foot">
+  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run when the site was built. <a href="about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Objective-C · LearnC</title>
+<meta name="description" content="Objective-C: C plus Smalltalk-style messages.">
+<meta property="og:title" content="Objective-C · LearnC">
+<meta property="og:description" content="Objective-C: C plus Smalltalk-style messages.">
+<meta property="og:image" content="og.png">
+<meta name="theme-color" content="#f4efe3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14120f" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="mark" href="index.html" aria-label="LearnC home"><span class="mark-box">C</span><span>LearnC</span></a>
+  <nav aria-label="Site"><ul><li><a href="index.html">Home</a></li><li><a href="c/index.html">C</a></li><li><a href="cpp.html">C++</a></li><li><a href="objc.html" aria-current="page">Objective-C</a></li><li><a href="csharp.html">C#</a></li><li><a href="holyc.html">HolyC</a></li><li><a href="rosetta.html">Rosetta</a></li><li><a href="family.html">Family</a></li><li><a href="about.html">About</a></li></ul></nav>
+</header>
+<main id="main" class="">
+
+<article class="wrap lang-objc">
+  <p class="kicker">struct lang Objective-C · 1984 · Brad Cox, Tom Love · parent: <a href="c/index.html">C</a></p>
+  <h1>Objective-C</h1>
+  <p class="lede">Brad Cox and Tom Love added Smalltalk&#x27;s message passing to C in the early 1980s. NeXT licensed it in 1988, and through NeXTSTEP it became the language of Mac OS X and iOS until Swift arrived in 2014. Every C program is a valid Objective-C program.</p>
+  
+  <h2>What it adds to C</h2>
+  <ul class="adds"><li><strong>Messages</strong> <code>[object message:arg]</code> is looked up at run time, not bound at compile time.</li><li><strong>nil is safe to message</strong> Sending a message to <code>nil</code> returns zero instead of crashing.</li><li><strong>Categories</strong> Add methods to a class you did not write, without subclassing it.</li><li><strong>Introspection</strong> Ask an object at run time whether it responds to a selector.</li></ul>
+  <h2>Programs</h2>
+  <p class="small">Compiled with <code>Ubuntu clang version 18.1.3 (1ubuntu1)</code>.</p>
+  <section class="exs"><h3>Messages and nil</h3><p>Each <code>toggle</code> returns <code>self</code>, so messages can be chained. The last line sends <code>isOn</code> to <code>nil</code> and gets 0 back.</p><figure class="ex lang-objc"><figcaption><span class="fname">01_messages.m</span></figcaption><div class="ex-body"><pre class="code lang-objc"><code><span class="tp">#include &quot;Root.h&quot;</span>
+<span class="tp">#include &lt;stdio.h&gt;</span>
+
+<span class="tk">@interface</span> Lamp : Root {
+    <span class="tk">int</span> on;
+}
+- (<span class="tk">id</span>)toggle;
+- (<span class="tk">int</span>)isOn;
+<span class="tk">@end</span>
+
+<span class="tk">@implementation</span> Lamp
+- (<span class="tk">id</span>)toggle { on = !on; <span class="tk">return</span> <span class="tk">self</span>; }
+- (<span class="tk">int</span>)isOn { <span class="tk">return</span> on; }
+<span class="tk">@end</span>
+
+<span class="tk">int</span> main(<span class="tk">void</span>) {
+    Lamp *lamp = [Lamp new];
+    [[lamp toggle] toggle];           <span class="tc">/* messages chain: each returns self */</span>
+    [lamp toggle];
+    printf(<span class="ts">&quot;lamp is %s\n&quot;</span>, [lamp isOn] ? <span class="ts">&quot;on&quot;</span> : <span class="ts">&quot;off&quot;</span>);
+
+    Lamp *nobody = <span class="tk">nil</span>;
+    printf(<span class="ts">&quot;message to nil returns %d\n&quot;</span>, [nobody isOn]);  <span class="tc">/* no crash */</span>
+    [lamp free];
+    <span class="tk">return</span> <span class="tn">0</span>;
+}
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>lamp is on
+message to nil returns 0</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra 01_messages.m Root.m -o messages -lobjc -lm &amp;&amp; ./messages</code></pre></details></figure></section><section class="exs"><h3>Categories and introspection</h3><p><code>shout</code> is added by a category in a separate <code>@interface</code>/<code>@implementation</code> pair. <code>@selector(fly)</code> names a method that does not exist, and the runtime says so.</p><figure class="ex lang-objc"><figcaption><span class="fname">02_categories.m</span></figcaption><div class="ex-body"><pre class="code lang-objc"><code><span class="tp">#include &quot;Root.h&quot;</span>
+<span class="tp">#include &lt;stdio.h&gt;</span>
+
+<span class="tk">@interface</span> Greeter : Root
+- (<span class="tk">void</span>)hello;
+<span class="tk">@end</span>
+
+<span class="tk">@implementation</span> Greeter
+- (<span class="tk">void</span>)hello { printf(<span class="ts">&quot;hello\n&quot;</span>); }
+<span class="tk">@end</span>
+
+<span class="tc">/* A category adds methods to a class you did not write. */</span>
+<span class="tk">@interface</span> Greeter (Loud)
+- (<span class="tk">void</span>)shout;
+<span class="tk">@end</span>
+
+<span class="tk">@implementation</span> Greeter (Loud)
+- (<span class="tk">void</span>)shout { printf(<span class="ts">&quot;HELLO\n&quot;</span>); }
+<span class="tk">@end</span>
+
+<span class="tk">int</span> main(<span class="tk">void</span>) {
+    Greeter *g = [Greeter new];
+    [g hello];
+    [g shout];
+    printf(<span class="ts">&quot;responds to shout: %s\n&quot;</span>,
+           [g respondsTo:<span class="tk">@selector</span>(shout)] ? <span class="ts">&quot;yes&quot;</span> : <span class="ts">&quot;no&quot;</span>);
+    printf(<span class="ts">&quot;responds to fly: %s\n&quot;</span>,
+           [g respondsTo:<span class="tk">@selector</span>(fly)] ? <span class="ts">&quot;yes&quot;</span> : <span class="ts">&quot;no&quot;</span>);
+    [g free];
+    <span class="tk">return</span> <span class="tn">0</span>;
+}
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>hello
+HELLO
+responds to shout: yes
+responds to fly: no</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra 02_categories.m Root.m -o categories -lobjc -lm &amp;&amp; ./categories</code></pre></details></figure></section><section class="exs"><h3>The root class</h3><p>On Apple platforms, classes inherit from <code>NSObject</code> in Foundation. Foundation is not part of this toolchain (clang with the GNU runtime, <code>libobjc</code>), so this small root class stands in. It allocates with <code>class_createInstance</code> and answers <code>respondsTo:</code>.</p><figure class="ex lang-objc"><figcaption><span class="fname">Root.h</span></figcaption><div class="ex-body"><pre class="code lang-objc"><code><span class="tc">/* Root.h: a minimal root class over the GNU Objective-C runtime.
+   On Apple platforms you would inherit from NSObject (Foundation) instead;
+   Foundation is not part of this toolchain, so these few lines stand in. */</span>
+<span class="tp">#include &lt;objc/runtime.h&gt;</span>
+
+__attribute__((objc_root_class))
+<span class="tk">@interface</span> Root {
+    <span class="tk">Class</span> isa;               <span class="tc">/* every object begins with a pointer to its class */</span>
+}
++ (<span class="tk">id</span>)alloc;
++ (<span class="tk">id</span>)new;
+- (<span class="tk">id</span>)init;
+- (<span class="tk">void</span>)free;
+- (<span class="tk">BOOL</span>)respondsTo:(<span class="tk">SEL</span>)selector;
+<span class="tk">@end</span>
+</code></pre></div></figure></section>
+  <p>See the same five programs in every language on the <a href="rosetta.html">Rosetta page</a>.</p>
+  <h2>Timeline</h2>
+  <ul class="years"><li><span class='yr'>1984</span><span>first appears at Productivity Products International (later Stepstone)</span></li><li><span class='yr'>1986</span><span>Cox's book <cite>Object-Oriented Programming: An Evolutionary Approach</cite></span></li><li><span class='yr'>1988</span><span>licensed by NeXT</span></li><li><span class='yr'>2007</span><span>Objective-C 2.0 with Mac OS X Leopard</span></li><li><span class='yr'>2014</span><span>Apple introduces Swift as its successor</span></li></ul>
+  <p class="docs">Further: <a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/Introduction/Introduction.html">Apple: Programming with Objective-C (archive)</a> · <a href="https://gcc.gnu.org/onlinedocs/gcc/Objective-C.html">GCC: GNU Objective-C runtime</a></p>
+</article>
+</main>
+<footer class="foot">
+  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run when the site was built. <a href="about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
+</footer>
+</body>
+</html>

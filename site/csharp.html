@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C# · LearnC</title>
+<meta name="description" content="C#: C syntax on a managed runtime.">
+<meta property="og:title" content="C# · LearnC">
+<meta property="og:description" content="C#: C syntax on a managed runtime.">
+<meta property="og:image" content="og.png">
+<meta name="theme-color" content="#f4efe3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14120f" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="mark" href="index.html" aria-label="LearnC home"><span class="mark-box">C</span><span>LearnC</span></a>
+  <nav aria-label="Site"><ul><li><a href="index.html">Home</a></li><li><a href="c/index.html">C</a></li><li><a href="cpp.html">C++</a></li><li><a href="objc.html">Objective-C</a></li><li><a href="csharp.html" aria-current="page">C#</a></li><li><a href="holyc.html">HolyC</a></li><li><a href="rosetta.html">Rosetta</a></li><li><a href="family.html">Family</a></li><li><a href="about.html">About</a></li></ul></nav>
+</header>
+<main id="main" class="">
+
+<article class="wrap lang-csharp">
+  <p class="kicker">struct lang C# · 2000 · Anders Hejlsberg · parent: <a href="c/index.html">C</a></p>
+  <h1>C#</h1>
+  <p class="lede">Anders Hejlsberg&#x27;s team at Microsoft announced C# in 2000, and version 1.0 shipped with .NET in 2002. It has C&#x27;s braces and operators but runs on a managed runtime: a garbage collector frees memory, and indexes are checked.</p>
+  <aside class="callout">These examples were compiled with Mono's <code>mcs</code>, which implements C# up to about version 7, so they avoid newer syntax such as records and top-level statements. Modern .NET runs them unchanged.</aside>
+  <h2>What it adds to C</h2>
+  <ul class="adds"><li><strong>Garbage collection</strong> Objects are freed when nothing refers to them. There is no <code>free</code> and no <code>delete</code>.</li><li><strong>Value and reference types</strong> <code>struct</code> copies like C; <code>class</code> copies the reference.</li><li><strong>Properties and exceptions</strong> Fields guarded by code, and errors that cannot be silently ignored.</li><li><strong>LINQ</strong> Queries over any collection: <code>Where</code>, <code>OrderBy</code>, <code>Select</code>.</li></ul>
+  <h2>Programs</h2>
+  <p class="small">Compiled with <code>Mono JIT compiler version 6.8.0.105 (Debian 6.8.0.105+dfsg-3.6ubuntu2 Sun Mar 31 02:55:28 UTC 2024)</code>.</p>
+  <section class="exs"><h3>Classes, properties, exceptions</h3><p><code>Balance</code> can be read anywhere but only set inside <code>Account</code>. The negative deposit throws, and the catch reports it.</p><figure class="ex lang-csharp"><figcaption><span class="fname">01_classes.cs</span></figcaption><div class="ex-body"><pre class="code lang-csharp"><code><span class="tk">using</span> System;
+
+<span class="tk">class</span> Account {
+    <span class="tk">public</span> <span class="tk">string</span> Owner { <span class="tk">get</span>; <span class="tk">private</span> <span class="tk">set</span>; }   <span class="tc">// a property: read anywhere, set inside</span>
+    <span class="tk">public</span> <span class="tk">decimal</span> Balance { <span class="tk">get</span>; <span class="tk">private</span> <span class="tk">set</span>; }
+
+    <span class="tk">public</span> Account(<span class="tk">string</span> owner) { Owner = owner; }
+
+    <span class="tk">public</span> <span class="tk">void</span> Deposit(<span class="tk">decimal</span> amount) {
+        <span class="tk">if</span> (amount &lt;= <span class="tn">0</span>) <span class="tk">throw</span> <span class="tk">new</span> ArgumentException(<span class="ts">&quot;amount must be positive&quot;</span>);
+        Balance += amount;
+    }
+}
+
+<span class="tk">class</span> Program {
+    <span class="tk">static</span> <span class="tk">void</span> Main() {
+        <span class="tk">var</span> a = <span class="tk">new</span> Account(<span class="ts">&quot;Ada&quot;</span>);
+        a.Deposit(<span class="tn">10.50m</span>);
+        <span class="tk">try</span> { a.Deposit(-<span class="tn">1</span>); }
+        <span class="tk">catch</span> (ArgumentException e) { Console.WriteLine(<span class="ts">&quot;refused: &quot;</span> + e.Message); }
+        Console.WriteLine(a.Owner + <span class="ts">&quot; has &quot;</span> + a.Balance);
+    }
+}
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>refused: amount must be positive
+Ada has 10.50</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>mcs -warn:4 01_classes.cs -out:01_classes.exe &amp;&amp; mono 01_classes.exe</code></pre></details></figure></section><section class="exs"><h3>LINQ</h3><p>Filter, sort and project in one expression over an array of anonymous objects.</p><figure class="ex lang-csharp"><figcaption><span class="fname">02_linq.cs</span></figcaption><div class="ex-body"><pre class="code lang-csharp"><code><span class="tk">using</span> System;
+<span class="tk">using</span> System.Linq;
+
+<span class="tk">class</span> Program {
+    <span class="tk">static</span> <span class="tk">void</span> Main() {
+        <span class="tk">var</span> born = <span class="tk">new</span>[] {
+            <span class="tk">new</span> { Name = <span class="ts">&quot;C&quot;</span>, Year = <span class="tn">1972</span> },
+            <span class="tk">new</span> { Name = <span class="ts">&quot;Objective-C&quot;</span>, Year = <span class="tn">1984</span> },
+            <span class="tk">new</span> { Name = <span class="ts">&quot;C++&quot;</span>, Year = <span class="tn">1985</span> },
+            <span class="tk">new</span> { Name = <span class="ts">&quot;C#&quot;</span>, Year = <span class="tn">2000</span> },
+        };
+        <span class="tk">var</span> after1980 = born.Where(l =&gt; l.Year &gt; <span class="tn">1980</span>)
+                            .OrderByDescending(l =&gt; l.Year)
+                            .Select(l =&gt; l.Name + <span class="ts">&quot; (&quot;</span> + l.Year + <span class="ts">&quot;)&quot;</span>);
+        Console.WriteLine(<span class="tk">string</span>.Join(<span class="ts">&quot;, &quot;</span>, after1980));
+    }
+}
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>C# (2000), C++ (1985), Objective-C (1984)</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>mcs -warn:4 02_linq.cs -out:02_linq.exe &amp;&amp; mono 02_linq.exe</code></pre></details></figure></section><section class="exs"><h3>Value or reference</h3><p>The same code does two different things: the struct copy leaves <code>s1</code> alone, but the class copy shares one object.</p><figure class="ex lang-csharp"><figcaption><span class="fname">03_value_vs_reference.cs</span></figcaption><div class="ex-body"><pre class="code lang-csharp"><code><span class="tk">using</span> System;
+
+<span class="tk">struct</span> PointS { <span class="tk">public</span> <span class="tk">int</span> X; }   <span class="tc">// value type: copied on assignment</span>
+<span class="tk">class</span>  PointC { <span class="tk">public</span> <span class="tk">int</span> X; }   <span class="tc">// reference type: assignment copies the reference</span>
+
+<span class="tk">class</span> Program {
+    <span class="tk">static</span> <span class="tk">void</span> Main() {
+        <span class="tk">var</span> s1 = <span class="tk">new</span> PointS { X = <span class="tn">1</span> };
+        <span class="tk">var</span> s2 = s1;  s2.X = <span class="tn">99</span>;
+        <span class="tk">var</span> c1 = <span class="tk">new</span> PointC { X = <span class="tn">1</span> };
+        <span class="tk">var</span> c2 = c1;  c2.X = <span class="tn">99</span>;
+        Console.WriteLine(<span class="ts">&quot;struct: s1.X = &quot;</span> + s1.X);
+        Console.WriteLine(<span class="ts">&quot;class:  c1.X = &quot;</span> + c1.X);
+    }
+}
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>struct: s1.X = 1
+class:  c1.X = 99</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>mcs -warn:4 03_value_vs_reference.cs -out:03_value_vs_reference.exe &amp;&amp; mono 03_value_vs_reference.exe</code></pre></details></figure></section>
+  <p>See the same five programs in every language on the <a href="rosetta.html">Rosetta page</a>.</p>
+  <h2>Timeline</h2>
+  <ul class="years"><li><span class='yr'>2000</span><span>announced by Microsoft</span></li><li><span class='yr'>2002</span><span>C# 1.0 with .NET Framework 1.0</span></li><li><span class='yr'>2007</span><span>C# 3.0 adds LINQ and lambdas</span></li><li><span class='yr'>2016</span><span>.NET Core: C# runs on Linux and macOS</span></li><li><span class='yr'>2025</span><span>C# 14 with .NET 10</span></li></ul>
+  <p class="docs">Further: <a href="https://learn.microsoft.com/en-us/dotnet/csharp/">Microsoft Learn: C#</a> · <a href="https://ecma-international.org/publications-and-standards/standards/ecma-334/">ECMA-334, the C# standard</a></p>
+</article>
+</main>
+<footer class="foot">
+  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run when the site was built. <a href="about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
+</footer>
+</body>
+</html>

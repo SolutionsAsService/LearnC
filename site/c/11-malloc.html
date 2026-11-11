@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The heap (C lesson 11) · LearnC</title>
+<meta name="description" content="C lesson 11: Ask for memory at run time, and give it back.">
+<meta property="og:title" content="The heap (C lesson 11) · LearnC">
+<meta property="og:description" content="C lesson 11: Ask for memory at run time, and give it back.">
+<meta property="og:image" content="../og.png">
+<meta name="theme-color" content="#f4efe3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14120f" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="mark" href="../index.html" aria-label="LearnC home"><span class="mark-box">C</span><span>LearnC</span></a>
+  <nav aria-label="Site"><ul><li><a href="../index.html">Home</a></li><li><a href="../c/index.html" aria-current="page">C</a></li><li><a href="../cpp.html">C++</a></li><li><a href="../objc.html">Objective-C</a></li><li><a href="../csharp.html">C#</a></li><li><a href="../holyc.html">HolyC</a></li><li><a href="../rosetta.html">Rosetta</a></li><li><a href="../family.html">Family</a></li><li><a href="../about.html">About</a></li></ul></nav>
+</header>
+<main id="main" class="">
+
+<article class="wrap">
+  <p class="kicker"><a href="index.html">C</a> · lesson 11 of 12</p>
+  <h1>The heap</h1>
+  <p class="lede">Ask for memory at run time, and give it back.</p>
+  <figure class="ex lang-c"><figcaption><span class="fname">11_malloc.c</span></figcaption><div class="ex-body"><pre class="code lang-c"><code><span class="tp">#include &lt;stdio.h&gt;</span>
+<span class="tp">#include &lt;stdlib.h&gt;</span>
+
+<span class="tk">int</span> main(<span class="tk">void</span>) {
+    <span class="tk">size_t</span> n = <span class="tn">10</span>;
+    <span class="tk">int</span> *squares = malloc(n * <span class="tk">sizeof</span> *squares);  <span class="tc">/* ask the heap */</span>
+    <span class="tk">if</span> (squares == <span class="tk">NULL</span>) <span class="tk">return</span> <span class="tn">1</span>;
+
+    <span class="tk">for</span> (<span class="tk">size_t</span> i = <span class="tn">0</span>; i &lt; n; i++) squares[i] = (<span class="tk">int</span>)(i * i);
+    printf(<span class="ts">&quot;squares[9] = %d\n&quot;</span>, squares[<span class="tn">9</span>]);
+
+    free(squares);    <span class="tc">/* you asked, you give it back */</span>
+    squares = <span class="tk">NULL</span>;   <span class="tc">/* and never touch it again */</span>
+    <span class="tk">return</span> <span class="tn">0</span>;
+}
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>squares[9] = 81</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 11_malloc.c -o malloc -lm &amp;&amp; ./malloc</code></pre></details></figure>
+  <div class="notes"><p><code>malloc</code> returns memory that lives until you <code>free</code> it, or
+     <code>NULL</code> if there is none. Writing <code>sizeof *squares</code> rather than
+     <code>sizeof(int)</code> keeps the size right if the type ever changes. Setting the
+     pointer to <code>NULL</code> after <code>free</code> turns an accidental later use into
+     a clean crash instead of silent corruption.</p></div>
+  <nav class="pager" aria-label="Lessons"><a class="prev" href="10-strings.html"><span>← previous</span>Strings</a><a class="next" href="12-sum.html"><span>next →</span>Putting it together</a></nav>
+</article>
+</main>
+<footer class="foot">
+  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run when the site was built. <a href="../about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
+</footer>
+</body>
+</html>

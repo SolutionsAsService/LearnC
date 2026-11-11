@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HolyC · LearnC</title>
+<meta name="description" content="HolyC: C as the shell of a whole operating system.">
+<meta property="og:title" content="HolyC · LearnC">
+<meta property="og:description" content="HolyC: C as the shell of a whole operating system.">
+<meta property="og:image" content="og.png">
+<meta name="theme-color" content="#f4efe3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14120f" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="mark" href="index.html" aria-label="LearnC home"><span class="mark-box">C</span><span>LearnC</span></a>
+  <nav aria-label="Site"><ul><li><a href="index.html">Home</a></li><li><a href="c/index.html">C</a></li><li><a href="cpp.html">C++</a></li><li><a href="objc.html">Objective-C</a></li><li><a href="csharp.html">C#</a></li><li><a href="holyc.html" aria-current="page">HolyC</a></li><li><a href="rosetta.html">Rosetta</a></li><li><a href="family.html">Family</a></li><li><a href="about.html">About</a></li></ul></nav>
+</header>
+<main id="main" class="">
+
+<article class="wrap lang-holyc">
+  <p class="kicker">struct lang HolyC · 2003–13 · Terry A. Davis · parent: <a href="c/index.html">C</a></p>
+  <h1>HolyC</h1>
+  <p class="lede">Terry A. Davis (1969–2018) wrote HolyC for his own operating system, which he developed alone from 2003 and named TempleOS in 2013. HolyC is both the system&#x27;s programming language and its shell: you type HolyC at the prompt and it is compiled just in time and run.</p>
+  <aside class="callout"><strong>Not run here.</strong> HolyC is compiled by TempleOS itself, and no HolyC compiler was available in the build environment, so the HolyC programs on this site are shown as source only, with no output. You can run HolyC in your browser at holyc.shadw.app, or inside TempleOS in a virtual machine.</aside>
+  <h2>What it adds to C</h2>
+  <ul class="adds"><li><strong>No main</strong> Statements at the top level of a file run when the file is included.</li><li><strong>A string is a print</strong> A string literal on its own is printed. Follow it with arguments and it is formatted.</li><li><strong>Default arguments</strong> Any parameter can have a default, and you can skip it in the middle: <code>Greet(, 3)</code>.</li><li><strong>Calls without parentheses</strong> A call with no arguments can drop the <code>()</code>.</li><li><strong>Explicit types</strong> <code>I64</code>, <code>U8</code>, <code>F64</code> and <code>U0</code> (void) say their size in their name.</li></ul>
+  <h2>Programs</h2>
+  
+  <section class="exs"><h3>Default arguments</h3><p>Three calls to one function: with no arguments, with both, and with the first one skipped.</p><figure class="ex lang-holyc"><figcaption><span class="fname">01_default_args.HC</span></figcaption><div class="ex-body"><pre class="code lang-holyc"><code><span class="tc">// Default arguments, and calling with no parentheses.</span>
+<span class="tk">U0</span> Greet(<span class="tk">U8</span> *name = <span class="ts">&quot;Terry&quot;</span>, <span class="tk">I64</span> times = <span class="tn">2</span>)
+{
+  <span class="tk">I64</span> i;
+  <span class="tk">for</span> (i = <span class="tn">0</span>; i &lt; times; i++)
+    <span class="ts">&quot;Hello, %s\n&quot;</span>, name;
+}
+
+Greet;            <span class="tc">// a call with no arguments needs no ()</span>
+Greet(<span class="ts">&quot;World&quot;</span>, <span class="tn">1</span>);
+Greet(, <span class="tn">3</span>);       <span class="tc">// skip the first argument, keep its default</span>
+</code></pre><div class="out out-none"><div class="out-h"><span>output</span><span>not run here</span></div><p>Paste it into <a href="https://holyc.shadw.app">holyc.shadw.app</a> or a TempleOS shell.</p></div></div></figure></section><section class="exs"><h3>A switch with null cases</h3><p>From the TempleOS source. A <code>case:</code> with no number takes the previous case's number plus one.</p><figure class="ex lang-holyc"><figcaption><span class="fname">02_null_case.HC</span></figcaption><div class="ex-body"><pre class="code lang-holyc"><code><span class="tc">// Below: TempleOS /Demo/NullCase.HC, verbatim (public domain).</span>
+<span class="tc">//This shows a switch stmt with some null cases.</span>
+<span class="tc">//If no number for the case,</span>
+<span class="tc">//it uses one plus prev case number.</span>
+
+<span class="tk">U0</span> NullCase()
+{
+  <span class="tk">I64</span> i;
+  <span class="tk">for</span> (i=<span class="tn">0</span>;i&lt;<span class="tn">20</span>;i++)
+    <span class="tk">switch</span> (i) {
+      <span class="tk">case</span>: <span class="ts">&quot;Zero\n&quot;</span>;	<span class="tk">break</span>; <span class="tc">//Starts at zero</span>
+      <span class="tk">case</span>: <span class="ts">&quot;One\n&quot;</span>;	<span class="tk">break</span>; <span class="tc">//One plus prev case.</span>
+      <span class="tk">case</span>: <span class="ts">&quot;Two\n&quot;</span>;	<span class="tk">break</span>;
+      <span class="tk">case</span>: <span class="ts">&quot;Three\n&quot;</span>;	<span class="tk">break</span>;
+      <span class="tk">case</span> <span class="tn">10</span>: <span class="ts">&quot;Ten\n&quot;</span>;	<span class="tk">break</span>;
+      <span class="tk">case</span>: <span class="ts">&quot;Eleven\n&quot;</span>;	<span class="tk">break</span>; <span class="tc">//One plus prev case.</span>
+    }
+}
+
+NullCase;
+</code></pre><div class="out out-none"><div class="out-h"><span>output</span><span>not run here</span></div><p>Paste it into <a href="https://holyc.shadw.app">holyc.shadw.app</a> or a TempleOS shell.</p></div></div></figure></section>
+  <p>See the same five programs in every language on the <a href="rosetta.html">Rosetta page</a>.</p>
+  <h2>Timeline</h2>
+  <ul class="years"><li><span class='yr'>2003</span><span>Davis begins the operating system</span></li><li><span class='yr'>2013</span><span>it is named TempleOS; HolyC is its only language</span></li><li><span class='yr'>2017</span><span>the last TempleOS release, V5.03</span></li></ul>
+  <p class="docs">Further: <a href="https://holyc.shadw.app">Run HolyC in your browser: holyc.shadw.app</a> · <a href="https://templeos.org/">TempleOS</a></p>
+</article>
+</main>
+<footer class="foot">
+  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run when the site was built. <a href="about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
+</footer>
+</body>
+</html>

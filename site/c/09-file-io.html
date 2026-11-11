@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Files (C lesson 9) · LearnC</title>
+<meta name="description" content="C lesson 9: Write a file, read it back, and the bug the original example had.">
+<meta property="og:title" content="Files (C lesson 9) · LearnC">
+<meta property="og:description" content="C lesson 9: Write a file, read it back, and the bug the original example had.">
+<meta property="og:image" content="../og.png">
+<meta name="theme-color" content="#f4efe3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14120f" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="mark" href="../index.html" aria-label="LearnC home"><span class="mark-box">C</span><span>LearnC</span></a>
+  <nav aria-label="Site"><ul><li><a href="../index.html">Home</a></li><li><a href="../c/index.html" aria-current="page">C</a></li><li><a href="../cpp.html">C++</a></li><li><a href="../objc.html">Objective-C</a></li><li><a href="../csharp.html">C#</a></li><li><a href="../holyc.html">HolyC</a></li><li><a href="../rosetta.html">Rosetta</a></li><li><a href="../family.html">Family</a></li><li><a href="../about.html">About</a></li></ul></nav>
+</header>
+<main id="main" class="">
+
+<article class="wrap">
+  <p class="kicker"><a href="index.html">C</a> · lesson 09 of 12</p>
+  <h1>Files</h1>
+  <p class="lede">Write a file, read it back, and the bug the original example had.</p>
+  <figure class="ex lang-c"><figcaption><span class="fname">09_file_io.c</span></figcaption><div class="ex-body"><pre class="code lang-c"><code><span class="tp">#include &lt;stdio.h&gt;</span>
+
+<span class="tc">/* Writes a file, then reads it back one character at a time. */</span>
+<span class="tk">int</span> main(<span class="tk">void</span>) {
+    <span class="tk">FILE</span> *out = fopen(<span class="ts">&quot;example.txt&quot;</span>, <span class="ts">&quot;w&quot;</span>);
+    <span class="tk">if</span> (out == <span class="tk">NULL</span>) { perror(<span class="ts">&quot;fopen&quot;</span>); <span class="tk">return</span> <span class="tn">1</span>; }
+    fputs(<span class="ts">&quot;Hello from a file.\n&quot;</span>, out);
+    fclose(out);
+
+    <span class="tk">FILE</span> *in = fopen(<span class="ts">&quot;example.txt&quot;</span>, <span class="ts">&quot;r&quot;</span>);
+    <span class="tk">if</span> (in == <span class="tk">NULL</span>) { perror(<span class="ts">&quot;fopen&quot;</span>); <span class="tk">return</span> <span class="tn">1</span>; }
+
+    <span class="tk">int</span> ch;  <span class="tc">/* int, not char: fgetc returns every byte value AND EOF */</span>
+    <span class="tk">while</span> ((ch = fgetc(in)) != EOF)
+        putchar(ch);
+
+    fclose(in);
+    <span class="tk">return</span> <span class="tn">0</span>;
+}
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>Hello from a file.</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 09_file_io.c -o file_io -lm &amp;&amp; ./file_io</code></pre></details></figure>
+  <div class="notes"><p>The original <code>read_file.c</code> declared <code>char ch</code> and compared
+     it with <code>EOF</code>. <code>fgetc</code> returns an <code>int</code>, either a byte
+     from 0 to 255 or <code>EOF</code> (-1), and a <code>char</code> cannot hold all 257
+     values. We measured both ways it fails:</p>
+     <ul>
+       <li><strong>Where <code>char</code> is unsigned</strong> (ARM: Raspberry Pi, Android),
+       EOF becomes 255, which never equals -1. The loop never ends and prints
+       <code>\377</code> forever.</li>
+       <li><strong>Where <code>char</code> is signed</strong> (x86), a file containing the
+       byte 0xFF stops early. The input <code>a\xffb</code> printed only
+       <code>a</code>.</li>
+     </ul>
+     <p><code>gcc -Wall -Wextra</code> does not warn about it; <code>-Wconversion</code>
+     does. The repo also lacked <code>example.txt</code>, so the old program only ever
+     printed &ldquo;Could not open the file.&rdquo; This version writes its own file
+     first.</p></div>
+  <nav class="pager" aria-label="Lessons"><a class="prev" href="08-structs.html"><span>← previous</span>Structs</a><a class="next" href="10-strings.html"><span>next →</span>Strings</a></nav>
+</article>
+</main>
+<footer class="foot">
+  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run when the site was built. <a href="../about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
+</footer>
+</body>
+</html>

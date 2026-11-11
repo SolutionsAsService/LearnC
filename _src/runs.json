@@ -1,0 +1,297 @@
+{
+ "runs": {
+  "c/01_hello.c": {
+   "command": "gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 01_hello.c -o hello -lm && ./hello",
+   "compiled": true,
+   "stdout": "Hello, World!\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "c/02_variables.c": {
+   "command": "gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 02_variables.c -o variables -lm && ./variables",
+   "compiled": true,
+   "stdout": "Age: 25\nHeight: 5.90\nGrade: A (code 65)\nsizeof: int 4, double 8, char 1 bytes\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "c/03_conditionals.c": {
+   "command": "gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 03_conditionals.c -o conditionals -lm && ./conditionals",
+   "compiled": true,
+   "stdout": "10 is positive.\n-3 is negative.\n0 is zero.\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "c/04_loops.c": {
+   "command": "gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 04_loops.c -o loops -lm && ./loops",
+   "compiled": true,
+   "stdout": "Iteration number: 0\nIteration number: 1\nIteration number: 2\nIteration number: 3\nIteration number: 4\n27 reaches 1 in 111 Collatz steps\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "c/05_functions.c": {
+   "command": "gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 05_functions.c -o functions -lm && ./functions",
+   "compiled": true,
+   "stdout": "The sum is: 30\n5! = 120\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "c/06_arrays.c": {
+   "command": "gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 06_arrays.c -o arrays -lm && ./arrays",
+   "compiled": true,
+   "stdout": "numbers[0] = 1\nnumbers[1] = 2\nnumbers[2] = 3\nnumbers[3] = 4\nnumbers[4] = 5\n5 elements, sum 15\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "c/07_pointers.c": {
+   "command": "gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 07_pointers.c -o pointers -lm && ./pointers",
+   "compiled": true,
+   "stdout": "Value of num: 10\nptr == &num: yes\nAfter *ptr = 42, num is 42\nAfter swap: x=2 y=1\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "c/08_structs.c": {
+   "command": "gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 08_structs.c -o structs -lm && ./structs",
+   "compiled": true,
+   "stdout": "Name: John\nAge: 31\nsizeof(struct Person) = 56 bytes\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "c/09_file_io.c": {
+   "command": "gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 09_file_io.c -o file_io -lm && ./file_io",
+   "compiled": true,
+   "stdout": "Hello from a file.\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "c/10_strings.c": {
+   "command": "gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 10_strings.c -o strings -lm && ./strings",
+   "compiled": true,
+   "stdout": "retniop (7 chars, 8 bytes)\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "c/11_malloc.c": {
+   "command": "gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 11_malloc.c -o malloc -lm && ./malloc",
+   "compiled": true,
+   "stdout": "squares[9] = 81\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "c/12_sum.c": {
+   "command": "gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 12_sum.c -o sum -lm && ./sum",
+   "compiled": true,
+   "stdout": "1 + 2 + ... + 10 = 55\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "c/rosetta/hello.c": {
+   "command": "gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion hello.c -o hello -lm && ./hello",
+   "compiled": true,
+   "stdout": "Hello, World!\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "c/rosetta/point.c": {
+   "command": "gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion point.c -o point -lm && ./point",
+   "compiled": true,
+   "stdout": "5.0\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "c/rosetta/reverse.c": {
+   "command": "gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion reverse.c -o reverse -lm && ./reverse",
+   "compiled": true,
+   "stdout": "retniop\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "c/rosetta/sum.c": {
+   "command": "gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion sum.c -o sum -lm && ./sum",
+   "compiled": true,
+   "stdout": "55\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "c/rosetta/swap.c": {
+   "command": "gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion swap.c -o swap -lm && ./swap",
+   "compiled": true,
+   "stdout": "x=2 y=1\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "cpp/01_raii.cpp": {
+   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic 01_raii.cpp -o raii && ./raii",
+   "compiled": true,
+   "stdout": "acquire a\nacquire b\ninner scope ends\nrelease b\nmain ends\nrelease a\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "cpp/02_templates.cpp": {
+   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic 02_templates.cpp -o templates && ./templates",
+   "compiled": true,
+   "stdout": "7\n2.5\nC++\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "cpp/03_containers.cpp": {
+   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic 03_containers.cpp -o containers && ./containers",
+   "compiled": true,
+   "stdout": "C 1972\nC# 2000\nC++ 1985\nHolyC\nObjective-C\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "cpp/04_classes.cpp": {
+   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic 04_classes.cpp -o classes && ./classes",
+   "compiled": true,
+   "stdout": "4\n3.14159\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "cpp/rosetta/hello.cpp": {
+   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic hello.cpp -o hello && ./hello",
+   "compiled": true,
+   "stdout": "Hello, World!\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "cpp/rosetta/point.cpp": {
+   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic point.cpp -o point && ./point",
+   "compiled": true,
+   "stdout": "5.0\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "cpp/rosetta/reverse.cpp": {
+   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic reverse.cpp -o reverse && ./reverse",
+   "compiled": true,
+   "stdout": "retniop\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "cpp/rosetta/sum.cpp": {
+   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic sum.cpp -o sum && ./sum",
+   "compiled": true,
+   "stdout": "55\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "cpp/rosetta/swap.cpp": {
+   "command": "g++ -std=c++20 -Wall -Wextra -Wpedantic swap.cpp -o swap && ./swap",
+   "compiled": true,
+   "stdout": "x=2 y=1\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "objc/01_messages.m": {
+   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra 01_messages.m Root.m -o messages -lobjc -lm && ./messages",
+   "compiled": true,
+   "stdout": "lamp is on\nmessage to nil returns 0\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "objc/02_categories.m": {
+   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra 02_categories.m Root.m -o categories -lobjc -lm && ./categories",
+   "compiled": true,
+   "stdout": "hello\nHELLO\nresponds to shout: yes\nresponds to fly: no\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "objc/rosetta/hello.m": {
+   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra hello.m ../Root.m -o hello -lobjc -lm && ./hello",
+   "compiled": true,
+   "stdout": "Hello, World!\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "objc/rosetta/point.m": {
+   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra point.m ../Root.m -o point -lobjc -lm && ./point",
+   "compiled": true,
+   "stdout": "5.0\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "objc/rosetta/reverse.m": {
+   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra reverse.m ../Root.m -o reverse -lobjc -lm && ./reverse",
+   "compiled": true,
+   "stdout": "retniop\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "objc/rosetta/sum.m": {
+   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra sum.m ../Root.m -o sum -lobjc -lm && ./sum",
+   "compiled": true,
+   "stdout": "55\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "objc/rosetta/swap.m": {
+   "command": "clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra swap.m ../Root.m -o swap -lobjc -lm && ./swap",
+   "compiled": true,
+   "stdout": "x=2 y=1\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "csharp/01_classes.cs": {
+   "command": "mcs -warn:4 01_classes.cs -out:01_classes.exe && mono 01_classes.exe",
+   "compiled": true,
+   "stdout": "refused: amount must be positive\nAda has 10.50\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "csharp/02_linq.cs": {
+   "command": "mcs -warn:4 02_linq.cs -out:02_linq.exe && mono 02_linq.exe",
+   "compiled": true,
+   "stdout": "C# (2000), C++ (1985), Objective-C (1984)\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "csharp/03_value_vs_reference.cs": {
+   "command": "mcs -warn:4 03_value_vs_reference.cs -out:03_value_vs_reference.exe && mono 03_value_vs_reference.exe",
+   "compiled": true,
+   "stdout": "struct: s1.X = 1\nclass:  c1.X = 99\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "csharp/rosetta/hello.cs": {
+   "command": "mcs -warn:4 hello.cs -out:hello.exe && mono hello.exe",
+   "compiled": true,
+   "stdout": "Hello, World!\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "csharp/rosetta/point.cs": {
+   "command": "mcs -warn:4 point.cs -out:point.exe && mono point.exe",
+   "compiled": true,
+   "stdout": "5.0\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "csharp/rosetta/reverse.cs": {
+   "command": "mcs -warn:4 reverse.cs -out:reverse.exe && mono reverse.exe",
+   "compiled": true,
+   "stdout": "retniop\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "csharp/rosetta/sum.cs": {
+   "command": "mcs -warn:4 sum.cs -out:sum.exe && mono sum.exe",
+   "compiled": true,
+   "stdout": "55\n",
+   "exit": 0,
+   "warnings": []
+  },
+  "csharp/rosetta/swap.cs": {
+   "command": "mcs -warn:4 swap.cs -out:swap.exe && mono swap.exe",
+   "compiled": true,
+   "stdout": "x=2 y=1\n",
+   "exit": 0,
+   "warnings": []
+  }
+ },
+ "versions": {
+  "c": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cpp": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "objc": "Ubuntu clang version 18.1.3 (1ubuntu1)",
+  "csharp": "Mono JIT compiler version 6.8.0.105 (Debian 6.8.0.105+dfsg-3.6ubuntu2 Sun Mar 31 02:55:28 UTC 2024)"
+ }
+}

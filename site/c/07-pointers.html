@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pointers (C lesson 7) · LearnC</title>
+<meta name="description" content="C lesson 7: A variable that holds an address, and the swap that needs one.">
+<meta property="og:title" content="Pointers (C lesson 7) · LearnC">
+<meta property="og:description" content="C lesson 7: A variable that holds an address, and the swap that needs one.">
+<meta property="og:image" content="../og.png">
+<meta name="theme-color" content="#f4efe3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14120f" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="mark" href="../index.html" aria-label="LearnC home"><span class="mark-box">C</span><span>LearnC</span></a>
+  <nav aria-label="Site"><ul><li><a href="../index.html">Home</a></li><li><a href="../c/index.html" aria-current="page">C</a></li><li><a href="../cpp.html">C++</a></li><li><a href="../objc.html">Objective-C</a></li><li><a href="../csharp.html">C#</a></li><li><a href="../holyc.html">HolyC</a></li><li><a href="../rosetta.html">Rosetta</a></li><li><a href="../family.html">Family</a></li><li><a href="../about.html">About</a></li></ul></nav>
+</header>
+<main id="main" class="">
+
+<article class="wrap">
+  <p class="kicker"><a href="index.html">C</a> · lesson 07 of 12</p>
+  <h1>Pointers</h1>
+  <p class="lede">A variable that holds an address, and the swap that needs one.</p>
+  <figure class="ex lang-c"><figcaption><span class="fname">07_pointers.c</span></figcaption><div class="ex-body"><pre class="code lang-c"><code><span class="tp">#include &lt;stdio.h&gt;</span>
+
+<span class="tk">static</span> <span class="tk">void</span> swap(<span class="tk">int</span> *a, <span class="tk">int</span> *b) {  <span class="tc">/* receives addresses, not copies */</span>
+    <span class="tk">int</span> t = *a;
+    *a = *b;
+    *b = t;
+}
+
+<span class="tk">int</span> main(<span class="tk">void</span>) {
+    <span class="tk">int</span> num = <span class="tn">10</span>;
+    <span class="tk">int</span> *ptr = &amp;num;               <span class="tc">/* ptr holds the address of num */</span>
+
+    printf(<span class="ts">&quot;Value of num: %d\n&quot;</span>, num);
+    printf(<span class="ts">&quot;ptr == &amp;num: %s\n&quot;</span>, ptr == &amp;num ? <span class="ts">&quot;yes&quot;</span> : <span class="ts">&quot;no&quot;</span>);
+    *ptr = <span class="tn">42</span>;                     <span class="tc">/* write through the pointer */</span>
+    printf(<span class="ts">&quot;After *ptr = 42, num is %d\n&quot;</span>, num);
+
+    <span class="tk">int</span> x = <span class="tn">1</span>, y = <span class="tn">2</span>;
+    swap(&amp;x, &amp;y);
+    printf(<span class="ts">&quot;After swap: x=%d y=%d\n&quot;</span>, x, y);
+    <span class="tk">return</span> <span class="tn">0</span>;
+}
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>Value of num: 10
+ptr == &amp;num: yes
+After *ptr = 42, num is 42
+After swap: x=2 y=1</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 07_pointers.c -o pointers -lm &amp;&amp; ./pointers</code></pre></details></figure>
+  <div class="notes"><p><code>&amp;num</code> is the address of <code>num</code>, and <code>*ptr</code> is
+     the value stored there. Writing through <code>*ptr</code> changes <code>num</code>
+     itself. C passes every argument by value, so <code>swap</code> can only reach the
+     caller's variables when it is given their addresses.</p>
+     <p>The original example printed raw addresses with <code>%p</code>. Those change on
+     every run (address space layout randomisation), and passing an <code>int *</code> to
+     <code>%p</code> without a <code>(void *)</code> cast is a warning under
+     <code>-Wpedantic</code>. This version compares the pointers instead.</p></div>
+  <nav class="pager" aria-label="Lessons"><a class="prev" href="06-arrays.html"><span>← previous</span>Arrays</a><a class="next" href="08-structs.html"><span>next →</span>Structs</a></nav>
+</article>
+</main>
+<footer class="foot">
+  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run when the site was built. <a href="../about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conditionals (C lesson 3) · LearnC</title>
+<meta name="description" content="C lesson 3: if, else if and else, run on three inputs instead of one.">
+<meta property="og:title" content="Conditionals (C lesson 3) · LearnC">
+<meta property="og:description" content="C lesson 3: if, else if and else, run on three inputs instead of one.">
+<meta property="og:image" content="../og.png">
+<meta name="theme-color" content="#f4efe3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14120f" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="mark" href="../index.html" aria-label="LearnC home"><span class="mark-box">C</span><span>LearnC</span></a>
+  <nav aria-label="Site"><ul><li><a href="../index.html">Home</a></li><li><a href="../c/index.html" aria-current="page">C</a></li><li><a href="../cpp.html">C++</a></li><li><a href="../objc.html">Objective-C</a></li><li><a href="../csharp.html">C#</a></li><li><a href="../holyc.html">HolyC</a></li><li><a href="../rosetta.html">Rosetta</a></li><li><a href="../family.html">Family</a></li><li><a href="../about.html">About</a></li></ul></nav>
+</header>
+<main id="main" class="">
+
+<article class="wrap">
+  <p class="kicker"><a href="index.html">C</a> · lesson 03 of 12</p>
+  <h1>Conditionals</h1>
+  <p class="lede">if, else if and else, run on three inputs instead of one.</p>
+  <figure class="ex lang-c"><figcaption><span class="fname">03_conditionals.c</span></figcaption><div class="ex-body"><pre class="code lang-c"><code><span class="tp">#include &lt;stdio.h&gt;</span>
+
+<span class="tk">static</span> <span class="tk">const</span> <span class="tk">char</span> *sign(<span class="tk">int</span> n) {
+    <span class="tk">if</span> (n &gt; <span class="tn">0</span>)      <span class="tk">return</span> <span class="ts">&quot;positive&quot;</span>;
+    <span class="tk">else</span> <span class="tk">if</span> (n &lt; <span class="tn">0</span>) <span class="tk">return</span> <span class="ts">&quot;negative&quot;</span>;
+    <span class="tk">else</span>            <span class="tk">return</span> <span class="ts">&quot;zero&quot;</span>;
+}
+
+<span class="tk">int</span> main(<span class="tk">void</span>) {
+    <span class="tk">int</span> samples[] = {<span class="tn">10</span>, -<span class="tn">3</span>, <span class="tn">0</span>};
+    <span class="tk">for</span> (<span class="tk">int</span> i = <span class="tn">0</span>; i &lt; <span class="tn">3</span>; i++)
+        printf(<span class="ts">&quot;%d is %s.\n&quot;</span>, samples[i], sign(samples[i]));
+    <span class="tk">return</span> <span class="tn">0</span>;
+}
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>10 is positive.
+-3 is negative.
+0 is zero.</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 03_conditionals.c -o conditionals -lm &amp;&amp; ./conditionals</code></pre></details></figure>
+  <div class="notes"><p>Conditions in C are integers: 0 is false and anything else is true. The function
+     returns a <code>const char *</code>, a pointer to a string literal the program never
+     changes.</p></div>
+  <nav class="pager" aria-label="Lessons"><a class="prev" href="02-variables.html"><span>← previous</span>Variables and types</a><a class="next" href="04-loops.html"><span>next →</span>Loops</a></nav>
+</article>
+</main>
+<footer class="foot">
+  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run when the site was built. <a href="../about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
+</footer>
+</body>
+</html>

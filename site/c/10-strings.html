@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strings (C lesson 10) · LearnC</title>
+<meta name="description" content="C lesson 10: A string is a char array with a zero byte at the end.">
+<meta property="og:title" content="Strings (C lesson 10) · LearnC">
+<meta property="og:description" content="C lesson 10: A string is a char array with a zero byte at the end.">
+<meta property="og:image" content="../og.png">
+<meta name="theme-color" content="#f4efe3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14120f" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="mark" href="../index.html" aria-label="LearnC home"><span class="mark-box">C</span><span>LearnC</span></a>
+  <nav aria-label="Site"><ul><li><a href="../index.html">Home</a></li><li><a href="../c/index.html" aria-current="page">C</a></li><li><a href="../cpp.html">C++</a></li><li><a href="../objc.html">Objective-C</a></li><li><a href="../csharp.html">C#</a></li><li><a href="../holyc.html">HolyC</a></li><li><a href="../rosetta.html">Rosetta</a></li><li><a href="../family.html">Family</a></li><li><a href="../about.html">About</a></li></ul></nav>
+</header>
+<main id="main" class="">
+
+<article class="wrap">
+  <p class="kicker"><a href="index.html">C</a> · lesson 10 of 12</p>
+  <h1>Strings</h1>
+  <p class="lede">A string is a char array with a zero byte at the end.</p>
+  <figure class="ex lang-c"><figcaption><span class="fname">10_strings.c</span></figcaption><div class="ex-body"><pre class="code lang-c"><code><span class="tp">#include &lt;stdio.h&gt;</span>
+<span class="tp">#include &lt;string.h&gt;</span>
+
+<span class="tk">int</span> main(<span class="tk">void</span>) {
+    <span class="tk">char</span> word[] = <span class="ts">&quot;pointer&quot;</span>;            <span class="tc">/* 7 letters + the &#x27;\0&#x27; terminator */</span>
+    <span class="tk">size_t</span> n = strlen(word);
+    <span class="tk">for</span> (<span class="tk">size_t</span> i = <span class="tn">0</span>; i &lt; n / <span class="tn">2</span>; i++) { <span class="tc">/* reverse in place */</span>
+        <span class="tk">char</span> t = word[i];
+        word[i] = word[n - <span class="tn">1</span> - i];
+        word[n - <span class="tn">1</span> - i] = t;
+    }
+    printf(<span class="ts">&quot;%s (%zu chars, %zu bytes)\n&quot;</span>, word, n, <span class="tk">sizeof</span> word);
+    <span class="tk">return</span> <span class="tn">0</span>;
+}
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>retniop (7 chars, 8 bytes)</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 10_strings.c -o strings -lm &amp;&amp; ./strings</code></pre></details></figure>
+  <div class="notes"><p><code>"pointer"</code> is 7 characters but 8 bytes, because of the terminating
+     <code>'\0'</code>. <code>strlen</code> counts up to the zero byte, while
+     <code>sizeof</code> measures the whole array.</p></div>
+  <nav class="pager" aria-label="Lessons"><a class="prev" href="09-file-io.html"><span>← previous</span>Files</a><a class="next" href="11-malloc.html"><span>next →</span>The heap</a></nav>
+</article>
+</main>
+<footer class="foot">
+  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run when the site was built. <a href="../about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
+</footer>
+</body>
+</html>

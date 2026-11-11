@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loops (C lesson 4) · LearnC</title>
+<meta name="description" content="C lesson 4: A counted for loop, then a while loop that runs until its condition fails.">
+<meta property="og:title" content="Loops (C lesson 4) · LearnC">
+<meta property="og:description" content="C lesson 4: A counted for loop, then a while loop that runs until its condition fails.">
+<meta property="og:image" content="../og.png">
+<meta name="theme-color" content="#f4efe3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14120f" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="preload" href="../fonts/jetbrains-mono.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../css/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="top">
+  <a class="mark" href="../index.html" aria-label="LearnC home"><span class="mark-box">C</span><span>LearnC</span></a>
+  <nav aria-label="Site"><ul><li><a href="../index.html">Home</a></li><li><a href="../c/index.html" aria-current="page">C</a></li><li><a href="../cpp.html">C++</a></li><li><a href="../objc.html">Objective-C</a></li><li><a href="../csharp.html">C#</a></li><li><a href="../holyc.html">HolyC</a></li><li><a href="../rosetta.html">Rosetta</a></li><li><a href="../family.html">Family</a></li><li><a href="../about.html">About</a></li></ul></nav>
+</header>
+<main id="main" class="">
+
+<article class="wrap">
+  <p class="kicker"><a href="index.html">C</a> · lesson 04 of 12</p>
+  <h1>Loops</h1>
+  <p class="lede">A counted for loop, then a while loop that runs until its condition fails.</p>
+  <figure class="ex lang-c"><figcaption><span class="fname">04_loops.c</span></figcaption><div class="ex-body"><pre class="code lang-c"><code><span class="tp">#include &lt;stdio.h&gt;</span>
+
+<span class="tk">int</span> main(<span class="tk">void</span>) {
+    <span class="tk">for</span> (<span class="tk">int</span> i = <span class="tn">0</span>; i &lt; <span class="tn">5</span>; i++)          <span class="tc">/* counted loop */</span>
+        printf(<span class="ts">&quot;Iteration number: %d\n&quot;</span>, i);
+
+    <span class="tk">int</span> n = <span class="tn">27</span>, steps = <span class="tn">0</span>;               <span class="tc">/* while: run until a condition fails */</span>
+    <span class="tk">while</span> (n != <span class="tn">1</span>) {
+        n = (n % <span class="tn">2</span> == <span class="tn">0</span>) ? n / <span class="tn">2</span> : <span class="tn">3</span> * n + <span class="tn">1</span>;
+        steps++;
+    }
+    printf(<span class="ts">&quot;27 reaches 1 in %d Collatz steps\n&quot;</span>, steps);
+    <span class="tk">return</span> <span class="tn">0</span>;
+}
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>Iteration number: 0
+Iteration number: 1
+Iteration number: 2
+Iteration number: 3
+Iteration number: 4
+27 reaches 1 in 111 Collatz steps</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 04_loops.c -o loops -lm &amp;&amp; ./loops</code></pre></details></figure>
+  <div class="notes"><p><code>for (init; test; step)</code> is shorthand for a <code>while</code> loop. The
+     second loop follows the Collatz rule from 27. Nobody can tell in advance how many steps
+     it will take, which is exactly what <code>while</code> is for.</p></div>
+  <nav class="pager" aria-label="Lessons"><a class="prev" href="03-conditionals.html"><span>← previous</span>Conditionals</a><a class="next" href="05-functions.html"><span>next →</span>Functions</a></nav>
+</article>
+</main>
+<footer class="foot">
+  <p><span class="mono">return 0;</span> Every C, C++, Objective-C and C# program on this site was compiled and run when the site was built. <a href="../about.html">How</a> · <a href="https://github.com/SolutionsAsService/LearnC">Source on GitHub</a> · MIT licence</p>
+</footer>
+</body>
+</html>
