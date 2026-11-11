@@ -208,3 +208,51 @@ Mode field: Advanced pole: the notation is the site's grammar. Acceptable pole: 
 
 ## Move M8: Reading measure and typesetting (KEEP-THE-RULE)
 Depends on: M2. Anchors: Rule Grid Systems in Graphic Design (Josef Müller-Brockmann). The 80-column module now governs code, and prose takes a 66-character subdivision of it.
+
+### Panel, WHOLE, round R2 (artifact examined: site after M5 to M8; evidence in panel/R2/EVIDENCE.md)
+| Critic | Anchor used | Observed in the work | Verdict PASS/OBJECT | Requested change |
+|---|---|---|---|---|
+| Critic: Usability (Krug) | Don't Make Me Think (Steve Krug) | nav wraps; phone wires land on C's borders; five-second test and probe pass at both sizes | PASS | optional: phone start link above the fold; lighter `lessons[6]` |
+| Critic: Provocateur (Debord) | The Society of the Spectacle (Guy Debord) | every count interpolated; lesson 09 reproduced; "Prints 55." prose not checked by the build | PASS | build-check the quoted outputs |
+| Critic: Aestheticist (Pater) | The Renaissance, Conclusion (Walter Pater) | dark bands saturated; phone wire clear; key closes the hero; HolyC now opens with a struct | PASS | drop the duplicate kicker; optional wider gutters |
+| Critic: Evidence (Cairo) | How Charts Lie (Alberto Cairo) | all 41 runs reproduced; every figure matches; the printed Objective-C command fails as printed (missing -I/-L) | OBJECT | print the command the build runs; say what "lines" counts |
+| Critic: Inclusion (Holmes) | Mismatch (Kat Holmes) | hero and phone pass; lesson 03 uses later topics; no setup path; language pages announce the struct twice; %d/%c/%zu unglossed | OBJECT | gloss; a "getting a compiler" note; aria-hide or cut the kicker |
+| Critic: Inclusion (Mace) | The Universal Design principles (Ronald Mace) | R1 fixes hold; focus stroke invisible on the C link's band (1.00:1); dark `.start:hover` 1.08:1; `.kw` at .8 opacity 4.2:1 | OBJECT | focus above the band; hover colours; opacity 1; Canvas focus fill in forced colours |
+| Critic: Provocateur (Shklovsky) | Art as Technique (Viktor Shklovsky) | the notation goes inward; c/index, lesson 08 and lesson 11 draw nothing; drawing below the code; pager in words; Rosetta cards identical | OBJECT | struct on c/index; draw 08 and 11; drawing above code; `lessons[i]` pager; mark the differences from C |
+| Critic: Craft (Bringhurst) | The Elements of Typographic Style (Robert Bringhurst) | measure, caption, code breaking fixed; escaped apostrophes in ledes; h3 1.05× body; Rosetta notes uncapped | OBJECT | typeset `&#x27;`; h3 1.4rem; cap the notes |
+
+Andon pulled: no.
+
+| Finding | Resolution |
+|---|---|
+| Cairo: "printed Objective-C command fails" | ADAPT (M9): the build now runs, and prints, `-I"$(gcc -print-file-name=include)" … -L"$(gcc -print-file-name=)"`; the printed command was run verbatim in a copy of examples/objc (two programs: outputs match) |
+| Cairo: "what does 'lines' count" | ADAPT (M9): stated in the hero key and under the C lesson list |
+| Debord: "quoted outputs unchecked" | ADAPT (M9): the build fails if a Rosetta "Prints X." or a quoted output in `QUOTED_OUTPUTS` is missing from the real output |
+| Holmes: "lesson 03 uses later topics" | ADAPT (M9): one forward-pointing gloss |
+| Holmes: "no setup path" | ADAPT (M9): About › Getting a compiler, linked under every command |
+| Holmes + Pater: "duplicate kicker" | ADAPT (M9): the language-page kicker is removed; the struct box carries it, with a one-line key under it |
+| Holmes: "%d, %c, %zu, bits unglossed" | ADAPT (M9): glossed on lesson 02 |
+| Mace: "focus invisible on band" | ADAPT (M9): a `.frame` rect drawn last; focus is an 8px ink stroke outside the band; Highlight in forced colours |
+| Mace: "dark start hover 1.08:1" | ADAPT (M9): `--paper` on `--ink` |
+| Mace: "`.kw` opacity" | ADAPT (M9): opacity removed |
+| Mace: "forced-colours focus fill" | ADAPT (M9): Canvas fill on hover and focus |
+| Shklovsky: "c/index draws nothing" | ADAPT (M10): C's own struct, wired to B |
+| Shklovsky: "lessons 08 and 11 draw nothing" | ADAPT (M10): struct memory on 08; heap, then NULL after free, on 11 |
+| Shklovsky: "drawing buried below code" | ADAPT (M10): drawings precede the code |
+| Shklovsky: "pager in words" | ADAPT (M10): `← lessons[5]` / `lessons[7] →` over the titles |
+| Shklovsky: "drop the 'lesson 7 of 12' gloss" | OVERRULE (Adaptive criterion: the acceptable pole; Krug R2 F4 and Holmes ask for more gloss, not less) |
+| Shklovsky: "Rosetta cards identical" | ADAPT (M10): lines identical to the C version are dimmed (opacity .45), so each card shows only what its language changes |
+| Bringhurst: "escaped apostrophes" | ADAPT (M9): the typesetter matches `&#x27;` too; 0 remain outside code |
+| Bringhurst: "h3 scale" | ADAPT (M9): 1.4rem |
+| Bringhurst: "Rosetta notes uncapped" | ADAPT (M9): notes sit in `.wrap`, capped at 29em |
+| Krug: "phone start link below the fold" | DEFERRED: cell 01 is the first action above the fold; adding the link above the hero pushes the hero's bottom past 812 (measured 811) |
+| Pater: "wider phone gutters" | DEFERRED (optional, cosmetic) |
+
+## Move M9: R2 corrections (KEEP-THE-RULE)
+Depends on: M5, M6, M8. Anchors: Rule WCAG 2.2 Contrast and Perceivability (W3C) | Rule Designing Programmes (Karl Gerstner). Fixes for measured defects only.
+
+## Move M10: Memory drawn where memory is taught (BREAK, an escalation of M7)
+Depends on: M7. Anchors: Breaker Making and Breaking the Grid (Timothy Samara) | Counterpoint Typography: My Way to Typography (Wolfgang Weingart).
+Intent: every lesson whose subject is memory draws it before showing the code. The Rosetta page shows difference, not sameness.
+Alternatives rejected: a drawing on all twelve lessons (noise on hello and loops); diffs as +/- markers (they read as version control, not as language difference).
+Mode field: Advanced pole: the notation as the teaching device. Acceptable pole: every drawing has a code caption and an aria title in plain words.

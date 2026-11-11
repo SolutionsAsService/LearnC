@@ -40,7 +40,7 @@ p code, li code, td code { background: var(--paper-2); padding: .05em .15em; bor
 h1, h2, h3 { font-family: var(--mono); font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
 h1 { font-size: clamp(2.2rem, 6vw, 4rem); margin: .2em 0 .3em; }
 h2 { font-size: 1.6rem; margin: 2.4em 0 .7em; padding-top: .6em; border-top: 2px solid var(--ink); }
-h3 { font-size: 1.25rem; margin: 2em 0 .4em; }
+h3 { font-size: 1.4rem; margin: 2em 0 .4em; }
 cite { font-style: italic; }
 .skip { position: absolute; left: -999px; top: 0; background: var(--ink); color: var(--paper); padding: .5em 1em; z-index: 9; }
 .skip:focus { left: 8px; top: 8px; }
@@ -77,12 +77,12 @@ main { padding: 0 1rem 4rem; }
 .hero-foot { display: flex; gap: 1rem 2rem; align-items: center; justify-content: space-between; margin-top: .5rem; flex-wrap: wrap; }
 .hero-key { font-family: var(--mono); font-size: .82rem; color: var(--ink-2); margin: 0; max-width: 62rem; }
 .start { font: 800 1rem var(--mono); background: var(--band-c); color: var(--band-ink); padding: .7rem 1.1rem; text-decoration: none; white-space: nowrap; }
-.start:hover { color: var(--band-ink); background: var(--ink); }
+.start:hover { color: var(--paper); background: var(--ink); }
 .hero-key .mono { color: var(--ptr); font-size: 1em; }
 svg .box { fill: var(--paper); stroke: var(--ink); stroke-width: 2; }
 svg .band { fill: var(--ink); }
 svg .rule { stroke: var(--rule); stroke-width: 1; }
-svg .kw { fill: var(--band-ink); font-size: 14px; opacity: .8; }
+svg .kw { fill: var(--band-ink); font-size: 14px; }
 svg .nm { fill: var(--band-ink); font-weight: 800; }
 svg .sm { fill: var(--ink-2); font-size: 13px; }
 svg .sm-v { font-size: 14px; }
@@ -99,7 +99,9 @@ svg .ptr-dot { stroke: none; }
 svg .ahead { fill: var(--ptr); }
 svg a:hover .box, svg a:focus-visible .box { fill: var(--paper-2); }
 svg a:focus-visible { outline: none; }
-svg a:focus-visible .box { stroke: var(--ptr); stroke-width: 4; }
+svg .frame { fill: none; stroke: none; }
+svg a:focus-visible .frame { stroke: var(--ink); stroke-width: 8; }
+svg a.cell:focus-visible .box { stroke: var(--ptr); stroke-width: 4; }
 .node-c .band { fill: var(--band-c); } .node-cpp .band { fill: var(--band-cpp); } .node-objc .band { fill: var(--band-objc); }
 .node-csharp .band { fill: var(--band-csharp); } .node-holyc .band { fill: var(--band-holyc); }
 
@@ -195,7 +197,7 @@ svg a:focus-visible .box { stroke: var(--ptr); stroke-width: 4; }
 .tools td, .tools th { text-align: left; font-size: .8rem; vertical-align: top; }
 .tools code { font-size: 1em; background: none; padding: 0; word-break: break-word; }
 .ros { padding: 0 0 1rem; }
-.ros h2, .ros > p { max-width: var(--cols); margin-left: auto; margin-right: auto; }
+
 .ros-grid { display: grid; gap: 0 1.2rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr)); }
 .ros-grid .ex { margin: .8rem 0; }
 
@@ -228,7 +230,8 @@ svg a:focus-visible .box { stroke: var(--ptr); stroke-width: 4; }
   svg .node .nm, svg .node .kw { fill: Canvas; } svg .node-anc .nm { fill: CanvasText; }
   svg .box { fill: Canvas; stroke: CanvasText; }
   svg text { fill: CanvasText; }
-  svg a:focus-visible .box { stroke: Highlight; }
+  svg a:focus-visible .frame, svg a.cell:focus-visible .box { stroke: Highlight; }
+  svg a:focus-visible .box, svg a:hover .box { fill: Canvas; }
   .top li a[aria-current] { border: 2px solid CanvasText; }
   .start { border: 2px solid ButtonText; }
 }
@@ -238,3 +241,8 @@ svg a:focus-visible .box { stroke: var(--ptr); stroke-width: 4; }
 @media (max-width: 760px) { .hero-head .start { order: 2; font-size: .9rem; padding: .5rem .8rem; } }
 .start-m { display: none; }
 @media (max-width: 760px) { .hero-head .start { display: none; } .start-m { display: inline-block; } }
+.same { opacity: .45; }
+.setup { font-family: var(--serif); font-size: .95rem; margin: .4rem 0 0; }
+.struct-key { font-size: 1rem; color: var(--ink-2); margin-top: -.6rem; }
+.mems-1, .mems-2 { grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+svg .freed { fill: var(--paper-2); stroke-dasharray: 6 4; }

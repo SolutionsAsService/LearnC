@@ -55,8 +55,12 @@ LESSONS = [
      <em>unspecified</em>, not absent.</p>"""),
     ("02_variables", "variables", "Variables and types",
      "Each variable has a type, and each type has a size in bytes.",
-     """<p>A <em>byte</em> is 8 bits, enough for a number from 0 to 255. A <code>char</code> is
-     one byte holding a character code: <code>'A'</code> is 65.
+     """<p>A <em>bit</em> is a single 0 or 1; a <em>byte</em> is 8 bits, enough for a number from
+     0 to 255. In <code>printf</code>, each <code>%</code> code prints the next argument:
+     <code>%d</code> an <code>int</code>, <code>%c</code> a character, <code>%.2f</code> a
+     <code>double</code> with two decimals, and <code>%zu</code> a size such as
+     <code>sizeof</code> gives.</p>
+     <p>A <code>char</code> is one byte holding a character code: <code>'A'</code> is 65.
      <code>sizeof</code> tells you how many bytes a type or variable takes on <em>this</em>
      machine. The C standard sets minimums, not exact sizes.</p>
      <p><code>float</code> and <code>double</code> hold numbers with a fractional part;
@@ -66,7 +70,11 @@ LESSONS = [
      unless you have a reason not to.</p>"""),
     ("03_conditionals", "conditionals", "Conditionals",
      "if, else if and else, run on three inputs instead of one.",
-     """<p>Conditions in C are integers: 0 is false and anything else is true. The function
+     """<p>Two things here are taught later: the <code>for</code> loop (lesson 04), which runs
+     <code>sign</code> once for each of the three numbers in the array
+     <code>samples</code> (lesson 06). Read it as &ldquo;for each number, print its
+     sign&rdquo;.</p>
+     <p>Conditions in C are integers: 0 is false and anything else is true. The function
      returns a <code>const char *</code>: a piece of text that the program never changes.
      <a href="10-strings.html">Lesson 10</a> explains why text is written with a
      <code>*</code>.</p>"""),
@@ -244,4 +252,12 @@ FAMILY = [
     (2016, "Zig", "Andrew Kelley. Aims to replace C, and can compile C.", "cousin"),
     (2018, "C17", "A bug-fix revision of C11.", "c"),
     (2024, "C23", "ISO/IEC 9899:2024: <code>bool</code>, <code>nullptr</code> and <code>constexpr</code> keywords, and <code>()</code> now means <code>(void)</code>.", "c"),
+]
+
+# Sentences in the prose above that quote a program's output; the build checks each one.
+QUOTED_OUTPUTS = [
+    ("cpp/02_templates.cpp", "C++"),
+    ("c/04_loops.c", "111 Collatz steps"),
+    ("c/08_structs.c", "56 bytes"),
+    ("c/10_strings.c", "7 chars, 8 bytes"),
 ]

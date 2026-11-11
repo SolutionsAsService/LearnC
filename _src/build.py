@@ -27,8 +27,8 @@ OUT = ROOT / "site"
 sys.path.insert(0, str(SRC))
 import content as K  # noqa: E402
 
-GCC_INC = "/usr/lib/gcc/x86_64-linux-gnu/13"
 BUILT = ""
+SITE_URL = "https://learnc.shadw.app"
 FLAGS = {
     "c": "gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion",
     "cpp": "g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion",
@@ -57,7 +57,8 @@ def shown_command(lang, rel):
         return f"{FLAGS['cpp']} {name} -o {stem} && ./{stem}"
     if lang == "objc":
         root = "../Root.m" if "/rosetta/" in rel else "Root.m"
-        return (f"{FLAGS['objc']} {name} {root} -o {stem} -lobjc -lm && ./{stem}")
+        return (f'{FLAGS["objc"]} -I"$(gcc -print-file-name=include)" {name} {root} '
+                f'-L"$(gcc -print-file-name=)" -o {stem} -lobjc -lm && ./{stem}')
     if lang == "csharp":
         return f"{FLAGS['csharp']} {name} -out:{stem}.exe && mono {stem}.exe"
     return None
@@ -73,8 +74,8 @@ def run_one(lang, path, tmp):
     elif lang == "cpp":
         cc = f"{FLAGS['cpp']} {path} -o {exe}"
     elif lang == "objc":
-        cc = (f"{FLAGS['objc']} -I{GCC_INC}/include {path} {EX / 'objc' / 'Root.m'} "
-              f"-L{GCC_INC} -o {exe} -lobjc -lm")
+        cc = (f'{FLAGS["objc"]} -I"$(gcc -print-file-name=include)" {path} {EX / "objc" / "Root.m"} '
+              f'-L"$(gcc -print-file-name=)" -o {exe} -lobjc -lm')
     else:
         cc = f"{FLAGS['csharp']} {path} -out:{exe}"
     code, so, se = sh(cc, tmp)
@@ -172,7 +173,7 @@ def typeset(markup):
     markup = re.sub(r"<code>([^<]{25,}?)</code>", r'<code class="w">\1</code>', markup)
     parts = PROTECT.split(markup)
     for i in range(0, len(parts), 2):
-        parts[i] = re.sub(r"(?<=\w)'(?=\w)", "\u2019", parts[i])
+        parts[i] = re.sub(r"(?<=\w)(?:'|&#x27;)(?=\w)", "\u2019", parts[i])
     return "".join(parts)
 
 
@@ -193,7 +194,7 @@ def page(path, title, body, desc, active=None, wide=False):
 <meta name="description" content="{html.escape(desc)}">
 <meta property="og:title" content="{html.escape(full_title)}">
 <meta property="og:description" content="{html.escape(desc)}">
-<meta property="og:image" content="{up}og.png">
+<meta property="og:image" content="{SITE_URL}/og.png">
 <meta name="theme-color" content="#f4efe3" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#14120f" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="{up}favicon.svg" type="image/svg+xml">
@@ -221,7 +222,7 @@ def page(path, title, body, desc, active=None, wide=False):
 
 
 # ---------------------------------------------------------------- code + output
-def code_block(lang, rel, runs, title=None, up=""):
+def code_block(lang, rel, runs, title=None, up="", same=None):
     src = (EX / rel).read_text()
     r = runs["runs"].get(rel)
     name = Path(rel).name
@@ -229,13 +230,18 @@ def code_block(lang, rel, runs, title=None, up=""):
     if title:
         head += f' <span class="ftitle">{html.escape(title)}</span>'
     head += "</figcaption>"
-    code = f'<pre class="code lang-{lang}"><code>{highlight(src, lang)}</code></pre>'
+    if same:
+        body = "\n".join(f'<span class="same">{highlight(ln, lang)}</span>' if ln.strip() in same else highlight(ln, lang)
+                         for ln in src.rstrip("\n").split("\n"))
+    else:
+        body = highlight(src, lang)
+    code = f'<pre class="code lang-{lang}"><code>{body}</code></pre>'
     if r and r.get("compiled"):
         out = html.escape(r["stdout"].rstrip("\n"))
         status = "exit 0" if r["exit"] == 0 else f"exit {r['exit']}"
         outb = (f'<div class="out"><div class="out-h"><span>output</span><span>{status} · '
                 f'{len(r["warnings"])} warnings</span></div><pre><samp>{out}</samp></pre></div>')
-        cmd = f'<details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>{html.escape(r["command"])}</code></pre></details>'
+        cmd = f'<details class="cmd" open><summary>Compile and run it yourself</summary><pre><code>{html.escape(r["command"])}</code></pre><p class="setup">No compiler yet? <a href="{up}about.html#setup">Getting one takes one command</a>.</p></details>'
     elif lang == "holyc":
         outb = (f'<div class="out out-none"><div class="out-h"><span>output</span><span>not run here</span></div>'
                 f'<p>Paste it into <a href="https://holyc.shadw.app">holyc.shadw.app</a> or a TempleOS shell.</p></div>')
@@ -288,6 +294,7 @@ def struct_box(x, y, w, h, lang, rows, href, title_size=30, band=44, kw=True):
         else:
             parts.append(f'<text class="fv" x="{x + 92}" y="{ry + rh / 2 + 5}">{v}</text>')
         centres.append(ry + rh / 2)
+    parts.append(f'<rect class="frame" x="{x}" y="{y}" width="{w}" height="{h}"/>')
     parts.append("</a>")
     return "".join(parts), centres, rh
 
@@ -394,7 +401,7 @@ def hero_narrow(runs):
             s.append(f'<text class="fv sm-v" x="100" y="{y + 17}">{v}</text>')
         else:
             s.append(f'<circle class="pdot" cx="108" cy="{y + 12.25}" r="4.5"/>')
-    s.append("</a>")
+    s.append('<rect class="frame" x="16" y="58" width="328" height="138"/></a>')
     s.append(A("M108,159.25 L300,159.25 L300,23 L270,23"))        # C.parent -> B, clear of the text
     s.append(A("M108,183.75 L108,220"))                            # C.lessons -> lessons[0]
     s.append(f'<text class="sm" x="118" y="214">lessons[{len(K.LESSONS)}]</text>')
@@ -419,7 +426,7 @@ def hero_narrow(runs):
         s.append(f'<text class="sm" x="{x + 10}" y="{y + 90}">hello: {st}</text>')
         s.append(f'<line class="rule" x1="{x}" y1="{y + 94}" x2="{x + 160}" y2="{y + 94}"/>')
         s.append(f'<text class="sm" x="{x + 10}" y="{y + 108}">parent</text><circle class="pdot" cx="{x + 70}" cy="{y + 104}" r="4.5"/>')
-        s.append("</a>")
+        s.append(f'<rect class="frame" x="{x}" y="{y}" width="160" height="112"/></a>')
         dy = y + 104
         if col == 0:   # up the middle gutter, under the array, into C's bottom edge
             gx, hy, tx = (178, 290, 270) if row == 0 else (182, 296, 288)
@@ -465,7 +472,42 @@ POINTER_DIAGRAM = ('<div class="mems" aria-label="Memory, drawn in three steps">
     + "</div>")
 
 
-def lang_struct(L, runs):
+def struct_mem():
+    """Lesson 08: the struct as one block of memory, changed through a pointer."""
+    return ('<div class="mems mems-1"><figure class="mem"><svg viewBox="0 0 420 150" role="img" aria-labelledby="ms1">'
+            '<title id="ms1">person1 is one struct with two fields, name and age; birthday(&amp;person1) changes age through the pointer p</title>'
+            '<defs><marker id="ms1h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahead"/></marker></defs>'
+            '<text class="fk" x="20" y="22">person1 (struct Person, 56 bytes)</text>'
+            '<rect class="box" x="20" y="30" width="240" height="80"/><line class="rule" x1="20" y1="70" x2="260" y2="70"/>'
+            '<text class="fk" x="32" y="56">name</text><text class="fv" x="100" y="56">"John"</text>'
+            '<text class="fk" x="32" y="96">age</text><text class="fv" x="100" y="96">30 → 31</text>'
+            '<text class="fk" x="330" y="22">p</text><rect class="box" x="330" y="30" width="70" height="40"/><circle class="pdot" cx="365" cy="50" r="5"/>'
+            '<path class="ptr" d="M365,50 L365,90 L264,90" marker-end="url(#ms1h)"/>'
+            '</svg><figcaption><code>birthday(&amp;person1);  /* p-&gt;age++ */</code></figcaption></figure></div>')
+
+
+def heap_mem():
+    """Lesson 11: a pointer to the heap, then NULL after free."""
+    cells = "".join(f'<rect class="box" x="{20 + i * 38}" y="96" width="38" height="34"/>'
+                    f'<text class="fv" x="{39 + i * 38}" y="119" text-anchor="middle">{i * i}</text>' for i in range(10))
+    a = ('<figure class="mem"><svg viewBox="0 0 420 150" role="img" aria-labelledby="mh1">'
+         '<title id="mh1">squares points to ten ints on the heap: 0, 1, 4 … 81</title>'
+         '<defs><marker id="mh1h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahead"/></marker></defs>'
+         '<text class="fk" x="20" y="22">squares</text><rect class="box" x="20" y="30" width="70" height="40"/><circle class="pdot" cx="55" cy="50" r="5"/>'
+         '<text class="fk" x="130" y="58">on the heap, from malloc</text>'
+         f'{cells}<path class="ptr" d="M55,50 L55,92" marker-end="url(#mh1h)"/>'
+         '</svg><figcaption><code>squares = malloc(…);</code></figcaption></figure>')
+    b = ('<figure class="mem"><svg viewBox="0 0 420 150" role="img" aria-labelledby="mh2">'
+         '<title id="mh2">after free, the heap block is returned and squares is set to NULL</title>'
+         '<defs><marker id="mh2h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahead"/></marker></defs>'
+         '<text class="fk" x="20" y="22">squares</text><rect class="box" x="20" y="30" width="70" height="40"/><circle class="pdot" cx="55" cy="50" r="5"/>'
+         '<path class="ptr" d="M55,50 L130,50" marker-end="url(#mh2h)"/><text class="null" x="138" y="56">NULL</text>'
+         '<rect class="box freed" x="20" y="96" width="380" height="34"/><text class="fk" x="210" y="119" text-anchor="middle">returned to the heap</text>'
+         '</svg><figcaption><code>free(squares); squares = NULL;</code></figcaption></figure>')
+    return f'<div class="mems mems-2">{a}{b}</div>'
+
+
+def lang_struct(L, runs, target=("C", "c/index.html", "c"), up=""):
     """A language page opens with its own struct box, its parent pointer wired to C."""
     rel = rosetta_rel(L["id"], "hello")
     status = "ran ✓" if ran(runs, rel) else "not run"
@@ -473,16 +515,22 @@ def lang_struct(L, runs):
             ("hello", f"{lines_of(rel)} lines · {status}"), ("parent", "●")]
     box, cen, _ = struct_box(4, 4, 300, 196, L["id"], rows, L["page"], title_size=28, kw=True)
     box = re.sub(r'^<a [^>]*>', f'<g class="node node-{L["id"]}">', box).replace("</a>", "</g>")
-    c = ('<a href="c/index.html" class="node node-c" aria-label="Parent: C">'
-         '<rect class="box" x="392" y="60" width="96" height="84"/><rect class="band" x="392" y="60" width="96" height="84"/>'
-         '<text class="nm" x="440" y="118" text-anchor="middle" font-size="52">C</text></a>')
+    tname, thref, tcls = target
+    c = (f'<a href="{thref}" class="node node-{tcls}" aria-label="Parent: {tname}">'
+         '<rect class="box" x="392" y="60" width="96" height="84"/>'
+         + ('<rect class="band" x="392" y="60" width="96" height="84"/>' if tcls != "anc" else "")
+         + f'<text class="nm" x="440" y="118" text-anchor="middle" font-size="52">{tname}</text>'
+         '<rect class="frame" x="392" y="60" width="96" height="84"/></a>')
     wire = f'<path class="ptr" d="M104,{cen[3]} L340,{cen[3]} L340,102 L388,102" marker-end="url(#lsh)"/>'
-    return (f'<svg class="lang-struct" viewBox="0 0 496 204" role="group" aria-label="{esc(L["name"])}: {esc(L["year"])}, by {esc(L["by"])}; its parent is C">'
+    return (f'<svg class="lang-struct" viewBox="0 0 496 204" role="group" aria-label="{esc(L["name"])}: {esc(L["year"])}, by {esc(L["by"])}; its parent is {tname}">'
             '<defs><marker id="lsh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahead"/></marker></defs>'
             f'{box}{c}{wire}</svg>')
 
 
 # ------------------------------------------------------------------------ pages
+DIAGRAMS = {"pointers": POINTER_DIAGRAM, "structs": struct_mem(), "malloc": heap_mem()}
+
+
 def build_home(runs):
     langs = []
     for L in K.LANGS:
@@ -506,7 +554,7 @@ def build_home(runs):
   {hero_desktop(runs)}
   {hero_narrow(runs)}
   <div class="hero-foot">
-    <p class="hero-key"><span class="mono">●──▶</span> a pointer: each language points to the one it came from. A box is a <em>struct</em>, one record with named fields; <span class="mono">[12]</span> is an array of 12; NULL means nothing before it. Every box and cell is a link.</p>
+    <p class="hero-key"><span class="mono">●──▶</span> a pointer: each language points to the one it came from. A box is a <em>struct</em>, one record with named fields; <span class="mono">[12]</span> is an array of 12; NULL means nothing before it. “hello 5 lines” counts the non-blank lines of that language’s Hello, World, comments included. Every box and cell is a link.</p>
     <a class="start start-m" href="c/01-hello.html">Start with lesson 01 →</a>
   </div>
 </section>
@@ -529,8 +577,8 @@ def build_home(runs):
 
 
 def pager(prev, nxt):
-    p = f'<a class="prev" href="{prev[0]}"><span>← previous</span>{esc(prev[1])}</a>' if prev else "<span></span>"
-    n = f'<a class="next" href="{nxt[0]}"><span>next →</span>{esc(nxt[1])}</a>' if nxt else "<span></span>"
+    p = f'<a class="prev" href="{prev[0]}"><span>← {prev[2]}</span>{esc(prev[1])}</a>' if prev else "<span></span>"
+    n = f'<a class="next" href="{nxt[0]}"><span>{nxt[2]} →</span>{esc(nxt[1])}</a>' if nxt else "<span></span>"
     return f'<nav class="pager" aria-label="Lessons">{p}{n}</nav>'
 
 
@@ -540,7 +588,7 @@ def build_c(runs):
         rel = f"c/{stem}.c"
         items.append(f'<li><a href="{stem[:2]}-{slug}.html"><span class="num">{i + 1:02d}</span>'
                      f'<span class="lt">{esc(title)}</span><span class="ll">{esc(line)}</span>'
-                     f'<span class="lo">{lines_of(rel)} lines</span></a></li>')
+                     f'<span class="lo">{lines_of(rel)} lines</span></a></li>')  # non-blank, comments included
     c_warn = sum(len(runs["runs"][f"c/{L[0]}.c"]["warnings"]) for L in K.LESSONS)
     n_les = len(K.LESSONS)
     std = "".join(f"<li><span class='yr'>{y}</span><span>{t}</span></li>" for y, t in [
@@ -549,8 +597,9 @@ def build_c(runs):
         ("2024", "C23, ISO/IEC 9899:2024")])
     body = f"""
 <article class="wrap">
-  <p class="kicker">struct lang C · 1972 · Dennis Ritchie, Bell Labs</p>
   <h1>C</h1>
+  {lang_struct(K.LANGS[0], runs, target=("B", "../family.html", "anc"), up="../")}
+  <p class="struct-key">A <em>struct</em> is one record with named fields. The red wire is its <code>parent</code> pointer: C grew from <a href="../family.html">B</a>, which grew from BCPL.</p>
   <p class="lede">Dennis Ritchie gave types to Ken Thompson's B so that Unix could be written in something higher than assembly. Fifty years later C still runs the kernels, the interpreters and the firmware everything else stands on. It hands you memory and trusts you with it.</p>
   <div class="two">
     <div><h2>What C gives you</h2><ul class="ticks"><li>Direct access to memory through pointers</li><li>Predictable cost: what you write is close to what runs</li><li>A tiny language and a compiler on every platform</li></ul></div>
@@ -559,6 +608,7 @@ def build_c(runs):
   <h2 id="lessons">Twelve lessons</h2>
   <p>Each lesson is one program, compiled with <code>gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion</code> ({c_warn} warnings across all {n_les}) and shown with what it printed.</p>
   <ol class="lessons">{''.join(items)}</ol>
+  <p class="small">Line counts are non-blank lines, comments included.</p>
   <h2>The standards</h2>
   <ul class="years">{std}</ul>
   <p class="docs">Reference: <a href="https://en.cppreference.com/w/c">cppreference: C</a> · <a href="https://www.open-std.org/jtc1/sc22/wg14/">ISO WG14, the C committee</a></p>
@@ -566,15 +616,15 @@ def build_c(runs):
     page("c/index.html", "C", body, "C: twelve lessons, every program compiled and run, plus the standards from K&R to C23.",
          active="c/index.html")
     for i, (stem, slug, title, line, notes) in enumerate(K.LESSONS):
-        prev = (f"{K.LESSONS[i - 1][0][:2]}-{K.LESSONS[i - 1][1]}.html", K.LESSONS[i - 1][2]) if i else ("index.html", "All lessons")
-        nxt = (f"{K.LESSONS[i + 1][0][:2]}-{K.LESSONS[i + 1][1]}.html", K.LESSONS[i + 1][2]) if i + 1 < len(K.LESSONS) else ("../rosetta.html", "Rosetta")
+        prev = (f"{K.LESSONS[i - 1][0][:2]}-{K.LESSONS[i - 1][1]}.html", K.LESSONS[i - 1][2], f"lessons[{i - 1}]") if i else ("index.html", "All lessons", "C")
+        nxt = (f"{K.LESSONS[i + 1][0][:2]}-{K.LESSONS[i + 1][1]}.html", K.LESSONS[i + 1][2], f"lessons[{i + 1}]") if i + 1 < len(K.LESSONS) else ("../rosetta.html", "Rosetta", "rosetta[0]")
         body = f"""
 <article class="wrap">
   <p class="kicker"><a href="index.html">C</a> · <span class="idx">lessons[{i}]</span> · lesson {i + 1} of {len(K.LESSONS)}</p>
   <h1>{esc(title)}</h1>
   <p class="lede">{esc(line)}</p>
-  {code_block("c", f"c/{stem}.c", runs)}
-  {POINTER_DIAGRAM if slug == "pointers" else ""}
+  {DIAGRAMS.get(slug, "")}
+  {code_block("c", f"c/{stem}.c", runs, up="../")}
   <div class="notes">{notes}</div>
   {pager(prev, nxt)}
 </article>"""
@@ -596,9 +646,9 @@ def build_lang(lang, runs):
     tool = f'<p class="small">Compiled with <code>{esc(ver)}</code>.</p>' if ver else ""
     body = f"""
 <article class="wrap lang-{lang}">
-  <p class="kicker">struct lang {esc(L['name'])} · {esc(L['year'])} · {esc(L['by'])} · parent: <a href="c/index.html">C</a></p>
   <h1>{esc(P['title'])}</h1>
   {lang_struct(L, runs)}
+  <p class="struct-key">A <em>struct</em> is one record with named fields. The red wire is its <code>parent</code> pointer: {esc(P['title'])} grew from <a href="c/index.html">C</a>.</p>
   <p class="lede">{esc(P['lede'])}</p>
   {note}
   <h2>What it adds to C</h2>
@@ -625,13 +675,15 @@ def build_rosetta(runs):
     tot = "".join(f"<td>{sum(lines_of(rosetta_rel(L['id'], s)) for s, _, _ in K.ROSETTA)}</td>" for L in K.LANGS)
     secs = []
     for slug, t, d in K.ROSETTA:
-        blocks = "".join(code_block(L["id"], rosetta_rel(L["id"], slug), runs, title=L["name"]) for L in K.LANGS)
-        secs.append(f'<section id="{slug}" class="ros"><h2>{esc(t)}</h2><p>{esc(d)}</p><div class="ros-grid">{blocks}</div></section>')
+        c_lines = {ln.strip() for ln in (EX / rosetta_rel("c", slug)).read_text().splitlines() if len(ln.strip()) > 1}
+        blocks = "".join(code_block(L["id"], rosetta_rel(L["id"], slug), runs, title=L["name"],
+                                    same=c_lines if L["id"] != "c" else None) for L in K.LANGS)
+        secs.append(f'<section id="{slug}" class="ros"><div class="wrap"><h2>{esc(t)}</h2><p>{esc(d)}</p></div><div class="ros-grid">{blocks}</div></section>')
     body = f"""
 <article class="wrap">
   <p class="kicker">rosetta[{len(K.ROSETTA)}]</p>
   <h1>One program, five languages</h1>
-  <p class="lede">Five small programs, each written in C, C++, Objective-C, C# and HolyC. Where the outputs match, the languages agree; where the code differs, you can see what each one adds to C.</p>
+  <p class="lede">Five small programs, each written in C, C++, Objective-C, C# and HolyC. In every version after C, lines identical to the C version are dimmed, so what is left in full ink is what that language changes.</p>
   <table class="lines">
     <caption>Non-blank lines of source per program, comments included. The Objective-C programs that define a class also use <code>Root.h</code> and <code>Root.m</code> ({root_lines} lines, not counted).</caption>
     <thead><tr><th scope="col">Program</th>{head}</tr></thead>
@@ -703,6 +755,14 @@ def build_about(runs):
   <table class="lines tools"><thead><tr><th scope="col">Language</th><th scope="col">Compiler</th><th scope="col">Flags</th></tr></thead><tbody>{vers}
   <tr><th scope="row">HolyC</th><td colspan="2">Not run. HolyC is compiled by TempleOS; try <a href="https://holyc.shadw.app">holyc.shadw.app</a>.</td></tr></tbody></table>
   <p>Last compiled on {BUILT}: {n} programs, {nw} warnings. With <code>--no-run</code>, or when a compiler is missing, the build reuses the results stored in <code>_src/runs.json</code>; the date above is when they were produced.</p>
+  <h2 id="setup">Getting a compiler</h2>
+  <p>A <em>compiler</em> turns the program text into something your computer can run. You type its command into a <em>terminal</em> (Terminal on macOS, a Linux shell, or Windows Terminal).</p>
+  <ul>
+    <li><strong>macOS:</strong> <code>xcode-select --install</code> installs <code>clang</code>, which also answers to <code>gcc</code>.</li>
+    <li><strong>Debian or Ubuntu Linux:</strong> <code>sudo apt install gcc g++ mono-mcs</code> covers C, C++, Objective-C (the GNU runtime ships with gcc) and C#.</li>
+    <li><strong>Windows:</strong> install WSL (<code>wsl --install</code>), then follow the Linux line inside it.</li>
+  </ul>
+  <p>Then copy the command printed under any program on this site, run it in the folder that holds the file, and compare what it prints with the dark output box.</p>
   <h2>What changed from the old repo</h2>
   <ul>
     <li>The nine original C examples became twelve lessons. Each was compiled with <code>-Wpedantic -Wstrict-prototypes -Wconversion</code> and fixed until it built without warnings.</li>
@@ -750,6 +810,16 @@ def main():
     build_about(runs)
     build_404()
     problems = check_links()
+    for slug, _, d in K.ROSETTA:
+        m = re.search(r"Prints (\S+?)\.", d)
+        if m:
+            for L in K.LANGS[:4]:
+                out = runs["runs"][rosetta_rel(L["id"], slug)]["stdout"]
+                if m.group(1) not in out:
+                    problems.append(f"rosetta {slug}: prose says {m.group(1)}, {L['id']} printed {out!r}")
+    for rel, expect in K.QUOTED_OUTPUTS:
+        if expect not in runs["runs"][rel]["stdout"]:
+            problems.append(f"{rel}: prose quotes {expect!r}, not in its output")
     warned = [k for k, r in runs["runs"].items() if r["warnings"] or not r.get("compiled") or r["exit"] != 0]
     pages = len(list(OUT.rglob("*.html")))
     print(f"built {pages} pages from {len(runs['runs'])} compiled programs")

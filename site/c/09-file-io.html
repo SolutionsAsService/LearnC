@@ -7,7 +7,7 @@
 <meta name="description" content="C lesson 9: Write a file, read it back, and the bug the original example had.">
 <meta property="og:title" content="Files (C lesson 9) · LearnC">
 <meta property="og:description" content="C lesson 9: Write a file, read it back, and the bug the original example had.">
-<meta property="og:image" content="../og.png">
+<meta property="og:image" content="https://learnc.shadw.app/og.png">
 <meta name="theme-color" content="#f4efe3" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#14120f" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
@@ -26,6 +26,7 @@
   <p class="kicker"><a href="index.html">C</a> · <span class="idx">lessons[8]</span> · lesson 9 of 12</p>
   <h1>Files</h1>
   <p class="lede">Write a file, read it back, and the bug the original example had.</p>
+  
   <figure class="ex lang-c"><figcaption><span class="fname">09_file_io.c</span></figcaption><div class="ex-body"><pre class="code lang-c"><code><span class="tp">#include &lt;stdio.h&gt;</span>
 
 <span class="tc">/* Writes a file, then reads it back one character at a time. */</span>
@@ -45,8 +46,7 @@
     fclose(in);
     <span class="tk">return</span> <span class="tn">0</span>;
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>Hello from a file.</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 09_file_io.c -o file_io -lm &amp;&amp; ./file_io</code></pre></details></figure>
-  
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>Hello from a file.</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 09_file_io.c -o file_io -lm &amp;&amp; ./file_io</code></pre><p class="setup">No compiler yet? <a href="../about.html#setup">Getting one takes one command</a>.</p></details></figure>
   <div class="notes"><p>The original <code>read_file.c</code> declared <code>char ch</code> and compared
      it with <code>EOF</code>. <code>fgetc</code> returns an <code>int</code>, either a byte
      from 0 to 255 or <code>EOF</code> (-1), and a <code>char</code> cannot hold all 257
@@ -65,7 +65,7 @@
      with it. The repo also lacked <code>example.txt</code>, so the old program only ever
      printed &ldquo;Could not open the file.&rdquo; This version writes its own file
      first.</p></div>
-  <nav class="pager" aria-label="Lessons"><a class="prev" href="08-structs.html"><span>← previous</span>Structs</a><a class="next" href="10-strings.html"><span>next →</span>Strings</a></nav>
+  <nav class="pager" aria-label="Lessons"><a class="prev" href="08-structs.html"><span>← lessons[7]</span>Structs</a><a class="next" href="10-strings.html"><span>lessons[9] →</span>Strings</a></nav>
 </article>
 </main>
 <footer class="foot">

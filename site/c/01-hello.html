@@ -7,7 +7,7 @@
 <meta name="description" content="C lesson 1: The smallest whole program: one include, one function, one call.">
 <meta property="og:title" content="Hello, World (C lesson 1) · LearnC">
 <meta property="og:description" content="C lesson 1: The smallest whole program: one include, one function, one call.">
-<meta property="og:image" content="../og.png">
+<meta property="og:image" content="https://learnc.shadw.app/og.png">
 <meta name="theme-color" content="#f4efe3" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#14120f" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
@@ -26,6 +26,7 @@
   <p class="kicker"><a href="index.html">C</a> · <span class="idx">lessons[0]</span> · lesson 1 of 12</p>
   <h1>Hello, World</h1>
   <p class="lede">The smallest whole program: one include, one function, one call.</p>
+  
   <figure class="ex lang-c"><figcaption><span class="fname">01_hello.c</span></figcaption><div class="ex-body"><pre class="code lang-c"><code><span class="tp">#include &lt;stdio.h&gt;</span>
 
 <span class="tc">/* The entry point. (void) says &quot;takes no arguments&quot;;
@@ -34,8 +35,7 @@
     printf(<span class="ts">&quot;Hello, World!\n&quot;</span>);
     <span class="tk">return</span> <span class="tn">0</span>;  <span class="tc">/* 0 tells the shell the program succeeded */</span>
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>Hello, World!</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 01_hello.c -o hello -lm &amp;&amp; ./hello</code></pre></details></figure>
-  
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>Hello, World!</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 01_hello.c -o hello -lm &amp;&amp; ./hello</code></pre><p class="setup">No compiler yet? <a href="../about.html#setup">Getting one takes one command</a>.</p></details></figure>
   <div class="notes"><p><code>#include &lt;stdio.h&gt;</code> pastes in the <em>declarations</em> (the names
      and argument types) of the standard input/output library, which is where
      <code>printf</code> lives. Every C program starts running at <code>main</code>. Its
@@ -47,7 +47,7 @@
      <p>Write <code>main(void)</code>, not <code>main()</code>. Before C23 (the 2024 C
      standard), empty parentheses declared a function whose parameters were
      <em>unspecified</em>, not absent.</p></div>
-  <nav class="pager" aria-label="Lessons"><a class="prev" href="index.html"><span>← previous</span>All lessons</a><a class="next" href="02-variables.html"><span>next →</span>Variables and types</a></nav>
+  <nav class="pager" aria-label="Lessons"><a class="prev" href="index.html"><span>← C</span>All lessons</a><a class="next" href="02-variables.html"><span>lessons[1] →</span>Variables and types</a></nav>
 </article>
 </main>
 <footer class="foot">

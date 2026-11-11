@@ -7,7 +7,7 @@
 <meta name="description" content="C lesson 5: Declare, define, call, and recurse.">
 <meta property="og:title" content="Functions (C lesson 5) · LearnC">
 <meta property="og:description" content="C lesson 5: Declare, define, call, and recurse.">
-<meta property="og:image" content="../og.png">
+<meta property="og:image" content="https://learnc.shadw.app/og.png">
 <meta name="theme-color" content="#f4efe3" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#14120f" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
@@ -26,6 +26,7 @@
   <p class="kicker"><a href="index.html">C</a> · <span class="idx">lessons[4]</span> · lesson 5 of 12</p>
   <h1>Functions</h1>
   <p class="lede">Declare, define, call, and recurse.</p>
+  
   <figure class="ex lang-c"><figcaption><span class="fname">05_functions.c</span></figcaption><div class="ex-body"><pre class="code lang-c"><code><span class="tp">#include &lt;stdio.h&gt;</span>
 
 <span class="tk">int</span> add(<span class="tk">int</span> a, <span class="tk">int</span> b);         <span class="tc">/* declaration: the promise */</span>
@@ -44,13 +45,12 @@
     <span class="tk">return</span> a + b;
 }
 </code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>The sum is: 30
-5! = 120</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 05_functions.c -o functions -lm &amp;&amp; ./functions</code></pre></details></figure>
-  
+5! = 120</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 05_functions.c -o functions -lm &amp;&amp; ./functions</code></pre><p class="setup">No compiler yet? <a href="../about.html#setup">Getting one takes one command</a>.</p></details></figure>
   <div class="notes"><p>The declaration (the prototype) lets <code>main</code> call <code>add</code> before
      its body appears. <code>static</code> on a function means it is visible only inside this
      file. <code>factorial</code> calls itself, so each call gets its own copy of
      <code>n</code> on the stack.</p></div>
-  <nav class="pager" aria-label="Lessons"><a class="prev" href="04-loops.html"><span>← previous</span>Loops</a><a class="next" href="06-arrays.html"><span>next →</span>Arrays</a></nav>
+  <nav class="pager" aria-label="Lessons"><a class="prev" href="04-loops.html"><span>← lessons[3]</span>Loops</a><a class="next" href="06-arrays.html"><span>lessons[5] →</span>Arrays</a></nav>
 </article>
 </main>
 <footer class="foot">

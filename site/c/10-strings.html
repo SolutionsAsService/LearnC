@@ -7,7 +7,7 @@
 <meta name="description" content="C lesson 10: A string is a char array with a zero byte at the end.">
 <meta property="og:title" content="Strings (C lesson 10) · LearnC">
 <meta property="og:description" content="C lesson 10: A string is a char array with a zero byte at the end.">
-<meta property="og:image" content="../og.png">
+<meta property="og:image" content="https://learnc.shadw.app/og.png">
 <meta name="theme-color" content="#f4efe3" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#14120f" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
@@ -26,6 +26,7 @@
   <p class="kicker"><a href="index.html">C</a> · <span class="idx">lessons[9]</span> · lesson 10 of 12</p>
   <h1>Strings</h1>
   <p class="lede">A string is a char array with a zero byte at the end.</p>
+  
   <figure class="ex lang-c"><figcaption><span class="fname">10_strings.c</span></figcaption><div class="ex-body"><pre class="code lang-c"><code><span class="tp">#include &lt;stdio.h&gt;</span>
 <span class="tp">#include &lt;string.h&gt;</span>
 
@@ -40,12 +41,11 @@
     printf(<span class="ts">&quot;%s (%zu chars, %zu bytes)\n&quot;</span>, word, n, <span class="tk">sizeof</span> word);
     <span class="tk">return</span> <span class="tn">0</span>;
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>retniop (7 chars, 8 bytes)</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 10_strings.c -o strings -lm &amp;&amp; ./strings</code></pre></details></figure>
-  
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>retniop (7 chars, 8 bytes)</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 10_strings.c -o strings -lm &amp;&amp; ./strings</code></pre><p class="setup">No compiler yet? <a href="../about.html#setup">Getting one takes one command</a>.</p></details></figure>
   <div class="notes"><p><code>"pointer"</code> is 7 characters but 8 bytes, because of the terminating
      <code>'\0'</code>. <code>strlen</code> counts up to the zero byte, while
      <code>sizeof</code> measures the whole array.</p></div>
-  <nav class="pager" aria-label="Lessons"><a class="prev" href="09-file-io.html"><span>← previous</span>Files</a><a class="next" href="11-malloc.html"><span>next →</span>The heap</a></nav>
+  <nav class="pager" aria-label="Lessons"><a class="prev" href="09-file-io.html"><span>← lessons[8]</span>Files</a><a class="next" href="11-malloc.html"><span>lessons[10] →</span>The heap</a></nav>
 </article>
 </main>
 <footer class="foot">

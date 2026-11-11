@@ -7,7 +7,7 @@
 <meta name="description" content="C++: C with classes, templates and destructors.">
 <meta property="og:title" content="C++ · LearnC">
 <meta property="og:description" content="C++: C with classes, templates and destructors.">
-<meta property="og:image" content="og.png">
+<meta property="og:image" content="https://learnc.shadw.app/og.png">
 <meta name="theme-color" content="#f4efe3" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#14120f" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -23,9 +23,9 @@
 <main id="main" class="">
 
 <article class="wrap lang-cpp">
-  <p class="kicker">struct lang C++ · 1985 · Bjarne Stroustrup · parent: <a href="c/index.html">C</a></p>
   <h1>C++</h1>
-  <svg class="lang-struct" viewBox="0 0 496 204" role="group" aria-label="C++: 1985, by Bjarne Stroustrup; its parent is C"><defs><marker id="lsh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahead"/></marker></defs><g class="node node-cpp"><rect class="box" x="4" y="4" width="300" height="196"/><rect class="band" x="4" y="4" width="300" height="44"/><text class="kw" x="16" y="34">struct lang</text><text class="nm" x="292" y="38" text-anchor="end" font-size="28">C++</text><text class="fk" x="16" y="72.0">year</text><text class="fv" x="96" y="72.0">1985 · Bell Labs</text><line class="rule" x1="4" y1="86.0" x2="304" y2="86.0"/><text class="fk" x="16" y="110.0">by</text><text class="fv" x="96" y="110.0">Bjarne Stroustrup</text><line class="rule" x1="4" y1="124.0" x2="304" y2="124.0"/><text class="fk" x="16" y="148.0">hello</text><text class="fv" x="96" y="148.0">4 lines · ran ✓</text><line class="rule" x1="4" y1="162.0" x2="304" y2="162.0"/><text class="fk" x="16" y="186.0">parent</text><circle class="pdot" cx="104" cy="181.0" r="5"/></g><a href="c/index.html" class="node node-c" aria-label="Parent: C"><rect class="box" x="392" y="60" width="96" height="84"/><rect class="band" x="392" y="60" width="96" height="84"/><text class="nm" x="440" y="118" text-anchor="middle" font-size="52">C</text></a><path class="ptr" d="M104,181.0 L340,181.0 L340,102 L388,102" marker-end="url(#lsh)"/></svg>
+  <svg class="lang-struct" viewBox="0 0 496 204" role="group" aria-label="C++: 1985, by Bjarne Stroustrup; its parent is C"><defs><marker id="lsh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahead"/></marker></defs><g class="node node-cpp"><rect class="box" x="4" y="4" width="300" height="196"/><rect class="band" x="4" y="4" width="300" height="44"/><text class="kw" x="16" y="34">struct lang</text><text class="nm" x="292" y="38" text-anchor="end" font-size="28">C++</text><text class="fk" x="16" y="72.0">year</text><text class="fv" x="96" y="72.0">1985 · Bell Labs</text><line class="rule" x1="4" y1="86.0" x2="304" y2="86.0"/><text class="fk" x="16" y="110.0">by</text><text class="fv" x="96" y="110.0">Bjarne Stroustrup</text><line class="rule" x1="4" y1="124.0" x2="304" y2="124.0"/><text class="fk" x="16" y="148.0">hello</text><text class="fv" x="96" y="148.0">4 lines · ran ✓</text><line class="rule" x1="4" y1="162.0" x2="304" y2="162.0"/><text class="fk" x="16" y="186.0">parent</text><circle class="pdot" cx="104" cy="181.0" r="5"/><rect class="frame" x="4" y="4" width="300" height="196"/></g><a href="c/index.html" class="node node-c" aria-label="Parent: C"><rect class="box" x="392" y="60" width="96" height="84"/><rect class="band" x="392" y="60" width="96" height="84"/><text class="nm" x="440" y="118" text-anchor="middle" font-size="52">C</text><rect class="frame" x="392" y="60" width="96" height="84"/></a><path class="ptr" d="M104,181.0 L340,181.0 L340,102 L388,102" marker-end="url(#lsh)"/></svg>
+  <p class="struct-key">A <em>struct</em> is one record with named fields. The red wire is its <code>parent</code> pointer: C++ grew from <a href="c/index.html">C</a>.</p>
   <p class="lede">Bjarne Stroustrup began “C with Classes” at Bell Labs in 1979. It was renamed C++ in 1983 and released commercially in 1985. It keeps almost all of C and adds what C leaves to you: types that clean up after themselves, generic code, and a large standard library.</p>
   
   <h2>What it adds to C</h2>
@@ -55,7 +55,7 @@ acquire b
 inner scope ends
 release b
 main ends
-release a</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion 01_raii.cpp -o raii &amp;&amp; ./raii</code></pre></details></figure></section><section class="exs"><h3>Templates</h3><p><code>largest</code> is compiled three times: for <code>int</code>, <code>double</code> and <code>std::string</code>. With strings, <code>&gt;</code> compares alphabetically, so "C++" beats "C".</p><figure class="ex lang-cpp"><figcaption><span class="fname">02_templates.cpp</span></figcaption><div class="ex-body"><pre class="code lang-cpp"><code><span class="tp">#include &lt;iostream&gt;</span>
+release a</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion 01_raii.cpp -o raii &amp;&amp; ./raii</code></pre><p class="setup">No compiler yet? <a href="about.html#setup">Getting one takes one command</a>.</p></details></figure></section><section class="exs"><h3>Templates</h3><p><code>largest</code> is compiled three times: for <code>int</code>, <code>double</code> and <code>std::string</code>. With strings, <code>&gt;</code> compares alphabetically, so "C++" beats "C".</p><figure class="ex lang-cpp"><figcaption><span class="fname">02_templates.cpp</span></figcaption><div class="ex-body"><pre class="code lang-cpp"><code><span class="tp">#include &lt;iostream&gt;</span>
 <span class="tp">#include &lt;string&gt;</span>
 
 <span class="tc">// One definition, many types: the compiler writes each version.</span>
@@ -69,7 +69,7 @@ T largest(T a, T b) { <span class="tk">return</span> a &gt; b ? a : b; }
 }
 </code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>7
 2.5
-C++</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion 02_templates.cpp -o templates &amp;&amp; ./templates</code></pre></details></figure></section><section class="exs"><h3>Containers and algorithms</h3><p><code>std::sort</code> orders by character code, so "C#" (0x23) sorts before "C++" (0x2B).</p><figure class="ex lang-cpp"><figcaption><span class="fname">03_containers.cpp</span></figcaption><div class="ex-body"><pre class="code lang-cpp"><code><span class="tp">#include &lt;algorithm&gt;</span>
+C++</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion 02_templates.cpp -o templates &amp;&amp; ./templates</code></pre><p class="setup">No compiler yet? <a href="about.html#setup">Getting one takes one command</a>.</p></details></figure></section><section class="exs"><h3>Containers and algorithms</h3><p><code>std::sort</code> orders by character code, so "C#" (0x23) sorts before "C++" (0x2B).</p><figure class="ex lang-cpp"><figcaption><span class="fname">03_containers.cpp</span></figcaption><div class="ex-body"><pre class="code lang-cpp"><code><span class="tp">#include &lt;algorithm&gt;</span>
 <span class="tp">#include &lt;iostream&gt;</span>
 <span class="tp">#include &lt;map&gt;</span>
 <span class="tp">#include &lt;string&gt;</span>
@@ -91,7 +91,7 @@ C++</samp></pre></div></div><details class="cmd" open><summary>Compile and run i
 C# 2000
 C++ 1985
 HolyC
-Objective-C</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion 03_containers.cpp -o containers &amp;&amp; ./containers</code></pre></details></figure></section><section class="exs"><h3>Classes and dynamic dispatch</h3><p>Each <code>s-&gt;area()</code> call is resolved at run time through the object’s virtual table.</p><figure class="ex lang-cpp"><figcaption><span class="fname">04_classes.cpp</span></figcaption><div class="ex-body"><pre class="code lang-cpp"><code><span class="tp">#include &lt;iostream&gt;</span>
+Objective-C</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion 03_containers.cpp -o containers &amp;&amp; ./containers</code></pre><p class="setup">No compiler yet? <a href="about.html#setup">Getting one takes one command</a>.</p></details></figure></section><section class="exs"><h3>Classes and dynamic dispatch</h3><p>Each <code>s-&gt;area()</code> call is resolved at run time through the object’s virtual table.</p><figure class="ex lang-cpp"><figcaption><span class="fname">04_classes.cpp</span></figcaption><div class="ex-body"><pre class="code lang-cpp"><code><span class="tp">#include &lt;iostream&gt;</span>
 <span class="tp">#include &lt;memory&gt;</span>
 <span class="tp">#include &lt;vector&gt;</span>
 
@@ -122,7 +122,7 @@ Objective-C</samp></pre></div></div><details class="cmd" open><summary>Compile a
     <span class="tk">for</span> (<span class="tk">const</span> <span class="tk">auto</span> &amp;s : shapes) <span class="tk">std</span>::cout &lt;&lt; s-&gt;area() &lt;&lt; <span class="ts">&#x27;\n&#x27;</span>;  <span class="tc">// dynamic dispatch</span>
 }
 </code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>4
-3.14159</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion 04_classes.cpp -o classes &amp;&amp; ./classes</code></pre></details></figure></section>
+3.14159</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion 04_classes.cpp -o classes &amp;&amp; ./classes</code></pre><p class="setup">No compiler yet? <a href="about.html#setup">Getting one takes one command</a>.</p></details></figure></section>
   <p>See the same five programs in every language on the <a href="rosetta.html">Rosetta page</a>.</p>
   <h2>Timeline</h2>
   <ul class="years"><li><span class='yr'>1979</span><span>C with Classes begins at Bell Labs</span></li><li><span class='yr'>1983</span><span>renamed C++</span></li><li><span class='yr'>1985</span><span>first commercial release and the first edition of <cite>The C++ Programming Language</cite></span></li><li><span class='yr'>1998</span><span>first ISO standard, C++98</span></li><li><span class='yr'>2011</span><span>C++11: move semantics, lambdas, <code>auto</code></span></li><li><span class='yr'>2024</span><span>C++23 published as ISO/IEC 14882:2024</span></li></ul>

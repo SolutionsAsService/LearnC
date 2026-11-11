@@ -7,7 +7,7 @@
 <meta name="description" content="C lesson 11: Ask for memory at run time, and give it back.">
 <meta property="og:title" content="The heap (C lesson 11) · LearnC">
 <meta property="og:description" content="C lesson 11: Ask for memory at run time, and give it back.">
-<meta property="og:image" content="../og.png">
+<meta property="og:image" content="https://learnc.shadw.app/og.png">
 <meta name="theme-color" content="#f4efe3" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#14120f" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
@@ -26,6 +26,7 @@
   <p class="kicker"><a href="index.html">C</a> · <span class="idx">lessons[10]</span> · lesson 11 of 12</p>
   <h1>The heap</h1>
   <p class="lede">Ask for memory at run time, and give it back.</p>
+  <div class="mems mems-2"><figure class="mem"><svg viewBox="0 0 420 150" role="img" aria-labelledby="mh1"><title id="mh1">squares points to ten ints on the heap: 0, 1, 4 … 81</title><defs><marker id="mh1h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahead"/></marker></defs><text class="fk" x="20" y="22">squares</text><rect class="box" x="20" y="30" width="70" height="40"/><circle class="pdot" cx="55" cy="50" r="5"/><text class="fk" x="130" y="58">on the heap, from malloc</text><rect class="box" x="20" y="96" width="38" height="34"/><text class="fv" x="39" y="119" text-anchor="middle">0</text><rect class="box" x="58" y="96" width="38" height="34"/><text class="fv" x="77" y="119" text-anchor="middle">1</text><rect class="box" x="96" y="96" width="38" height="34"/><text class="fv" x="115" y="119" text-anchor="middle">4</text><rect class="box" x="134" y="96" width="38" height="34"/><text class="fv" x="153" y="119" text-anchor="middle">9</text><rect class="box" x="172" y="96" width="38" height="34"/><text class="fv" x="191" y="119" text-anchor="middle">16</text><rect class="box" x="210" y="96" width="38" height="34"/><text class="fv" x="229" y="119" text-anchor="middle">25</text><rect class="box" x="248" y="96" width="38" height="34"/><text class="fv" x="267" y="119" text-anchor="middle">36</text><rect class="box" x="286" y="96" width="38" height="34"/><text class="fv" x="305" y="119" text-anchor="middle">49</text><rect class="box" x="324" y="96" width="38" height="34"/><text class="fv" x="343" y="119" text-anchor="middle">64</text><rect class="box" x="362" y="96" width="38" height="34"/><text class="fv" x="381" y="119" text-anchor="middle">81</text><path class="ptr" d="M55,50 L55,92" marker-end="url(#mh1h)"/></svg><figcaption><code>squares = malloc(…);</code></figcaption></figure><figure class="mem"><svg viewBox="0 0 420 150" role="img" aria-labelledby="mh2"><title id="mh2">after free, the heap block is returned and squares is set to NULL</title><defs><marker id="mh2h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="ahead"/></marker></defs><text class="fk" x="20" y="22">squares</text><rect class="box" x="20" y="30" width="70" height="40"/><circle class="pdot" cx="55" cy="50" r="5"/><path class="ptr" d="M55,50 L130,50" marker-end="url(#mh2h)"/><text class="null" x="138" y="56">NULL</text><rect class="box freed" x="20" y="96" width="380" height="34"/><text class="fk" x="210" y="119" text-anchor="middle">returned to the heap</text></svg><figcaption><code class="w">free(squares); squares = NULL;</code></figcaption></figure></div>
   <figure class="ex lang-c"><figcaption><span class="fname">11_malloc.c</span></figcaption><div class="ex-body"><pre class="code lang-c"><code><span class="tp">#include &lt;stdio.h&gt;</span>
 <span class="tp">#include &lt;stdlib.h&gt;</span>
 
@@ -41,14 +42,13 @@
     squares = <span class="tk">NULL</span>;   <span class="tc">/* and never touch it again */</span>
     <span class="tk">return</span> <span class="tn">0</span>;
 }
-</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>squares[9] = 81</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 11_malloc.c -o malloc -lm &amp;&amp; ./malloc</code></pre></details></figure>
-  
+</code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>squares[9] = 81</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 11_malloc.c -o malloc -lm &amp;&amp; ./malloc</code></pre><p class="setup">No compiler yet? <a href="../about.html#setup">Getting one takes one command</a>.</p></details></figure>
   <div class="notes"><p><code>malloc</code> returns memory that lives until you <code>free</code> it, or
      <code>NULL</code> if there is none. Writing <code>sizeof *squares</code> rather than
      <code>sizeof(int)</code> keeps the size right if the type ever changes. Setting the
      pointer to <code>NULL</code> after <code>free</code> turns an accidental later use into
      a clean crash instead of silent corruption.</p></div>
-  <nav class="pager" aria-label="Lessons"><a class="prev" href="10-strings.html"><span>← previous</span>Strings</a><a class="next" href="12-sum.html"><span>next →</span>Putting it together</a></nav>
+  <nav class="pager" aria-label="Lessons"><a class="prev" href="10-strings.html"><span>← lessons[9]</span>Strings</a><a class="next" href="12-sum.html"><span>lessons[11] →</span>Putting it together</a></nav>
 </article>
 </main>
 <footer class="foot">

@@ -7,7 +7,7 @@
 <meta name="description" content="C lesson 6: A row of same-type values in one block of memory, and how to count them.">
 <meta property="og:title" content="Arrays (C lesson 6) · LearnC">
 <meta property="og:description" content="C lesson 6: A row of same-type values in one block of memory, and how to count them.">
-<meta property="og:image" content="../og.png">
+<meta property="og:image" content="https://learnc.shadw.app/og.png">
 <meta name="theme-color" content="#f4efe3" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#14120f" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
@@ -26,6 +26,7 @@
   <p class="kicker"><a href="index.html">C</a> · <span class="idx">lessons[5]</span> · lesson 6 of 12</p>
   <h1>Arrays</h1>
   <p class="lede">A row of same-type values in one block of memory, and how to count them.</p>
+  
   <figure class="ex lang-c"><figcaption><span class="fname">06_arrays.c</span></figcaption><div class="ex-body"><pre class="code lang-c"><code><span class="tp">#include &lt;stdio.h&gt;</span>
 
 <span class="tk">int</span> main(<span class="tk">void</span>) {
@@ -46,14 +47,13 @@ numbers[1] = 2
 numbers[2] = 3
 numbers[3] = 4
 numbers[4] = 5
-5 elements, sum 15</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 06_arrays.c -o arrays -lm &amp;&amp; ./arrays</code></pre></details></figure>
-  
+5 elements, sum 15</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 06_arrays.c -o arrays -lm &amp;&amp; ./arrays</code></pre><p class="setup">No compiler yet? <a href="../about.html#setup">Getting one takes one command</a>.</p></details></figure>
   <div class="notes"><p><code class="w">sizeof numbers / sizeof numbers[0]</code> computes the element count at
      compile time, but only where the array is still an array. Once it is passed to a
      function it decays to a pointer and the trick fails.</p>
      <p>C does not check indexes. <code>numbers[5]</code> compiles, then reads whatever
      happens to follow the array.</p></div>
-  <nav class="pager" aria-label="Lessons"><a class="prev" href="05-functions.html"><span>← previous</span>Functions</a><a class="next" href="07-pointers.html"><span>next →</span>Pointers</a></nav>
+  <nav class="pager" aria-label="Lessons"><a class="prev" href="05-functions.html"><span>← lessons[4]</span>Functions</a><a class="next" href="07-pointers.html"><span>lessons[6] →</span>Pointers</a></nav>
 </article>
 </main>
 <footer class="foot">

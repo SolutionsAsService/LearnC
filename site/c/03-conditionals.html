@@ -7,7 +7,7 @@
 <meta name="description" content="C lesson 3: if, else if and else, run on three inputs instead of one.">
 <meta property="og:title" content="Conditionals (C lesson 3) · LearnC">
 <meta property="og:description" content="C lesson 3: if, else if and else, run on three inputs instead of one.">
-<meta property="og:image" content="../og.png">
+<meta property="og:image" content="https://learnc.shadw.app/og.png">
 <meta name="theme-color" content="#f4efe3" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#14120f" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
@@ -26,6 +26,7 @@
   <p class="kicker"><a href="index.html">C</a> · <span class="idx">lessons[2]</span> · lesson 3 of 12</p>
   <h1>Conditionals</h1>
   <p class="lede">if, else if and else, run on three inputs instead of one.</p>
+  
   <figure class="ex lang-c"><figcaption><span class="fname">03_conditionals.c</span></figcaption><div class="ex-body"><pre class="code lang-c"><code><span class="tp">#include &lt;stdio.h&gt;</span>
 
 <span class="tk">static</span> <span class="tk">const</span> <span class="tk">char</span> *sign(<span class="tk">int</span> n) {
@@ -42,13 +43,16 @@
 }
 </code></pre><div class="out"><div class="out-h"><span>output</span><span>exit 0 · 0 warnings</span></div><pre><samp>10 is positive.
 -3 is negative.
-0 is zero.</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 03_conditionals.c -o conditionals -lm &amp;&amp; ./conditionals</code></pre></details></figure>
-  
-  <div class="notes"><p>Conditions in C are integers: 0 is false and anything else is true. The function
+0 is zero.</samp></pre></div></div><details class="cmd" open><summary>Compile and run it yourself</summary><pre><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion 03_conditionals.c -o conditionals -lm &amp;&amp; ./conditionals</code></pre><p class="setup">No compiler yet? <a href="../about.html#setup">Getting one takes one command</a>.</p></details></figure>
+  <div class="notes"><p>Two things here are taught later: the <code>for</code> loop (lesson 04), which runs
+     <code>sign</code> once for each of the three numbers in the array
+     <code>samples</code> (lesson 06). Read it as &ldquo;for each number, print its
+     sign&rdquo;.</p>
+     <p>Conditions in C are integers: 0 is false and anything else is true. The function
      returns a <code>const char *</code>: a piece of text that the program never changes.
      <a href="10-strings.html">Lesson 10</a> explains why text is written with a
      <code>*</code>.</p></div>
-  <nav class="pager" aria-label="Lessons"><a class="prev" href="02-variables.html"><span>← previous</span>Variables and types</a><a class="next" href="04-loops.html"><span>next →</span>Loops</a></nav>
+  <nav class="pager" aria-label="Lessons"><a class="prev" href="02-variables.html"><span>← lessons[1]</span>Variables and types</a><a class="next" href="04-loops.html"><span>lessons[3] →</span>Loops</a></nav>
 </article>
 </main>
 <footer class="foot">

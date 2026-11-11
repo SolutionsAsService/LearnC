@@ -7,7 +7,7 @@
 <meta name="description" content="How LearnC is built: every C, C++, Objective-C and C# example is compiled and run by one script.">
 <meta property="og:title" content="About · LearnC">
 <meta property="og:description" content="How LearnC is built: every C, C++, Objective-C and C# example is compiled and run by one script.">
-<meta property="og:image" content="og.png">
+<meta property="og:image" content="https://learnc.shadw.app/og.png">
 <meta name="theme-color" content="#f4efe3" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#14120f" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -30,6 +30,14 @@
   <table class="lines tools"><thead><tr><th scope="col">Language</th><th scope="col">Compiler</th><th scope="col">Flags</th></tr></thead><tbody><tr><th scope='row'>C</th><td><code class="w">gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0</code></td><td><code class="w">gcc -std=c17 -Wall -Wextra -Wpedantic -Wstrict-prototypes -Wconversion</code></td></tr><tr><th scope='row'>C++</th><td><code class="w">g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0</code></td><td><code class="w">g++ -std=c++20 -Wall -Wextra -Wpedantic -Wconversion</code></td></tr><tr><th scope='row'>Objective-C</th><td><code class="w">Ubuntu clang version 18.1.3 (1ubuntu1)</code></td><td><code class="w">clang -x objective-c -fobjc-runtime=gcc -Wall -Wextra -Wpedantic -Wconversion</code></td></tr><tr><th scope='row'>C#</th><td><code class="w">Mono JIT compiler version 6.8.0.105 (Debian 6.8.0.105+dfsg-3.6ubuntu2 Sun Mar 31 02:55:28 UTC 2024)</code></td><td><code>mcs -warn:4</code></td></tr>
   <tr><th scope="row">HolyC</th><td colspan="2">Not run. HolyC is compiled by TempleOS; try <a href="https://holyc.shadw.app">holyc.shadw.app</a>.</td></tr></tbody></table>
   <p>Last compiled on 2026-11-11: 41 programs, 0 warnings. With <code>--no-run</code>, or when a compiler is missing, the build reuses the results stored in <code>_src/runs.json</code>; the date above is when they were produced.</p>
+  <h2 id="setup">Getting a compiler</h2>
+  <p>A <em>compiler</em> turns the program text into something your computer can run. You type its command into a <em>terminal</em> (Terminal on macOS, a Linux shell, or Windows Terminal).</p>
+  <ul>
+    <li><strong>macOS:</strong> <code>xcode-select --install</code> installs <code>clang</code>, which also answers to <code>gcc</code>.</li>
+    <li><strong>Debian or Ubuntu Linux:</strong> <code class="w">sudo apt install gcc g++ mono-mcs</code> covers C, C++, Objective-C (the GNU runtime ships with gcc) and C#.</li>
+    <li><strong>Windows:</strong> install WSL (<code>wsl --install</code>), then follow the Linux line inside it.</li>
+  </ul>
+  <p>Then copy the command printed under any program on this site, run it in the folder that holds the file, and compare what it prints with the dark output box.</p>
   <h2>What changed from the old repo</h2>
   <ul>
     <li>The nine original C examples became twelve lessons. Each was compiled with <code class="w">-Wpedantic -Wstrict-prototypes -Wconversion</code> and fixed until it built without warnings.</li>
