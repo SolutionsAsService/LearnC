@@ -248,3 +248,6 @@ svg a.cell:focus-visible .box { stroke: var(--ptr); stroke-width: 4; }
 svg .freed { fill: var(--paper-2); stroke-dasharray: 6 4; }
 .top li a:focus-visible { outline-offset: -3px; }
 .setup { line-height: 1.55; }
+svg.hero-svg, svg.lang-struct { overflow: visible; }
+svg a:focus-visible .frame { stroke-width: 4; }
+.top li a[aria-current]:focus-visible { outline-color: var(--paper); }

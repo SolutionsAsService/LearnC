@@ -448,6 +448,15 @@ def hero_narrow(runs):
     return "".join(s)
 
 
+FRAME = re.compile(r'<rect class="frame" x="([\d.]+)" y="([\d.]+)" width="([\d.]+)" height="([\d.]+)"/>')
+
+
+def outset_frames(svg, d=6):
+    """Focus frames sit outside their box, clear of any glyph inside it."""
+    return FRAME.sub(lambda m: f'<rect class="frame" x="{float(m[1]) - d:g}" y="{float(m[2]) - d:g}" '
+                               f'width="{float(m[3]) + 2 * d:g}" height="{float(m[4]) + 2 * d:g}"/>', svg)
+
+
 # ------------------------------------------------------------- inner diagrams
 def mem_panel(caption, cells, arrows, mid, said=None):
     """cells: (x, y, name, value) boxes; arrows: ((x1,y1),(x2,y2)) pointer wires."""
@@ -554,8 +563,8 @@ def build_home(runs):
     <h1 id="h1"><span class="h1-c">C</span> and the languages that grew from it</h1>
     <a class="start" href="c/01-hello.html">Start with lesson 01 →</a>
   </div>
-  {hero_desktop(runs)}
-  {hero_narrow(runs)}
+  {outset_frames(hero_desktop(runs))}
+  {outset_frames(hero_narrow(runs))}
   <div class="hero-foot">
     <p class="hero-key"><span class="mono">●──▶</span> a pointer: each language points to the one it came from. A box is a <em>struct</em>, one record with named fields; <span class="mono">[12]</span> is an array of 12; NULL means nothing before it. “hello 5 lines” counts the non-blank lines of that language’s Hello, World, comments included. Every box and cell is a link.</p>
     <a class="start start-m" href="c/01-hello.html">Start with lesson 01 →</a>
@@ -601,7 +610,7 @@ def build_c(runs):
     body = f"""
 <article class="wrap">
   <h1>C</h1>
-  {lang_struct(K.LANGS[0], runs, target=("B", "../family.html", "anc"), up="../")}
+  {outset_frames(lang_struct(K.LANGS[0], runs, target=("B", "../family.html", "anc"), up="../"))}
   <p class="struct-key">A <em>struct</em> is one record with named fields. The red wire is its <code>parent</code> pointer: C grew from <a href="../family.html">B</a>, which grew from BCPL.</p>
   <p class="lede">Dennis Ritchie gave types to Ken Thompson's B so that Unix could be written in something higher than assembly. Fifty years later C still runs the kernels, the interpreters and the firmware everything else stands on. It hands you memory and trusts you with it.</p>
   <div class="two">
@@ -650,7 +659,7 @@ def build_lang(lang, runs):
     body = f"""
 <article class="wrap lang-{lang}">
   <h1>{esc(P['title'])}</h1>
-  {lang_struct(L, runs)}
+  {outset_frames(lang_struct(L, runs))}
   <p class="struct-key">A <em>struct</em> is one record with named fields. The red wire is its <code>parent</code> pointer: {esc(P['title'])} grew from <a href="c/index.html">C</a>.</p>
   <p class="lede">{esc(P['lede'])}</p>
   {note}
